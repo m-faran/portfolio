@@ -8,8 +8,11 @@
   --card-hover-border: #3f3f46;
   --signal-emerald: #10b981;
   --signal-amber: #f59e0b;
-  --text-muted: #a1a1aa;
-  --text-subtle: #71717a;
+  --text-muted: #a1a1aa;  --text-subtle: #71717a;
+  --hover-surface: #151518;
+  --lift: #18181b;
+  --emerald-bright: #34d399;
+
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
@@ -20,6 +23,9 @@
   --color-card-bg: var(--card-bg);
   --color-card-border: var(--card-border);
   --color-card-hover: var(--card-hover-border);
+  --color-hover-surface: var(--hover-surface);
+  --color-lift: var(--lift);
+  --color-emerald-bright: var(--emerald-bright);
   --color-signal-emerald: var(--signal-emerald);
   --color-signal-amber: var(--signal-amber);
   --color-text-muted: var(--text-muted);
@@ -70,4 +76,23 @@ body {
 .data-metric {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+}
+
+/* Respect reduced-motion; disable purely decorative motion (infinite ping,
+   smooth-scroll, hover zoom) while keeping short functional 150ms state
+   transitions so hover/focus feedback still communicates state. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-ping {
+    animation: none !important;
+    opacity: 0 !important; /* keep the halo dot from rendering as a static blur */
+  }
+  .group-hover\:scale-105 {
+    transform: none !important;
+  }
+  .transition-transform {
+    transition-property: none !important;
+  }
 }
