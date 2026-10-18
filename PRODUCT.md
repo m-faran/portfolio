@@ -51,7 +51,7 @@ A product-minded Full-Stack & Mobile Engineer (React & React Native) specializin
 2. **[DevSafar](https://www.devsafar.app/)** (*Private Repository*): Hackathon, CTF, and coding competition discovery directory with real-time deadline tracking and team matching.
 
 ### Mobile
-1. **[Kenzoku](https://kenzoku.codekin.xyz/)** ([GitHub Repo](https://github.com/m-faran/kenzoku)): Interest-based matchmaking app connecting developers and creators (currently in closed testing).
+1. **Kenzoku** ([GitHub Repo](https://github.com/m-faran/kenzoku)): Passion-driven matchmaking app connecting people through authentic interests (chess, robotics, climbing, game dev) to build true inner circles (currently in closed testing).
 2. **Ludo Elemental** (*Private Repository*): Competitive multiplayer mobile board game with elemental power-ups (currently in closed testing).
 
 ### Web & Blockchain

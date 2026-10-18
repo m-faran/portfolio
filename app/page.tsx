@@ -211,11 +211,11 @@ const PROJECTS: Project[] = [
     categoryLabel: "Web",
     status: "live",
     statusText: "LIVE DEMO",
-    image: "/projects/devsafar.png",
+    image: "/projects/devsafar-hero.png",
     imageAlt: "DevSafar hackathon discovery directory and team recruitment portal screenshot",
     gallery: [
       {
-        url: "/projects/devsafar.png",
+        url: "/projects/devsafar-hero.png",
         label: "Landing Portal",
         caption: "Public developer tournament portal tracking live hackathons, CTFs, and coding competitions",
         alt: "DevSafar hackathon discovery directory and team recruitment portal screenshot",
@@ -340,30 +340,30 @@ const PROJECTS: Project[] = [
     id: "kenzoku",
     specId: "SPEC-05",
     title: "Kenzoku",
-    tagline: "Interest-based community matchmaking app connecting developers and creators",
+    tagline: "Passion-driven matchmaking app connecting people through authentic interests, not superficial metrics",
     category: "mobile",
     categoryLabel: "Mobile",
     status: "testing",
     statusText: "CLOSED TESTING",
     image: "/projects/kenzoku.png",
-    imageAlt: "Kenzoku mobile app user discovery interface with interest matching tags",
+    imageAlt: "Kenzoku mobile app user discovery interface with passion matching tags",
     gallery: [
       {
         url: "/projects/kenzoku.png",
         label: "Discover Feed",
-        caption: "Discovery deck: interest-matched peer recommendation cards with fluid Pass and Connect gestures",
-        alt: "Kenzoku mobile app user discovery interface with interest matching tags",
+        caption: "Discovery deck: passion-matched recommendation cards with fluid Pass and Connect gestures",
+        alt: "Kenzoku mobile app user discovery interface with passion matching tags",
       },
       {
         url: "/projects/kenzoku-interests.png",
         label: "Interests",
-        caption: "Interest taxonomy: multi-select tags across programming, robotics, chess, and engineering hobbies",
+        caption: "Interest taxonomy: multi-select tags across chess, film photography, indie game dev, climbing, and robotics",
         alt: "Kenzoku interest tag selection interface",
       },
       {
         url: "/projects/kenzoku-profile-setup.png",
         label: "Profile Setup",
-        caption: "Profile builder: custom short bio, location, and workplace or university verification",
+        caption: "Profile builder: custom short bio, location, and authentic passion verification",
         alt: "Kenzoku profile creation and bio setup screen",
       },
       {
@@ -397,17 +397,17 @@ const PROJECTS: Project[] = [
         alt: "Kenzoku user login and password recovery screen",
       },
     ],
-    link: "https://kenzoku.codekin.xyz/",
-    isExternalLink: true,
+    link: "#",
+    isExternalLink: false,
     githubUrl: "https://github.com/m-faran/kenzoku",
     problemSolved:
-      "Meeting peers with matching technical passions and project interests is fragmented across noisy social platforms. Kenzoku provides focused peer discovery with verified interest tags and low-friction connection requests.",
+      "Building genuine connections is fragmented across noisy social platforms driven by superficial metrics. Whether into chess, film photography, indie game development, rock climbing, or robotics, Kenzoku helps users discover their true inner circle based on authentic passions.",
     summary:
-      "Cross-platform React Native social matchmaking app allowing developers and tech enthusiasts to discover peers based on shared skillsets, programming languages, and hobby tags.",
+      "Cross-platform React Native community matchmaking app helping users build their true inner circle based on authentic passions—from robotics and indie game dev to chess and climbing—rather than superficial social metrics.",
     capabilities: [
       {
-        title: "Interest-Vector Discovery",
-        desc: "Matches users based on shared technical passions (Coding, Technology, Robotics, Chess) with dynamic compatibility tags.",
+        title: "Passion-Vector Discovery",
+        desc: "Matches users based on authentic passions (chess, film photography, indie game dev, rock climbing, robotics) with dynamic compatibility tags.",
       },
       {
         title: "60fps Card Gesture Physics",
@@ -432,7 +432,27 @@ const PROJECTS: Project[] = [
     status: "live",
     statusText: "LIVE DEMO",
     image: "/projects/genie-markets.png",
-    imageAlt: "Genie Markets onchain prediction protocol interface with Pyth Entropy verifier and live telemetry on Monad Testnet",
+    imageAlt: "Genie Markets onchain prediction protocol landing page on Monad Testnet",
+    gallery: [
+      {
+        url: "/projects/genie-markets.png",
+        label: "Landing (Hero)",
+        caption: "Genie Markets landing page hero section on Monad Testnet",
+        alt: "Genie Markets landing page hero section",
+      },
+      {
+        url: "/projects/genie-markets-payouts.png",
+        label: "Landing (Features)",
+        caption: "Genie Markets landing page feature section with prediction tiers and execution pipeline",
+        alt: "Genie Markets landing page feature section",
+      },
+      {
+        url: "/projects/genie-markets-infrastructure.png",
+        label: "Landing (Overview)",
+        caption: "Genie Markets landing page overview of smart accounts, randomness, and call to action",
+        alt: "Genie Markets landing page overview and call to action",
+      },
+    ],
     link: "https://geniemarkets.vercel.app/",
     isExternalLink: true,
     githubUrl: "https://github.com/m-faran/geniemarkets-frontend",
@@ -474,30 +494,564 @@ const PROJECTS: Project[] = [
   },
 ];
 
+interface SkillItem {
+  name: string;
+  icon: React.ReactNode;
+}
+
+interface SkillCategory {
+  id: string;
+  index: string;
+  title: string;
+  skills: SkillItem[];
+}
+
+const SKILL_CATEGORIES: SkillCategory[] = [
+  {
+    id: "frontend",
+    index: "01",
+    title: "Frontend",
+    skills: [
+      {
+        name: "React",
+        icon: (
+          <svg viewBox="-11.5 -10.23 23 20.46" className="w-4 h-4 text-[#61DAFB]" fill="currentColor">
+            <circle cx="0" cy="0" r="2.05" />
+            <g stroke="currentColor" strokeWidth="1" fill="none">
+              <ellipse rx="11" ry="4.2" />
+              <ellipse rx="11" ry="4.2" transform="rotate(60)" />
+              <ellipse rx="11" ry="4.2" transform="rotate(120)" />
+            </g>
+          </svg>
+        ),
+      },
+      {
+        name: "Next.js",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+            <path d="M18.665 21.978a10 10 0 1 1 3.313-3.322l-8.665-11.127H10.5v8.942h1.666V10.15l7.165 9.183.003-.004c-.218.232-.442.456-.669.649zm-4.331-4.821l1.666 2.138A9.97 9.97 0 0 0 22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10c2.04 0 3.93-.612 5.5-1.665l-3.166-4.178v1z" />
+          </svg>
+        ),
+      },
+      {
+        name: "TypeScript",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <rect width="24" height="24" rx="4" fill="#3178C6" />
+            <path d="M11.5 9H6v2h2.2v8h2.6v-8H13V9h-1.5zm6.8 3.5c-1.3-.4-2-.8-2-1.5 0-.7.6-1.1 1.6-1.1.9 0 1.7.3 2.3.7l.8-1.7c-.8-.6-1.9-.9-3.2-.9-2.3 0-3.9 1.3-3.9 3.2 0 1.8 1.2 2.7 3.1 3.3 1.4.5 1.8.9 1.8 1.6 0 .8-.8 1.3-1.9 1.3-1.2 0-2.3-.5-3.1-1.2l-.9 1.8c1 .8 2.4 1.3 3.9 1.3 2.6 0 4.3-1.3 4.3-3.4 0-1.9-1.2-2.9-2.8-3.4z" fill="#fff" />
+          </svg>
+        ),
+      },
+      {
+        name: "JavaScript",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <rect width="24" height="24" rx="4" fill="#F7DF1E" />
+            <path d="M7.5 18c-.8 0-1.5-.3-2-.7l.8-1.5c.3.3.7.5 1.2.5.6 0 1-.3 1-1V8.5H11v6.8c0 1.8-1.1 2.7-3.5 2.7zm8.5 0c-2.3 0-3.7-1.3-3.7-3.2l2.2-.1c.1 1 .8 1.5 1.6 1.5.8 0 1.4-.4 1.4-1 0-.7-.5-1-1.6-1.4-2.1-.7-3.3-1.4-3.3-3.1 0-1.8 1.4-3.2 3.6-3.2 1.8 0 3 .8 3.5 1.9l-1.9 1.1c-.3-.6-.8-1-1.6-1s-1.2.4-1.2 1c0 .6.4.9 1.4 1.3 2.3.8 3.5 1.6 3.5 3.3 0 2-1.6 3.4-3.9 3.4z" fill="#000" />
+          </svg>
+        ),
+      },
+      {
+        name: "HTML",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <path d="M3 2l1.8 17.5L12 22l7.2-2.5L21 2H3zm14.8 5.7h-7.6l.2 2.3h7.2l-.6 6.3-4.6 1.3-4.6-1.3-.3-3.3h2.3l.1 1.5 2.5.7 2.5-.7.3-2.9H7.6l-.6-6.6h11l-.2 2.7z" fill="#E34F26" />
+          </svg>
+        ),
+      },
+      {
+        name: "CSS",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <path d="M3 2l1.8 17.5L12 22l7.2-2.5L21 2H3zm13.7 5.7l-.3 3.3h-4.4v2.3h4.2l-.5 5.3-3.7 1-3.7-1-.3-2.7h2.3l.1 1.2 1.6.4 1.6-.4.2-2h-5.8l-.6-6.6h10.9z" fill="#1572B6" />
+          </svg>
+        ),
+      },
+      {
+        name: "Tailwind CSS",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#38BDF8]" fill="currentColor">
+            <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Vite",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <path d="M21.5 3.5L12.7 20.8a.7.7 0 0 1-1.3 0L2.5 3.5a.7.7 0 0 1 .8-.9l8.4 1.5a.7.7 0 0 0 .3 0l8.7-1.5a.7.7 0 0 1 .8.9z" fill="#646CFF" />
+            <path d="M14.6 3.3L8.8 13.5h3.6L10.3 20l7.3-10.7h-3.8l1.8-6h-1z" fill="#FFD43B" />
+          </svg>
+        ),
+      },
+      {
+        name: "GSAP",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <rect width="24" height="24" rx="4" fill="#0AE448" />
+            <path d="M12 4a8 8 0 1 0 8 8 8 8 0 0 0-8-8zm2.8 11.6a4.8 4.8 0 0 1-5.6 0l1.2-1.6a2.8 2.8 0 0 0 3.2 0z" fill="#000" />
+          </svg>
+        ),
+      },
+      {
+        name: "Three.js",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+            <path d="M2.5 19.5L12 3l9.5 16.5H2.5zm3.2-1.8h12.6L12 6.2 5.7 17.7z" />
+          </svg>
+        ),
+      },
+      {
+        name: "shadcn/ui",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M4 20L20 4M4 4h4v4H4z" />
+          </svg>
+        ),
+      },
+    ],
+  },
+  {
+    id: "backend-data",
+    index: "02",
+    title: "Backend and data",
+    skills: [
+      {
+        name: "Node.js",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#5FA04E]" fill="currentColor">
+            <path d="M12 2l9 5.2v10.4L12 22l-9-5.2V7.2L12 2zm0 2.3L4.8 8.5v7l7.2 4.2 7.2-4.2v-7L12 4.3z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Express",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M5 8h4M5 12h3M5 16h4M14 8l5 8M19 8l-5 8" />
+          </svg>
+        ),
+      },
+      {
+        name: "Supabase",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#3ECF8E]" fill="currentColor">
+            <path d="M13.4 22c-.6 0-1-.5-.8-1.1l2.4-7.9H4.8c-.7 0-1.2-.7-.9-1.3L11.5 2c.4-.7 1.4-.4 1.3.4l-2.2 7.6h9.6c.8 0 1.2.9.7 1.5L14.3 21.6c-.2.3-.5.4-.9.4z" />
+          </svg>
+        ),
+      },
+      {
+        name: "PostgreSQL",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#336791]" fill="currentColor">
+            <path d="M12 2C6.5 2 2 6.5 2 12c0 4.1 2.5 7.6 6.1 9.1.5.1.7-.2.7-.5v-1.8c-2.4.5-3-1-3-1-.4-1-1-1.3-1-1.3-.8-.5.1-.5.1-.5.9.1 1.4.9 1.4.9.8 1.4 2.1 1 2.6.8.1-.6.3-1 .6-1.2-2-.2-4.1-1-4.1-4.4 0-1 .4-1.8 1-2.4-.1-.2-.4-1.1.1-2.4 0 0 .8-.2 2.5.9.7-.2 1.5-.3 2.3-.3.8 0 1.6.1 2.3.3 1.7-1.1 2.5-.9 2.5-.9.5 1.3.2 2.2.1 2.4.6.6 1 1.4 1 2.4 0 3.4-2.1 4.2-4.1 4.4.3.3.6.8.6 1.7V20.5c0 .3.2.6.7.5C19.5 19.6 22 16.1 22 12c0-5.5-4.5-10-10-10z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Firebase",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <path d="M4.5 17.5L8.5 2.5l3.8 7.2L4.5 17.5zm15 0L17.7 5.2l-2.4 4.5 4.2 7.8zm-7.5 4.5l6.5-4.5-4-7.5-6.5 10 4 2z" fill="#FFA000" />
+            <path d="M12 22l4-2-4-7.5-4 7.5 4 2z" fill="#FFCA28" />
+          </svg>
+        ),
+      },
+      {
+        name: "MongoDB",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#47A248]" fill="currentColor">
+            <path d="M12 1.5s-5.5 5.5-5.5 11c0 4.2 3.1 7.8 5.5 10 2.4-2.2 5.5-5.8 5.5-10 0-5.5-5.5-11-5.5-11zm-.1 18.8c-.3 0-.6-.3-.6-.6V4.8c.3.5.7 1.1 1.2 1.8v13.1c0 .3-.3.6-.6.6z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Prisma",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+            <path d="M12.7 2.3a1 1 0 0 0-1.4 0L2.5 11.1a1 1 0 0 0 0 1.4l8.8 8.8a1 1 0 0 0 1.4 0l8.8-8.8a1 1 0 0 0 0-1.4L12.7 2.3zm-.7 2.4l6.6 6.6-6.6 6.6-6.6-6.6L12 4.7z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Redis",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#DC382D]" fill="currentColor">
+            <path d="M21.4 8.7L12.6 4a1.4 1.4 0 0 0-1.2 0L2.6 8.7a1.4 1.4 0 0 0 0 2.6l8.8 4.7a1.4 1.4 0 0 0 1.2 0l8.8-4.7a1.4 1.4 0 0 0 0-2.6zM12 14.3L4.5 10.3 12 6.3l7.5 4-7.5 4zm9.4 1.4l-2 .9v2.2l2-.9v-2.2zm-4 1.7l-4.8 2.6a1.4 1.4 0 0 1-1.2 0L6.6 17.4v2.2l4.8 2.6c.4.2.8.2 1.2 0l4.8-2.6v-2.2z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Socket.io",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.5l-3-4.5h2.5V7.5l3 4.5H13v4.5z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Python",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <path d="M11.9 2c-3.1 0-2.9 1.3-2.9 1.3l.1 1.4h2.9v.4H6.7S4 4.8 4 8c0 3.1 1.7 3 1.7 3l.9-.1v-1.3c0-1.5 1.3-1.4 1.3-1.4h4.7s1.4 0 1.4-1.3V3.4S14.8 2 11.9 2zm-.9 1.2a.6.6 0 1 1 0 1.2.6.6 0 0 1 0-1.2z" fill="#3776AB" />
+            <path d="M12.1 22c3.1 0 2.9-1.3 2.9-1.3l-.1-1.4h-2.9v-.4h5.3s2.7.3 2.7-2.9c0-3.1-1.7-3-1.7-3l-.9.1v1.3c0 1.5-1.3 1.4-1.3 1.4H11.4s-1.4 0-1.4 1.3v3.5s-.8 1.4 2.1 1.4zm.9-1.2a.6.6 0 1 1 0-1.2.6.6 0 0 1 0 1.2z" fill="#FFD43B" />
+          </svg>
+        ),
+      },
+    ],
+  },
+  {
+    id: "mobile-desktop",
+    index: "03",
+    title: "Mobile and desktop",
+    skills: [
+      {
+        name: "Android",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#3DDC84]" fill="currentColor">
+            <path d="M6 18c0 .5.4 1 1 1h1v3c0 .5.5 1 1 1s1-.5 1-1v-3h4v3c0 .5.5 1 1 1s1-.5 1-1v-3h1c.6 0 1-.5 1-1V9H6v9zm-3-8c-.5 0-1 .5-1 1v6c0 .5.5 1 1 1s1-.5 1-1v-6c0-.5-.5-1-1-1zm18 0c-.5 0-1 .5-1 1v6c0 .5.5 1 1 1s1-.5 1-1v-6c0-.5-.5-1-1-1zM15.5 3.8l1.2-1.2a.5.5 0 0 0-.7-.7l-1.3 1.3A7.3 7.3 0 0 0 12 3c-.9 0-1.8.1-2.7.2L8 1.9a.5.5 0 0 0-.7.7l1.2 1.2A5.8 5.8 0 0 0 6 8h12a5.8 5.8 0 0 0-2.5-4.2zM9 6a.7.7 0 1 1 0-1.4.7.7 0 0 1 0 1.4zm6 0a.7.7 0 1 1 0-1.4.7.7 0 0 1 0 1.4z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Expo",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+            <path d="M4.5 4.5L12 12l7.5-7.5L21 6l-9 9-9-9 1.5-1.5zm0 7.5L12 19.5l7.5-7.5L21 13.5l-9 9-9-9 1.5-1.5z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Play Console",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <path d="M4 3.5v17l10-8.5L4 3.5z" fill="#00C1A0" />
+            <path d="M14 12l3.5 3L4 20.5 14 12z" fill="#FF3A44" />
+            <path d="M14 12L4 3.5 17.5 9 14 12z" fill="#00E676" />
+            <path d="M17.5 9l3 2.5a1 1 0 0 1 0 1.5l-3 2-3.5-3 3.5-3z" fill="#FFC107" />
+          </svg>
+        ),
+      },
+      {
+        name: "Electron",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#9FEAF9]" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(30 12 12)" />
+            <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(-30 12 12)" />
+            <circle cx="12" cy="12" r="1.8" fill="currentColor" />
+          </svg>
+        ),
+      },
+      {
+        name: "Windows",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="#0078D6">
+            <path d="M3 5.5L10.5 4.5v6.5H3V5.5zm8.5-1.2L21 3v8H11.5V4.3zM3 13h7.5v6.5L3 18.5V13zm8.5 0H21v8l-9.5-1.3V13z" />
+          </svg>
+        ),
+      },
+      {
+        name: "macOS",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+            <path d="M18.7 19.5c-.8 1.2-1.7 2.4-3 2.4-1.3 0-1.7-.8-3.2-.8-1.5 0-2 .8-3.2.8-1.3 0-2.3-1.3-3.2-2.5-1.7-2.5-3-7.1-1.2-10.2 1-1.6 2.6-2.6 4.3-2.6 1.3 0 2.5.9 3.3.9.8 0 2.3-1.1 3.9-.9 1.4.1 2.6.6 3.4 1.7-3.1 1.7-2.6 5.8.5 7.1-.6 1.5-1.4 3-2.6 4.1zM15.4 4.5c.6-.8 1.1-2 1-3-.9.1-2.1.6-2.7 1.4-.6.7-1.1 1.9-.9 2.9 1.1.1 2-.5 2.6-1.3z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Linux",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="#FCC624">
+            <path d="M12 2C9.8 2 8 3.8 8 6v4c0 1.1-.9 2-2 2H5c-.6 0-1 .4-1 1 0 2.2 1.8 4 4 4h8c2.2 0 4-1.8 4-4 0-.6-.4-1-1-1h-1c-1.1 0-2-.9-2-2V6c0-2.2-1.8-4-4-4zm-1.5 4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-1.5 2.5c.8 0 1.5.3 1.5.8s-.7.8-1.5.8-1.5-.3-1.5-.8.7-.8 1.5-.8zM7 18c-1.7 0-3 1.3-3 3 0 .6.4 1 1 1h14c.6 0 1-.4 1-1 0-1.7-1.3-3-3-3H7z" />
+          </svg>
+        ),
+      },
+    ],
+  },
+  {
+    id: "ai-media-scraping",
+    index: "04",
+    title: "AI, media and scraping",
+    skills: [
+      {
+        name: "Claude",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#D97706]" fill="currentColor">
+            <path d="M12 2l1.6 6.2L20 8l-4.8 4.6 3 6.4-6.2-2.5L7 22l1.2-6.8L3 11l6.4-.8L12 2z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Gemini",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#8E75FF]" fill="currentColor">
+            <path d="M12 2C12 7.5 7.5 12 2 12c5.5 0 10 4.5 10 10 0-5.5 4.5-10 10-10-5.5 0-10-4.5-10-10z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Hugging Face",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#FFD21E]" fill="currentColor">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="8.5" cy="10.5" r="1.5" fill="#000" />
+            <circle cx="15.5" cy="10.5" r="1.5" fill="#000" />
+            <path d="M8 14.5c1 1.5 2.5 2 4 2s3-.5 4-2" stroke="#000" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+          </svg>
+        ),
+      },
+      {
+        name: "Codex",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#10A37F]" fill="currentColor">
+            <path d="M22.3 9.4a5.7 5.7 0 0 0-.5-4.8 5.8 5.8 0 0 0-6.1-2.7 5.8 5.8 0 0 0-4.6-2 5.9 5.9 0 0 0-5.6 4A5.8 5.8 0 0 0 1.8 7a5.8 5.8 0 0 0 .5 6.6 5.8 5.8 0 0 0 .5 4.8 5.8 5.8 0 0 0 6.1 2.7 5.8 5.8 0 0 0 4.6 2 5.9 5.9 0 0 0 5.6-4 5.8 5.8 0 0 0 3.7-3.1 5.8 5.8 0 0 0-.5-6.6zM13.2 21.8a4.3 4.3 0 0 1-2.6-.9l3.5-2a2 2 0 0 0 1-1.7v-4.9l1.8 1v4.3a4.3 4.3 0 0 1-3.7 4.2zm-8.8-3.7a4.3 4.3 0 0 1-.5-2.7l3.5 2a2 2 0 0 0 2 0l4.2-2.4v2.1l-3.7 2.1a4.3 4.3 0 0 1-5.5-1.1zm-1.8-8.7a4.3 4.3 0 0 1 2.1-1.8V11.5a2 2 0 0 0 1 1.7l4.2 2.4-1.8 1-3.7-2.1a4.3 4.3 0 0 1-1.8-4.9zm15.1 2.3l-4.2-2.4 1.8-1 3.7 2.1a4.3 4.3 0 0 1-.3 7.6v-3.9a2 2 0 0 0-1-2.4zm2.1-4a4.3 4.3 0 0 1-2.1 1.8V5.6a2 2 0 0 0-1-1.7l-4.2-2.4 1.8-1 3.7 2.1a4.3 4.3 0 0 1 1.8 4.9zm-8.3-4.3a4.3 4.3 0 0 1 2.6.9l-3.5 2a2 2 0 0 0-1 1.7v4.9l-1.8-1V5.9a4.3 4.3 0 0 1 3.7-4.2zM12 13.8l-2.4-1.4 2.4-1.4 2.4 1.4L12 13.8z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Antigravity",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <rect width="24" height="24" rx="4" fill="#FF6B00" />
+            <path d="M12 6v7M12 17v1" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
+        name: "FFmpeg",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#007808]" fill="currentColor">
+            <path d="M2.5 3.5l8 4.5-8 4.5v-9zm9.5 5.5l8 4.5-8 4.5V9zm-9.5 5.5l8 4.5-8 4.5v-9z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Puppeteer",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#00D8A2]" fill="currentColor">
+            <path d="M12 2a4 4 0 0 0-4 4v1H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2V6a4 4 0 0 0-4-4zm-2 4a2 2 0 1 1 4 0v1h-4V6zm7 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-7 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+          </svg>
+        ),
+      },
+    ],
+  },
+  {
+    id: "shipping-tooling",
+    index: "05",
+    title: "Shipping and tooling",
+    skills: [
+      {
+        name: "Git",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#F05032]" fill="currentColor">
+            <path d="M21.6 10.9L13.1 2.4a1.7 1.7 0 0 0-2.4 0l-1.8 1.8 2.3 2.3a2 2 0 0 1 2.5 2.5l2.2 2.2a2 2 0 1 1-1.2 1.2l-2.1-2.1v4.3a2 2 0 1 1-1.7 0V9.8a2 2 0 0 1-1.1-2.6L7.4 4.8 2.4 9.8a1.7 1.7 0 0 0 0 2.4l8.5 8.5c.7.7 1.7.7 2.4 0l8.3-8.3a1.7 1.7 0 0 0 0-2.4z" />
+          </svg>
+        ),
+      },
+      {
+        name: "GitHub",
+        icon: <GithubIcon className="w-4 h-4 text-foreground" />,
+      },
+      {
+        name: "Docker",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#2496ED]" fill="currentColor">
+            <path d="M13.5 8.5h2v2h-2zm-2.5 0h2v2h-2zm-2.5 0h2v2h-2zm5-2.5h2v2h-2zm-2.5 0h2v2h-2zm-2.5 0h2v2h-2zm-2.5 2.5h2v2h-2zm14.8 4.2c-.3-.2-1.3-.7-2.6-.4-.3-1-1.1-1.8-2-2.1l-.8-.3-.5.7c-.7 1.1-.7 2.6-.2 3.8-.7.4-1.7.5-2.6.5H2.2c-.4 1.4.1 3.2 1.2 4.4 1.6 1.7 3.8 2.2 6.5 2.2 6 0 10.5-3.3 11.8-8.2.7 0 1.4-.2 1.9-.6h-.8z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Vercel",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+            <path d="M12 2L2 20h20L12 2z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Cloudflare",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#F38020]" fill="currentColor">
+            <path d="M18.2 10.2a5.4 5.4 0 0 0-5.2-4.2c-2.3 0-4.3 1.5-5 3.6a4.8 4.8 0 0 0-4.5 4.8c0 2.7 2.2 4.8 4.8 4.8h14.4c2.3 0 4.2-1.9 4.2-4.2 0-2.2-1.7-4-3.8-4.2l-.9-.1-.2-.5z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Figma",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <path d="M8 2h4v5H8a2.5 2.5 0 0 1 0-5z" fill="#F24E1E" />
+            <path d="M12 2h4a2.5 2.5 0 0 1 0 5h-4V2z" fill="#FF7262" />
+            <path d="M8 7h4v5H8a2.5 2.5 0 0 1 0-5z" fill="#A259FF" />
+            <path d="M12 7h4a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1-4 0V7z" fill="#1ABCFE" />
+            <path d="M8 12h4v5a2.5 2.5 0 0 1-4-2 2.5 2.5 0 0 1 0-3z" fill="#0ACF83" />
+          </svg>
+        ),
+      },
+      {
+        name: "npm",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#CB3837]" fill="currentColor">
+            <path d="M2 4v16h20V4H2zm16 13h-3.5V9h-3v8H5V7h13v10z" />
+          </svg>
+        ),
+      },
+      {
+        name: "pnpm",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#F69220]" fill="currentColor">
+            <path d="M3 3h5v5H3zm6 0h5v5H9zm6 0h5v5h-5zM3 9h5v5H3zm12 0h5v5h-5zm-6 6h5v5H9zm6 0h5v5h-5zm-12 0h5v5H3z" />
+          </svg>
+        ),
+      },
+    ],
+  },
+  {
+    id: "web3",
+    index: "06",
+    title: "Web3",
+    skills: [
+      {
+        name: "Solidity",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+            <path d="M12 2l4.5 8L12 18l-4.5-8L12 2zm0 4.5l-2.5 4.5 2.5 4.5 2.5-4.5L12 6.5zM17 11l4.5 7.5L17 22l-2.5-4.5 2.5-6.5zM7 11l2.5 6.5L7 22l-4.5-3.5L7 11z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Rust",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#CE412B]" fill="currentColor">
+            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 4a6 6 0 1 1-6 6 6 6 0 0 1 6-6zm-1 2h2v2h-2zm-3.5 1.5l1.4 1.4-1.4 1.4-1.4-1.4zm9 0l1.4 1.4-1.4 1.4-1.4-1.4zM7 11h2v2H7zm8 0h2v2h-2zm-4.5 3.5h2v2h-2z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Foundry",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#FF5722]" fill="currentColor">
+            <path d="M21 7h-4.2l-2-2H4c-.6 0-1 .4-1 1v2.5c0 .3.1.6.3.8L5.5 11v3h2.5v2H6v3h12v-3h-2v-2h2.5v-1l2-2.5c.3-.3.5-.7.5-1.1V7z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Anchor",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#3B82F6]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="5" r="3" />
+            <line x1="12" y1="8" x2="12" y2="21" />
+            <path d="M5 12H19" />
+            <path d="M5 12a7 7 0 0 0 14 0" />
+          </svg>
+        ),
+      },
+      {
+        name: "Ethereum",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#627EEA]" fill="currentColor">
+            <path d="M12 2L4.5 13.5 12 18l7.5-4.5L12 2zm0 17.5L4.5 15 12 22l7.5-7-7.5 4.5z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Solana",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <path d="M4 6.5l3-3h13l-3 3H4zm0 6l3-3h13l-3 3H4zm0 6l3-3h13l-3 3H4z" fill="url(#solana-grad)" />
+            <defs>
+              <linearGradient id="solana-grad" x1="4" y1="3.5" x2="20" y2="18.5" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#9945FF" />
+                <stop offset="1" stopColor="#14F195" />
+              </linearGradient>
+            </defs>
+          </svg>
+        ),
+      },
+      {
+        name: "Viem",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+            <path d="M2.5 4h4.8l5.2 12.8L17.7 4h4.8L14.2 20h-4.4L2.5 4z" />
+          </svg>
+        ),
+      },
+      {
+        name: "Wagmi",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#E65100]" fill="currentColor">
+            <path d="M3.5 5.5h3.2l3.3 9.8 3-9.8h2.8l3 9.8 3.3-9.8h3.2l-4.8 13h-3.4l-2.8-9-2.8 9H4.9L3.5 5.5z" />
+          </svg>
+        ),
+      },
+      {
+        name: "RainbowKit",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <path d="M4 18a8 8 0 0 1 16 0" stroke="#FF494A" strokeWidth="2.2" strokeLinecap="round" />
+            <path d="M7 18a5 5 0 0 1 10 0" stroke="#FFB020" strokeWidth="2.2" strokeLinecap="round" />
+            <path d="M10 18a2 2 0 0 1 4 0" stroke="#00D26A" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        ),
+      },
+      {
+        name: "Solana Web3.js",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+            <path d="M4 6.5l3-3h13l-3 3H4zm0 6l3-3h13l-3 3H4zm0 6l3-3h13l-3 3H4z" fill="url(#solana-web3-grad)" />
+            <defs>
+              <linearGradient id="solana-web3-grad" x1="4" y1="3.5" x2="20" y2="18.5" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#9945FF" />
+                <stop offset="1" stopColor="#14F195" />
+              </linearGradient>
+            </defs>
+          </svg>
+        ),
+      },
+      {
+        name: "Wallet Adapter",
+        icon: (
+          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#14F195]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
+            <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
+            <path d="M18 12a2 2 0 0 0 0 4h4v-4z" />
+          </svg>
+        ),
+      },
+    ],
+  },
+];
+
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<"all" | "web3" | "mobile" | "web">("all");
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
+  const [cardImageIndexes, setCardImageIndexes] = useState<Record<string, number>>({});
   const [placeholderModal, setPlaceholderModal] = useState<string | null>(null);
-  const caseStudyRef = useRef<HTMLDivElement>(null);
   const placeholderRef = useRef<HTMLDivElement>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
 
-  const openProjectModal = (project: Project) => {
-    setActiveGalleryIndex(0);
-    setSelectedProject(project);
+  const handlePrevImage = (projectId: string, total: number) => {
+    setCardImageIndexes((prev) => {
+      const current = prev[projectId] ?? 0;
+      return { ...prev, [projectId]: (current - 1 + total) % total };
+    });
   };
 
-  // Close modals on Escape; trap Tab inside the open dialog
+  const handleNextImage = (projectId: string, total: number) => {
+    setCardImageIndexes((prev) => {
+      const current = prev[projectId] ?? 0;
+      return { ...prev, [projectId]: (current + 1) % total };
+    });
+  };
+
+  // Close placeholder modal on Escape; trap Tab inside open dialog
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setSelectedProject(null);
         setPlaceholderModal(null);
         return;
       }
-      if (e.key === "Tab" && (selectedProject || placeholderModal)) {
-        const container = selectedProject ? caseStudyRef.current : placeholderRef.current;
+      if (e.key === "Tab" && placeholderModal) {
+        const container = placeholderRef.current;
         if (!container) return;
         const focusables = Array.from(
           container.querySelectorAll<HTMLElement>(
@@ -524,14 +1078,14 @@ export default function HomePage() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedProject, placeholderModal]);
+  }, [placeholderModal]);
 
-  // Move focus into the dialog on open, restore focus to the trigger on close
+  // Move focus into the placeholder dialog on open, restore focus on close
   useEffect(() => {
-    if (selectedProject) {
+    if (placeholderModal) {
       lastFocusedRef.current = document.activeElement as HTMLElement | null;
       const raf = requestAnimationFrame(() => {
-        const first = caseStudyRef.current?.querySelector<HTMLElement>("button, a[href]");
+        const first = placeholderRef.current?.querySelector<HTMLElement>("button, a[href]");
         first?.focus();
       });
       return () => {
@@ -539,23 +1093,11 @@ export default function HomePage() {
         lastFocusedRef.current?.focus?.();
       };
     }
-  }, [selectedProject]);
-
-  // Move focus into the placeholder dialog on open
-  useEffect(() => {
-    if (placeholderModal) {
-      const raf = requestAnimationFrame(() => {
-        const first = placeholderRef.current?.querySelector<HTMLElement>("button, a[href]");
-        first?.focus();
-      });
-      return () => cancelAnimationFrame(raf);
-    }
   }, [placeholderModal]);
 
-  // Lock body scroll when a modal is open, compensating for the scrollbar so the
-  // page doesn't visibly shift when the overlay appears/disappears.
+  // Lock body scroll when placeholder modal is open
   useEffect(() => {
-    if (selectedProject || placeholderModal) {
+    if (placeholderModal) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = "hidden";
       if (scrollbarWidth > 0) {
@@ -569,7 +1111,7 @@ export default function HomePage() {
       document.body.style.overflow = "unset";
       document.body.style.paddingRight = "";
     };
-  }, [selectedProject, placeholderModal]);
+  }, [placeholderModal]);
 
   // Contact Form State
   const [formState, setFormState] = useState({
@@ -636,6 +1178,12 @@ export default function HomePage() {
               Projects
             </a>
             <a
+              href="#skills"
+              className="px-2.5 py-1.5 text-xs font-medium text-text-muted transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
+            >
+              Skills
+            </a>
+            <a
               href="#capabilities"
               className="px-2.5 py-1.5 text-xs font-medium text-text-muted transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
             >
@@ -660,12 +1208,12 @@ export default function HomePage() {
             id="hero-title"
             className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl sm:leading-[1.15] max-w-4xl"
           >
-            Full-Stack & Mobile Engineer. Taking Web & Blockchain systems, mobile apps, and web platforms from zero to production deployment.
+            Full-Stack Software Engineer
           </h1>
 
           {/* Value Proposition */}
           <p className="max-w-2xl text-base leading-relaxed text-text-muted sm:text-lg">
-            I partner with founders, agency leads, and Upwork & Fiverr clients to design, architect, and deliver autonomous software solutions with clean architecture, verified contracts, and responsive UI.
+            I partner with founders and product teams to take ideas from zero to production. I build end-to-end web and mobile applications with complete technical ownership.
           </p>
 
           {/* Action Row: Platforms & Direct CTA */}
@@ -715,15 +1263,10 @@ export default function HomePage() {
 
         {/* PROJECT SHOWCASE SECTION (LEVEL 1: Clean Visual Cards) */}
         <section id="projects" aria-labelledby="projects-title" className="pt-12 sm:pt-16">
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between pb-8">
-            <div>
-              <h2 id="projects-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                Featured Engineering Work
-              </h2>
-              <p className="mt-2 text-sm text-text-muted max-w-xl">
-                Visual snapshots of production web platforms, dApps, and cross-platform apps. Click any card to inspect the full case study.
-              </p>
-            </div>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pb-8">
+            <h2 id="projects-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              Selected Work
+            </h2>
 
             {/* Category Filter Tabs */}
             <div
@@ -737,11 +1280,10 @@ export default function HomePage() {
                 aria-controls="projects-grid"
                 onClick={() => setActiveCategory("all")}
                 className={
-                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${
-                  activeCategory === "all"
+                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${activeCategory === "all"
                     ? "bg-card-border text-foreground"
                     : "text-text-muted hover:text-foreground"
-                }`}
+                  }`}
               >
                 ALL ({PROJECTS.length})
               </button>
@@ -751,11 +1293,10 @@ export default function HomePage() {
                 aria-controls="projects-grid"
                 onClick={() => setActiveCategory("web")}
                 className={
-                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${
-                  activeCategory === "web"
+                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${activeCategory === "web"
                     ? "bg-card-border text-foreground"
                     : "text-text-muted hover:text-foreground"
-                }`}
+                  }`}
               >
                 WEB ({PROJECTS.filter((p) => p.category === "web").length})
               </button>
@@ -765,11 +1306,10 @@ export default function HomePage() {
                 aria-controls="projects-grid"
                 onClick={() => setActiveCategory("mobile")}
                 className={
-                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${
-                  activeCategory === "mobile"
+                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${activeCategory === "mobile"
                     ? "bg-card-border text-foreground"
                     : "text-text-muted hover:text-foreground"
-                }`}
+                  }`}
               >
                 MOBILE ({PROJECTS.filter((p) => p.category === "mobile").length})
               </button>
@@ -779,11 +1319,10 @@ export default function HomePage() {
                 aria-controls="projects-grid"
                 onClick={() => setActiveCategory("web3")}
                 className={
-                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${
-                  activeCategory === "web3"
+                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${activeCategory === "web3"
                     ? "bg-card-border text-foreground"
                     : "text-text-muted hover:text-foreground"
-                }`}
+                  }`}
               >
                 WEB & BLOCKCHAIN ({PROJECTS.filter((p) => p.category === "web3").length})
               </button>
@@ -793,38 +1332,51 @@ export default function HomePage() {
           {/* Level 1 Modular Project Grid with Visual Viewports */}
           <div id="projects-grid" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project) => {
+              const galleryList =
+                project.gallery && project.gallery.length > 0
+                  ? project.gallery
+                  : [
+                      {
+                        url: project.image,
+                        alt: project.imageAlt,
+                        label: "Overview",
+                        caption: "",
+                      },
+                    ];
+              const totalImages = galleryList.length;
+              const currentImageIndex = (cardImageIndexes[project.id] ?? 0) % totalImages;
+              const currentImage = galleryList[currentImageIndex];
+              const hasMultipleImages = totalImages > 1;
+
               return (
                 <article
                   key={project.id}
                   className="group relative flex flex-col justify-between border border-card-border bg-card-bg overflow-hidden transition-all hover:border-card-hover hover:bg-hover-surface rounded"
                 >
-                  {/* Top Screenshot Viewport */}
-                  <div
-                    onClick={() => openProjectModal(project)}
-                    className="relative aspect-[16/10] w-full overflow-hidden bg-background border-b border-card-border cursor-pointer flex items-center justify-center"
-                  >
+                  {/* Top Screenshot Viewport with Hover Navigation */}
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-background border-b border-card-border flex items-center justify-center select-none">
                     {project.category === "mobile" ? (
                       <div className="relative h-full w-full flex items-center justify-center p-2.5 bg-gradient-to-b from-lift/50 to-background">
                         <Image
-                          src={project.image}
-                          alt={project.imageAlt}
+                          src={currentImage.url}
+                          alt={currentImage.alt}
                           width={457}
                           height={914}
-                          className="h-full w-auto max-w-full object-contain rounded-sm transition-transform duration-300 group-hover:scale-105 drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
+                          className="h-full w-auto max-w-full object-contain rounded-sm transition-transform duration-300 drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
                         />
                       </div>
                     ) : (
                       <Image
-                        src={project.image}
-                        alt={project.imageAlt}
+                        src={currentImage.url}
+                        alt={currentImage.alt}
                         width={1024}
                         height={550}
-                        className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                        className="h-full w-full object-cover object-top transition-transform duration-300"
                       />
                     )}
 
                     {/* Operational Status Pill Overlay */}
-                    <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
+                    <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10 pointer-events-none">
                       {project.status === "live" ? (
                         <span className="inline-flex items-center gap-1.5 border border-emerald-500/40 bg-background/85 backdrop-blur-sm px-2.5 py-1 font-mono text-xs font-semibold text-emerald-400 rounded">
                           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
@@ -837,6 +1389,65 @@ export default function HomePage() {
                         </span>
                       )}
                     </div>
+
+                    {/* Hover-revealed Gallery Navigation Controls */}
+                    {hasMultipleImages && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handlePrevImage(project.id, totalImages);
+                          }}
+                          aria-label={`Previous image for ${project.title}`}
+                          className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-full bg-background/85 hover:bg-background border border-card-border hover:border-card-hover text-foreground backdrop-blur-sm shadow-lg opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all cursor-pointer hover:scale-110 active:scale-95"
+                        >
+                          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleNextImage(project.id, totalImages);
+                          }}
+                          aria-label={`Next image for ${project.title}`}
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-full bg-background/85 hover:bg-background border border-card-border hover:border-card-hover text-foreground backdrop-blur-sm shadow-lg opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all cursor-pointer hover:scale-110 active:scale-95"
+                        >
+                          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+
+                        {/* Visual Indicator: Screen index + Label */}
+                        <div className="absolute bottom-2.5 left-2.5 z-10 flex items-center gap-1.5 bg-background/85 border border-card-border px-2 py-0.5 rounded backdrop-blur-sm font-mono text-[11px] text-text-subtle pointer-events-none">
+                          <span className="text-emerald-400 font-semibold">
+                            {currentImageIndex + 1}/{totalImages}
+                          </span>
+                          {currentImage.label && (
+                            <span className="text-text-muted hidden sm:inline">
+                              • {currentImage.label}
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Pagination Dots indicator */}
+                        <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                          {galleryList.map((_, idx) => (
+                            <span
+                              key={idx}
+                              className={`h-1.5 rounded-full transition-all ${
+                                idx === currentImageIndex ? "w-3.5 bg-emerald-400" : "w-1.5 bg-card-border"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   {/* Minimal Body Content - No Text Walls */}
@@ -847,10 +1458,7 @@ export default function HomePage() {
                         <span className="text-text-muted">{project.categoryLabel}</span>
                       </div>
 
-                      <h3
-                        onClick={() => openProjectModal(project)}
-                        className="text-xl font-bold tracking-tight text-foreground hover:text-emerald-400 transition-colors cursor-pointer"
-                      >
+                      <h3 className="text-xl font-bold tracking-tight text-foreground">
                         {project.title}
                       </h3>
 
@@ -879,19 +1487,27 @@ export default function HomePage() {
                       )}
                     </div>
 
-                    {/* Action Line: View Case Study + GitHub + Launch */}
+                    {/* Action Line: GitHub + Launch */}
                     <div className="flex items-center justify-between border-t border-card-border pt-4 mt-auto">
-                      <button
-                        type="button"
-                        onClick={() => openProjectModal(project)}
-                        className="font-mono text-xs font-semibold text-foreground hover:text-emerald-400 transition-colors inline-flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-emerald-500 rounded cursor-pointer"
-                      >
-                        <span>View Case Study</span>
-                        <span aria-hidden="true">→</span>
-                      </button>
-
                       <div className="flex items-center gap-2">
-                        {project.githubUrl ? (
+                        {project.githubLinks && project.githubLinks.length > 1 ? (
+                          <div className="flex items-center gap-1.5">
+                            {project.githubLinks.map((gh, idx) => (
+                              <a
+                                key={idx}
+                                href={gh.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 border border-card-border bg-lift px-2 py-1 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                title={gh.label}
+                                aria-label={`${project.title} ${gh.label}`}
+                              >
+                                <GithubIcon className="h-3.5 w-3.5 text-foreground" />
+                                <span>{idx === 0 ? "Frontend" : "Contracts"}</span>
+                              </a>
+                            ))}
+                          </div>
+                        ) : project.githubUrl ? (
                           <a
                             href={project.githubUrl}
                             target="_blank"
@@ -899,7 +1515,6 @@ export default function HomePage() {
                             className="inline-flex items-center gap-1.5 border border-card-border bg-lift px-2.5 py-1 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500"
                             title="View GitHub Repository"
                             aria-label={`${project.title} GitHub repository`}
-                            onClick={(e) => e.stopPropagation()}
                           >
                             <GithubIcon className="h-3.5 w-3.5 text-foreground" />
                             <span>GitHub</span>
@@ -907,7 +1522,7 @@ export default function HomePage() {
                         ) : project.githubPrivate ? (
                           <span
                             className="inline-flex items-center gap-1 font-mono text-xs text-text-subtle px-1.5 py-1"
-                            title="Private Repository"
+                            title="Private Repository (Commercial IP)"
                           >
                             <svg className="h-3 w-3 text-text-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                               <rect x="3" y="11" width="18" height="11" rx="2" ry="2" strokeWidth="2" />
@@ -916,7 +1531,9 @@ export default function HomePage() {
                             <span>Private</span>
                           </span>
                         ) : null}
+                      </div>
 
+                      <div className="flex items-center gap-2">
                         {project.isExternalLink ? (
                           <a
                             href={project.link}
@@ -943,65 +1560,82 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* SKILLS & TECHNOLOGIES SECTION */}
+        <section
+          id="skills"
+          aria-labelledby="skills-title"
+          className="mt-16 sm:mt-24 border-t border-card-border pt-12 sm:pt-16"
+        >
+          <h2 id="skills-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Skills & Technologies
+          </h2>
+
+          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+            {SKILL_CATEGORIES.map((cat) => (
+              <div
+                key={cat.id}
+                className="border border-card-border bg-card-bg p-6 rounded space-y-4 hover:border-card-hover transition-colors"
+              >
+                <div className="flex items-baseline gap-2.5">
+                  <span className="font-mono text-base font-bold text-signal-amber">
+                    {cat.index}
+                  </span>
+                  <h3 className="text-lg font-bold text-foreground">
+                    {cat.title}
+                  </h3>
+                </div>
+
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {cat.skills.map((skill) => (
+                    <div
+                      key={skill.name}
+                      className="inline-flex items-center gap-2 border border-card-border bg-lift px-2.5 py-1.5 rounded text-xs font-medium text-foreground hover:border-card-hover hover:bg-hover-surface transition-colors shadow-xs"
+                    >
+                      <span className="shrink-0 flex items-center justify-center w-4 h-4">
+                        {skill.icon}
+                      </span>
+                      <span>{skill.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* CAPABILITIES & DELIVERY MODEL */}
         <section
           id="capabilities"
           aria-labelledby="capabilities-title"
           className="mt-16 sm:mt-24 border-t border-card-border pt-12 sm:pt-16"
         >
-          <div className="max-w-2xl">
-            <h2 id="capabilities-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              Engineering Capabilities & Delivery Model
-            </h2>
-            <p className="mt-2 text-sm text-text-muted">
-              How I help non-technical startup founders, agency leads, and clients bring products from initial concept to live production.
-            </p>
-            <p className="mt-4 font-mono text-xs text-text-subtle">
-              6 Products Shipped · 3 Live in Production · 135+ Tokenized Securities · 3,870+ Events Indexed
-            </p>
-          </div>
+          <h2 id="capabilities-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Engineering Capabilities & Delivery Model
+          </h2>
 
           <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
             {/* Pillar 1 */}
-            <div className="border border-card-border bg-card-bg p-6 space-y-3 rounded">
+            <div className="border border-card-border bg-card-bg p-6 space-y-2 rounded hover:border-card-hover transition-colors">
               <span className="font-mono text-xs font-bold text-emerald-400 tracking-wider">
                 01 // END-TO-END MVPs
               </span>
               <h3 className="text-lg font-bold text-foreground">Zero-to-Launch Web Platforms</h3>
-              <p className="text-xs leading-relaxed text-text-muted">
-                Complete product architecture from schema design and authentication to responsive frontend and cloud CI/CD. Designed for rapid iteration without architectural debt.
-              </p>
-              <div className="pt-2 font-mono text-xs text-text-subtle">
-                Next.js · React 19 · TypeScript · Supabase · Tailwind
-              </div>
             </div>
 
             {/* Pillar 2 */}
-            <div className="border border-card-border bg-card-bg p-6 space-y-3 rounded">
+            <div className="border border-card-border bg-card-bg p-6 space-y-2 rounded hover:border-card-hover transition-colors">
               <span className="font-mono text-xs font-bold text-emerald-400 tracking-wider">
                 02 // CROSS-PLATFORM MOBILE
               </span>
               <h3 className="text-lg font-bold text-foreground">React Native (iOS & Android)</h3>
-              <p className="text-xs leading-relaxed text-text-muted">
-                Single codebase delivering native 60fps performance on both iOS and Android. Offline storage, gesture physics, native haptics, and App Store / Google Play submission.
-              </p>
-              <div className="pt-2 font-mono text-xs text-text-subtle">
-                React Native · Expo EAS · Reanimated · Offline Sync
-              </div>
             </div>
 
             {/* Pillar 3 */}
-            <div className="border border-card-border bg-card-bg p-6 space-y-3 rounded">
+            <div className="border border-card-border bg-card-bg p-6 space-y-2 rounded hover:border-card-hover transition-colors">
               <span className="font-mono text-xs font-bold text-emerald-400 tracking-wider">
                 03 // SMART CONTRACTS & dAPPS
               </span>
               <h3 className="text-lg font-bold text-foreground">Web & Blockchain Systems</h3>
-              <p className="text-xs leading-relaxed text-text-muted">
-                Non-custodial user onboarding (Privy), DEX atomic swaps (Jupiter on Solana), and EVM prediction & trading smart contracts (Base & Monad) with verifiable oracles (Pyth).
-              </p>
-              <div className="pt-2 font-mono text-xs text-text-subtle">
-                Solana · Base · Monad · Pyth Entropy · Privy · Wagmi
-              </div>
             </div>
           </div>
         </section>
@@ -1012,79 +1646,15 @@ export default function HomePage() {
           aria-labelledby="contact-title"
           className="mt-16 sm:mt-24 border-t border-card-border pt-12 sm:pt-16 pb-12"
         >
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
-            {/* Left Column: Direct channels and platform links */}
-            <div className="lg:col-span-5 space-y-6">
-              <div>
-                <h2 id="contact-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-                  Start a Project Conversation
-                </h2>
-                <p className="mt-2 text-sm text-text-muted leading-relaxed">
-                  Available for fixed-scope MVP builds, mobile app development, and long-term contracting. Let’s talk about your requirements, timeline, and deliverables.
-                </p>
-              </div>
+          <div className="max-w-3xl">
+            <h2 id="contact-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              Start a Project Conversation
+            </h2>
+            <p className="mt-2 text-sm text-text-muted leading-relaxed">
+              Available for fixed-scope MVP builds, mobile app development, and long-term contracting. Let’s talk about your requirements, timeline, and deliverables.
+            </p>
 
-              {/* Status Box */}
-              <div className="border border-card-border bg-card-bg p-4 space-y-2 rounded">
-                <div className="flex items-center gap-2">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-                  <span className="font-mono text-xs font-bold uppercase text-foreground">
-                    Direct Freelance Engagement
-                  </span>
-                </div>
-                <p className="text-xs text-text-muted leading-relaxed">
-                  Clients hire me directly or through escrow on Upwork and Fiverr for peace of mind. Every milestone has clear completion criteria.
-                </p>
-              </div>
-
-              {/* Platform Badges */}
-              <div className="space-y-3 pt-2">
-                <p className="font-mono text-xs font-semibold uppercase tracking-wider text-text-subtle">
-                  Preferred Platforms:
-                </p>
-                <div className="flex flex-col gap-2.5">
-                  <button
-                    type="button"
-                    onClick={() => setPlaceholderModal("Upwork")}
-                    className="flex items-center justify-between border border-card-border bg-card-bg px-4 py-3 text-xs font-medium text-foreground transition-colors hover:border-card-hover hover:bg-lift rounded text-left cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <UpworkIcon className="h-4 w-4 text-emerald-400" />
-                      <span className="font-semibold">Upwork Profile</span>
-                    </div>
-                    <span className="font-mono text-xs text-emerald-400">Verified Platform ›</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPlaceholderModal("Fiverr")}
-                    className="flex items-center justify-between border border-card-border bg-card-bg px-4 py-3 text-xs font-medium text-foreground transition-colors hover:border-card-hover hover:bg-lift rounded text-left cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <FiverrIcon className="h-4 w-4 text-emerald-400" />
-                      <span className="font-semibold">Fiverr Profile</span>
-                    </div>
-                    <span className="font-mono text-xs text-emerald-400">Verified Platform ›</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPlaceholderModal("Resume")}
-                    className="flex items-center justify-between border border-card-border bg-card-bg px-4 py-3 text-xs font-medium text-foreground transition-colors hover:border-card-hover hover:bg-lift rounded text-left cursor-pointer"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <svg className="h-4 w-4 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      <span className="font-semibold">Technical Resume</span>
-                    </div>
-                    <span className="font-mono text-xs text-text-muted">PDF Asset ›</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Direct Inquiry Form */}
-            <div className="lg:col-span-7">
-              <div className="border border-card-border bg-card-bg p-6 sm:p-8 rounded">
+            <div className="mt-8 border border-card-border bg-card-bg p-6 sm:p-8 rounded">
                 {formSubmitted ? (
                   <div className="space-y-4 py-8 text-center">
                     <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-950/40 border border-emerald-500 text-emerald-400">
@@ -1214,7 +1784,6 @@ export default function HomePage() {
                 )}
               </div>
             </div>
-          </div>
         </section>
       </main>
 
@@ -1235,276 +1804,7 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* LEVEL 2: DEDICATED PROJECT CASE STUDY MODAL */}
-      {selectedProject && (
-        <div
-          id="case-study-dialog"
-          ref={caseStudyRef}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="case-study-title"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 sm:p-6 overflow-y-auto"
-          onClick={() => setSelectedProject(null)}
-        >
-          <div
-            className="relative w-full max-w-3xl border border-card-border bg-card-bg text-foreground rounded shadow-2xl my-8 overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Header */}
-            <div className="sticky top-0 z-20 flex items-center justify-between border-b border-card-border bg-card-bg/95 backdrop-blur px-6 py-4">
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-xs text-text-subtle">{selectedProject.specId}</span>
-                <span className="font-mono text-xs text-emerald-400">• {selectedProject.categoryLabel}</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelectedProject(null)}
-                className="font-mono text-xs text-text-muted hover:text-foreground p-1.5 border border-card-border hover:border-card-hover bg-lift rounded transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500"
-                aria-label="Close modal"
-              >
-                ✕ Esc
-              </button>
-            </div>
 
-            {/* Modal Scrollable Body */}
-            <div className="p-6 sm:p-8 space-y-8 max-h-[80vh] overflow-y-auto">
-              {/* Title & Tagline */}
-              <div>
-                <h3 id="case-study-title" className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-                  {selectedProject.title}
-                </h3>
-                <p className="mt-2 text-base text-emerald-400 font-mono">
-                  {selectedProject.tagline}
-                </p>
-              </div>
-
-              {/* High-Resolution Project Screenshot Frame with Multi-Screen Gallery Switcher */}
-              <div className="space-y-3">
-                {selectedProject.gallery && selectedProject.gallery.length > 1 && (
-                  <div className="flex flex-wrap items-center gap-1.5 pb-0.5">
-                    <span className="font-mono text-xs font-semibold uppercase tracking-wider text-text-subtle mr-1">
-                      Screens ({selectedProject.gallery.length}):
-                    </span>
-                    {selectedProject.gallery.map((item, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => setActiveGalleryIndex(idx)}
-                        className={`px-3 py-1 font-mono text-xs rounded transition-all cursor-pointer ${
-                          activeGalleryIndex === idx
-                            ? "bg-emerald-500 text-background font-bold shadow-sm"
-                            : "bg-lift text-text-muted hover:text-foreground hover:bg-card-border border border-card-border"
-                        }`}
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                <div className="border border-card-border bg-background overflow-hidden rounded">
-                  {selectedProject.category === "mobile" ? (
-                    <div className="flex justify-center p-6 sm:p-8 bg-gradient-to-b from-lift/60 to-background">
-                      <div className="max-w-[260px] sm:max-w-[300px] rounded-xl overflow-hidden border border-card-hover shadow-[0_20px_50px_rgba(0,0,0,0.8)] bg-black">
-                        <Image
-                          src={
-                            selectedProject.gallery && selectedProject.gallery[activeGalleryIndex]
-                              ? selectedProject.gallery[activeGalleryIndex].url
-                              : selectedProject.image
-                          }
-                          alt={
-                            selectedProject.gallery && selectedProject.gallery[activeGalleryIndex]
-                              ? selectedProject.gallery[activeGalleryIndex].alt
-                              : selectedProject.imageAlt
-                          }
-                          width={457}
-                          height={914}
-                          className="w-full h-auto object-contain transition-all duration-200"
-                          preload
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    <Image
-                      src={
-                        selectedProject.gallery && selectedProject.gallery[activeGalleryIndex]
-                          ? selectedProject.gallery[activeGalleryIndex].url
-                          : selectedProject.image
-                      }
-                      alt={
-                        selectedProject.gallery && selectedProject.gallery[activeGalleryIndex]
-                          ? selectedProject.gallery[activeGalleryIndex].alt
-                          : selectedProject.imageAlt
-                      }
-                      width={1024}
-                      height={550}
-                      className="w-full h-auto object-cover object-top"
-                      preload
-                    />
-                  )}
-                  <div className="flex items-center justify-between border-t border-card-border px-4 py-2 font-mono text-xs text-text-subtle bg-background">
-                    <span className="truncate pr-4 text-text-muted">
-                      {selectedProject.gallery && selectedProject.gallery[activeGalleryIndex]
-                        ? selectedProject.gallery[activeGalleryIndex].caption
-                        : selectedProject.category === "mobile"
-                        ? "Mobile Application Interface"
-                        : "Live Production Platform"}
-                    </span>
-                    <div className="flex items-center gap-2 shrink-0">
-                      {selectedProject.gallery && selectedProject.gallery.length > 1 && (
-                        <span className="text-emerald-400 font-semibold">
-                          {activeGalleryIndex + 1}/{selectedProject.gallery.length}
-                        </span>
-                      )}
-                      <span>{selectedProject.statusText}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Row */}
-              <div className="flex flex-wrap items-center gap-3">
-                {selectedProject.isExternalLink ? (
-                  <a
-                    href={selectedProject.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border border-emerald-500 bg-emerald-500 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-background transition-all hover:bg-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
-                  >
-                    <span>Launch Live Application</span>
-                    <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </a>
-                ) : (
-                  <span className="inline-flex items-center gap-2 border border-amber-500/40 bg-amber-950/20 px-4 py-2 font-mono text-xs text-amber-400 rounded">
-                    Currently In Closed Testing (Beta)
-                  </span>
-                )}
-
-                {/* GitHub Buttons */}
-                {selectedProject.githubLinks && selectedProject.githubLinks.length > 0 ? (
-                  selectedProject.githubLinks.map((gh, idx) => (
-                    <a
-                      key={idx}
-                      href={gh.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 border border-card-border bg-lift px-4 py-2.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors"
-                    >
-                      <GithubIcon className="h-3.5 w-3.5 text-foreground" />
-                      <span>{gh.label}</span>
-                      <svg className="h-3 w-3 text-text-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                    </a>
-                  ))
-                ) : selectedProject.githubUrl ? (
-                  <a
-                    href={selectedProject.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border border-card-border bg-lift px-4 py-2.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors"
-                  >
-                    <GithubIcon className="h-3.5 w-3.5 text-foreground" />
-                    <span>View GitHub Repo</span>
-                    <svg className="h-3 w-3 text-text-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </a>
-                ) : selectedProject.githubPrivate ? (
-                  <span className="inline-flex items-center gap-2 border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs text-text-subtle rounded">
-                    <svg className="h-3.5 w-3.5 text-text-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" strokeWidth="2" />
-                      <path d="M7 11V7a5 5 0 0110 0v4" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                    <span>Private Repository (Commercial IP)</span>
-                  </span>
-                ) : null}
-
-                <a
-                  href="#contact"
-                  onClick={() => setSelectedProject(null)}
-                  className="inline-flex items-center gap-2 border border-card-border bg-lift px-4 py-2.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors"
-                >
-                  <span>Inquire About Similar Work →</span>
-                </a>
-              </div>
-
-              {/* Problem Solved & Executive Summary */}
-              <div className="border border-card-border bg-background p-5 rounded space-y-2">
-                <span className="font-mono text-xs font-bold text-emerald-400 uppercase tracking-wider">
-                  The Problem & Client Outcome
-                </span>
-                <p className="text-sm leading-relaxed text-text-muted">
-                  {selectedProject.problemSolved}
-                </p>
-              </div>
-
-              {/* Key Delivered Capabilities */}
-              <div className="space-y-3">
-                <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-foreground border-b border-card-border pb-2">
-                  Delivered Capabilities & Features
-                </h4>
-                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  {selectedProject.capabilities.map((cap, i) => (
-                    <div key={i} className="border border-card-border bg-lift p-3.5 rounded space-y-1">
-                      <div className="flex items-center gap-2 font-mono text-xs font-semibold text-foreground">
-                        <span className="text-emerald-400">›</span>
-                        <span>{cap.title}</span>
-                      </div>
-                      <p className="text-xs text-text-muted leading-relaxed pl-3.5">
-                        {cap.desc}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Engineering Architecture & Technical Specs */}
-              <div className="space-y-3">
-                <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-foreground border-b border-card-border pb-2">
-                  Architecture & Technical Notes
-                </h4>
-                <div className="border border-card-border bg-background p-4 rounded font-mono text-xs leading-relaxed text-text-muted">
-                  {selectedProject.architectureNote}
-                </div>
-              </div>
-
-              {/* Complete Tech Stack */}
-              <div className="space-y-2">
-                <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-text-subtle">
-                  Technologies & Frameworks
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {selectedProject.techStack.map((tech, i) => (
-                    <span
-                      key={i}
-                      className="border border-card-border bg-lift px-3 py-1 font-mono text-xs text-emerald-400 rounded"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="border-t border-card-border bg-card-bg px-6 py-4 flex items-center justify-between">
-              <span className="font-mono text-xs text-text-subtle">
-                Press Esc or click outside to return to catalog
-              </span>
-              <button
-                type="button"
-                onClick={() => setSelectedProject(null)}
-                className="border border-card-border bg-lift px-4 py-1.5 font-mono text-xs text-foreground hover:bg-card-border rounded transition-colors"
-              >
-                Close Case Study
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* PLACEHOLDER MODAL FOR UPWORK / FIVERR / RESUME */}
       {placeholderModal && (
