@@ -69,16 +69,32 @@ function FiverrIcon({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
+function LinkedInIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+    </svg>
+  );
+}
+
+function TwitterIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
 const PROJECTS: Project[] = [
   {
     id: "roaring-bulls",
     specId: "SPEC-01",
     title: "Roaring Bulls",
-    tagline: "Swipe-based tokenized equities trading platform on Solana",
+    tagline: "Swipe-based tokenized onchain (solana blockchain) equities/stocks trading platform",
     category: "web",
     categoryLabel: "Web",
     status: "live",
-    statusText: "LIVE DEMO",
+    statusText: "LIVE",
     image: "/projects/roaring-bulls.png",
     imageAlt: "Roaring Bulls Solana tokenized equities trading platform screenshot",
     gallery: [
@@ -134,11 +150,11 @@ const PROJECTS: Project[] = [
     id: "chundrigar-capital",
     specId: "SPEC-02",
     title: "Chundrigar Capital",
-    tagline: "Tokenized Pakistan Stock Exchange (KSE-100) shares on Base Sepolia",
+    tagline: "Tokenized Pakistan Stock Exchange shares on Base Sepolia Blockchain",
     category: "web3",
     categoryLabel: "Web & Blockchain",
     status: "live",
-    statusText: "LIVE DEMO",
+    statusText: "LIVE",
     image: "/projects/chundrigar-capital.png",
     imageAlt: "Chundrigar Capital Pakistan Stock Exchange tokenized shares platform screenshot",
     gallery: [
@@ -210,7 +226,7 @@ const PROJECTS: Project[] = [
     category: "web",
     categoryLabel: "Web",
     status: "live",
-    statusText: "LIVE DEMO",
+    statusText: "LIVE",
     image: "/projects/devsafar-hero.png",
     imageAlt: "DevSafar hackathon discovery directory and team recruitment portal screenshot",
     gallery: [
@@ -266,11 +282,11 @@ const PROJECTS: Project[] = [
     id: "ludo-elemental",
     specId: "SPEC-04",
     title: "Ludo Elemental",
-    tagline: "Competitive multiplayer mobile board game with elemental power-ups",
+    tagline: "Multiplayer mobile board game with elemental power-ups",
     category: "mobile",
     categoryLabel: "Mobile",
     status: "testing",
-    statusText: "CLOSED TESTING",
+    statusText: "PLAYSTORE CLOSED TESTING",
     image: "/projects/ludo-elemental.png",
     imageAlt: "Ludo Elemental mobile game splash screen with elemental dice and power tokens",
     gallery: [
@@ -340,11 +356,11 @@ const PROJECTS: Project[] = [
     id: "kenzoku",
     specId: "SPEC-05",
     title: "Kenzoku",
-    tagline: "Passion-driven matchmaking app connecting people through authentic interests, not superficial metrics",
+    tagline: "Interests driven non romantic matchmaking app connecting people through authentic interests",
     category: "mobile",
     categoryLabel: "Mobile",
     status: "testing",
-    statusText: "CLOSED TESTING",
+    statusText: "PLAYSTORE CLOSED TESTING",
     image: "/projects/kenzoku.png",
     imageAlt: "Kenzoku mobile app user discovery interface with passion matching tags",
     gallery: [
@@ -430,7 +446,7 @@ const PROJECTS: Project[] = [
     category: "web3",
     categoryLabel: "Web & Blockchain",
     status: "live",
-    statusText: "LIVE DEMO",
+    statusText: "LIVE",
     image: "/projects/genie-markets.png",
     imageAlt: "Genie Markets onchain prediction protocol landing page on Monad Testnet",
     gallery: [
@@ -439,6 +455,12 @@ const PROJECTS: Project[] = [
         label: "Landing (Hero)",
         caption: "Genie Markets landing page hero section on Monad Testnet",
         alt: "Genie Markets landing page hero section",
+      },
+      {
+        url: "/projects/genie-markets-terminal.png",
+        label: "Terminal",
+        caption: "Autonomous prediction terminal, onchain vault smart account interface, and protocol odds dashboard",
+        alt: "Genie Markets live prediction terminal and onchain vault interface",
       },
       {
         url: "/projects/genie-markets-payouts.png",
@@ -1123,22 +1145,46 @@ export default function HomePage() {
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const filteredProjects =
     activeCategory === "all"
       ? PROJECTS
       : PROJECTS.filter((p) => p.category === activeCategory);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formState.name.trim() || !formState.email.trim() || !formState.message.trim()) {
       return;
     }
     setFormSubmitting(true);
-    setTimeout(() => {
+    setFormError(null);
+
+    try {
+      const response = await fetch("https://formspree.io/f/xaeqgenr", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formState),
+      });
+
+      if (response.ok) {
+        setFormSubmitted(true);
+      } else {
+        const data = await response.json().catch(() => null);
+        const errorMsg =
+          data?.errors?.map((err: { message: string }) => err.message).join(", ") ||
+          data?.error ||
+          "There was an issue sending your message. Please try again.";
+        setFormError(errorMsg);
+      }
+    } catch {
+      setFormError("Network error. Please check your internet connection and try again.");
+    } finally {
       setFormSubmitting(false);
-      setFormSubmitted(true);
-    }, 600);
+    }
   };
 
   return (
@@ -1147,27 +1193,15 @@ export default function HomePage() {
       <header className="sticky top-0 z-40 border-b border-card-border bg-background/90 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           {/* Logo & Availability Status */}
-          <div className="flex items-center gap-4">
-            <a
-              href="#top"
-              className="flex items-center gap-2.5 font-mono text-sm font-semibold tracking-wider text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
-            >
-              <span className="flex h-7 w-7 items-center justify-center border border-card-hover bg-lift text-xs font-bold text-emerald-400">
-                F
-              </span>
-              <span className="tracking-widest">FARAN</span>
-            </a>
-
-            <div className="hidden items-center gap-2 border-l border-card-border pl-4 sm:flex">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
-              </span>
-              <span className="font-mono text-xs font-medium tracking-wide text-text-muted uppercase">
-                Available for Q4 MVPs & Freelance
-              </span>
-            </div>
-          </div>
+          <a
+            href="#top"
+            className="flex items-center gap-2.5 font-mono text-sm font-semibold tracking-wider text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
+          >
+            <span className="flex h-7 w-7 items-center justify-center border border-card-hover bg-lift text-xs font-bold text-emerald-400">
+              F
+            </span>
+            <span className="tracking-widest">FARAN</span>
+          </a>
 
           {/* Quick Nav Anchors */}
           <nav aria-label="Main Navigation" className="flex items-center gap-1 sm:gap-6">
@@ -1184,12 +1218,6 @@ export default function HomePage() {
               Skills
             </a>
             <a
-              href="#capabilities"
-              className="px-2.5 py-1.5 text-xs font-medium text-text-muted transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
-            >
-              Capabilities
-            </a>
-            <a
               href="#contact"
               className="ml-2 inline-flex items-center justify-center border border-emerald-500/40 bg-emerald-950/20 px-3.5 py-1.5 font-mono text-xs font-semibold text-emerald-400 transition-colors hover:border-emerald-500 hover:bg-emerald-950/40 focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
             >
@@ -1202,62 +1230,156 @@ export default function HomePage() {
       {/* Main Content Area */}
       <main id="top" className="flex-1 mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
         {/* HERO SECTION */}
-        <section aria-labelledby="hero-title" className="space-y-6 pb-12 sm:pb-16 border-b border-card-border">
-          {/* Main Headline */}
-          <h1
-            id="hero-title"
-            className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl sm:leading-[1.15] max-w-4xl"
-          >
-            Full-Stack Software Engineer
-          </h1>
+        <section aria-labelledby="hero-title" className="pb-12 sm:pb-16 border-b border-card-border">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-start">
+            {/* Left Column: Headline, Bio, CTAs & Socials */}
+            <div className="space-y-6 lg:col-span-7">
+              {/* Main Headline */}
+              <h1
+                id="hero-title"
+                className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl sm:leading-[1.15]"
+              >
+                Full-Stack Software Engineer
+              </h1>
 
-          {/* Value Proposition */}
-          <p className="max-w-2xl text-base leading-relaxed text-text-muted sm:text-lg">
-            I partner with founders and product teams to take ideas from zero to production. I build end-to-end web and mobile applications with complete technical ownership.
-          </p>
+              {/* Value Proposition */}
+              <p className="max-w-xl text-base leading-relaxed text-text-muted sm:text-lg">
+                I partner with founders and product teams to take ideas from zero to production. I build end-to-end web and mobile applications with complete technical ownership.
+              </p>
 
-          {/* Action Row: Platforms & Direct CTA */}
-          <div className="flex flex-wrap items-center gap-3 pt-2">
-            {/* Upwork Profile Button */}
-            <button
-              type="button"
-              onClick={() => setPlaceholderModal("Upwork")}
-              className="inline-flex items-center gap-2 border border-card-border bg-card-bg px-4 py-2 font-mono text-xs font-medium text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:ring-2 focus-visible:ring-emerald-500 rounded cursor-pointer"
-            >
-              <UpworkIcon className="h-3.5 w-3.5 text-emerald-400" />
-              <span>Hire on Upwork</span>
-            </button>
+              {/* Action Buttons: Let's talk & Explore my work */}
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-xs sm:text-sm font-medium text-background transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 shadow-sm"
+                >
+                  <span>Let&apos;s talk</span>
+                  <span aria-hidden="true" className="text-sm font-semibold">↗</span>
+                </a>
 
-            {/* Fiverr Profile Button */}
-            <button
-              type="button"
-              onClick={() => setPlaceholderModal("Fiverr")}
-              className="inline-flex items-center gap-2 border border-card-border bg-card-bg px-4 py-2 font-mono text-xs font-medium text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:ring-2 focus-visible:ring-emerald-500 rounded cursor-pointer"
-            >
-              <FiverrIcon className="h-3.5 w-3.5 text-emerald-400" />
-              <span>Hire on Fiverr</span>
-            </button>
+                <a
+                  href="#projects"
+                  className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card-bg/60 px-5 py-2.5 text-xs sm:text-sm font-medium text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                >
+                  <span>Explore my work</span>
+                  <span aria-hidden="true" className="text-sm font-semibold">↓</span>
+                </a>
+              </div>
 
-            {/* Download Resume Placeholder */}
-            <button
-              type="button"
-              onClick={() => setPlaceholderModal("Resume")}
-              className="inline-flex items-center gap-2 border border-card-border bg-card-bg px-4 py-2 font-mono text-xs font-medium text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
-            >
-              <svg className="h-3.5 w-3.5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              <span>Download Resume</span>
-            </button>
+              {/* Social & Platform Icon Buttons */}
+              <div className="flex flex-wrap items-center gap-2 pt-2 text-text-muted">
+                {/* Fiverr */}
+                <button
+                  type="button"
+                  onClick={() => setPlaceholderModal("Fiverr")}
+                  title="Hire on Fiverr"
+                  aria-label="Hire on Fiverr"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+                >
+                  <FiverrIcon className="h-3.5 w-3.5" />
+                </button>
 
-            {/* Direct Inquiry Anchor */}
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 border border-emerald-500 bg-emerald-500 px-5 py-2 font-mono text-xs font-bold uppercase tracking-wider text-background transition-all hover:bg-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
-            >
-              <span>Start a Project</span>
-              <span aria-hidden="true">→</span>
-            </a>
+                {/* Upwork */}
+                <button
+                  type="button"
+                  onClick={() => setPlaceholderModal("Upwork")}
+                  title="Hire on Upwork"
+                  aria-label="Hire on Upwork"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+                >
+                  <UpworkIcon className="h-3.5 w-3.5" />
+                </button>
+
+                {/* Resume */}
+                <button
+                  type="button"
+                  onClick={() => setPlaceholderModal("Resume")}
+                  title="Download Resume"
+                  aria-label="Download Resume"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </button>
+
+                {/* LinkedIn */}
+                <button
+                  type="button"
+                  onClick={() => setPlaceholderModal("LinkedIn")}
+                  title="LinkedIn Profile"
+                  aria-label="LinkedIn Profile"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+                >
+                  <LinkedInIcon className="h-3.5 w-3.5" />
+                </button>
+
+                {/* GitHub */}
+                <a
+                  href="https://github.com/m-faran"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="GitHub Profile"
+                  aria-label="GitHub Profile"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                >
+                  <GithubIcon className="h-3.5 w-3.5" />
+                </a>
+
+                {/* Twitter / X */}
+                <button
+                  type="button"
+                  onClick={() => setPlaceholderModal("Twitter / X")}
+                  title="Twitter / X Profile"
+                  aria-label="Twitter / X Profile"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+                >
+                  <TwitterIcon className="h-3.5 w-3.5" />
+                </button>
+
+                {/* Mail */}
+                <a
+                  href="#contact"
+                  title="Direct Message / Email"
+                  aria-label="Direct Message / Email"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column: Mobile, Web, and Blockchain Specs */}
+            <div className="space-y-6 lg:col-span-5 lg:pl-6 pt-6 border-t border-card-border/60 lg:border-t-0 lg:pt-2">
+              <div className="space-y-1">
+                <div className="text-sm font-medium text-foreground tracking-tight">
+                  Mobile Development
+                </div>
+                <div className="text-xs text-text-muted leading-relaxed">
+                  React Native · iOS &amp; Android · Expo · Native Modules
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-sm font-medium text-foreground tracking-tight">
+                  Web Platforms
+                </div>
+                <div className="text-xs text-text-muted leading-relaxed">
+                  React · Next.js · TypeScript · Tailwind CSS
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <div className="text-sm font-medium text-foreground tracking-tight">
+                  Blockchain &amp; Web3
+                </div>
+                <div className="text-xs text-text-muted leading-relaxed">
+                  Solana · EVM · Smart Contracts · Anchor · Foundry
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -1336,13 +1458,13 @@ export default function HomePage() {
                 project.gallery && project.gallery.length > 0
                   ? project.gallery
                   : [
-                      {
-                        url: project.image,
-                        alt: project.imageAlt,
-                        label: "Overview",
-                        caption: "",
-                      },
-                    ];
+                    {
+                      url: project.image,
+                      alt: project.imageAlt,
+                      label: "Overview",
+                      caption: "",
+                    },
+                  ];
               const totalImages = galleryList.length;
               const currentImageIndex = (cardImageIndexes[project.id] ?? 0) % totalImages;
               const currentImage = galleryList[currentImageIndex];
@@ -1440,9 +1562,8 @@ export default function HomePage() {
                           {galleryList.map((_, idx) => (
                             <span
                               key={idx}
-                              className={`h-1.5 rounded-full transition-all ${
-                                idx === currentImageIndex ? "w-3.5 bg-emerald-400" : "w-1.5 bg-card-border"
-                              }`}
+                              className={`h-1.5 rounded-full transition-all ${idx === currentImageIndex ? "w-3.5 bg-emerald-400" : "w-1.5 bg-card-border"
+                                }`}
                             />
                           ))}
                         </div>
@@ -1465,26 +1586,6 @@ export default function HomePage() {
                       <p className="text-xs leading-relaxed text-text-muted line-clamp-2">
                         {project.tagline}
                       </p>
-                    </div>
-
-                    {/* Tech Stack Pills */}
-                    <div className="flex flex-wrap gap-1.5 pt-1">
-                      {project.techStack.slice(0, 4).map((tech, i) => (
-                        <span
-                          key={i}
-                          className="border border-card-border bg-lift px-2 py-0.5 font-mono text-xs text-text-muted"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {project.techStack.length > 4 && (
-                        <span
-                          key="more"
-                          className="border border-card-border bg-lift px-2 py-0.5 font-mono text-xs text-text-subtle"
-                        >
-                          +{project.techStack.length - 4} more
-                        </span>
-                      )}
                     </div>
 
                     {/* Action Line: GitHub + Launch */}
@@ -1603,43 +1704,6 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* CAPABILITIES & DELIVERY MODEL */}
-        <section
-          id="capabilities"
-          aria-labelledby="capabilities-title"
-          className="mt-16 sm:mt-24 border-t border-card-border pt-12 sm:pt-16"
-        >
-          <h2 id="capabilities-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Engineering Capabilities & Delivery Model
-          </h2>
-
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {/* Pillar 1 */}
-            <div className="border border-card-border bg-card-bg p-6 space-y-2 rounded hover:border-card-hover transition-colors">
-              <span className="font-mono text-xs font-bold text-emerald-400 tracking-wider">
-                01 // END-TO-END MVPs
-              </span>
-              <h3 className="text-lg font-bold text-foreground">Zero-to-Launch Web Platforms</h3>
-            </div>
-
-            {/* Pillar 2 */}
-            <div className="border border-card-border bg-card-bg p-6 space-y-2 rounded hover:border-card-hover transition-colors">
-              <span className="font-mono text-xs font-bold text-emerald-400 tracking-wider">
-                02 // CROSS-PLATFORM MOBILE
-              </span>
-              <h3 className="text-lg font-bold text-foreground">React Native (iOS & Android)</h3>
-            </div>
-
-            {/* Pillar 3 */}
-            <div className="border border-card-border bg-card-bg p-6 space-y-2 rounded hover:border-card-hover transition-colors">
-              <span className="font-mono text-xs font-bold text-emerald-400 tracking-wider">
-                03 // SMART CONTRACTS & dAPPS
-              </span>
-              <h3 className="text-lg font-bold text-foreground">Web & Blockchain Systems</h3>
-            </div>
-          </div>
-        </section>
-
         {/* CONTACT & DIRECT INQUIRY SECTION */}
         <section
           id="contact"
@@ -1651,155 +1715,248 @@ export default function HomePage() {
               Start a Project Conversation
             </h2>
             <p className="mt-2 text-sm text-text-muted leading-relaxed">
-              Available for fixed-scope MVP builds, mobile app development, and long-term contracting. Let’s talk about your requirements, timeline, and deliverables.
+              Available for zero-to-launch web platforms (end-to-end MVPs), cross-platform mobile apps (React Native for iOS & Android), and smart contracts &amp; dApps (web &amp; blockchain systems). Let’s talk about your requirements, timeline, and deliverables.
             </p>
 
             <div className="mt-8 border border-card-border bg-card-bg p-6 sm:p-8 rounded">
-                {formSubmitted ? (
-                  <div className="space-y-4 py-8 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-950/40 border border-emerald-500 text-emerald-400">
-                      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </div>
-                    <h3 className="text-xl font-bold text-foreground">Inquiry Received</h3>
-                    <p className="text-sm text-text-muted max-w-md mx-auto">
-                      Thank you for reaching out, {formState.name}. I typically review and reply to project scopes within 24 hours.
-                    </p>
-                    <div className="pt-4">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setFormSubmitted(false);
-                          setFormState({
-                            name: "",
-                            email: "",
-                            category: "Full MVP Development",
-                            budget: "Still deciding",
-                            message: "",
-                          });
-                        }}
-                        className="font-mono text-xs text-emerald-400 hover:underline"
-                      >
-                        Send another note
-                      </button>
-                    </div>
+              {formSubmitted ? (
+                <div className="space-y-4 py-8 text-center">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-950/40 border border-emerald-500 text-emerald-400">
+                    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
                   </div>
-                ) : (
-                  <form onSubmit={handleFormSubmit} className="space-y-5">
-                    <h3 className="text-lg font-bold text-foreground">Direct Project Inquiry</h3>
+                  <h3 className="text-xl font-bold text-foreground">Inquiry Received</h3>
+                  <p className="text-sm text-text-muted max-w-md mx-auto">
+                    Thank you for reaching out, {formState.name}. I typically review and reply to project scopes within 24 hours.
+                  </p>
+                  <div className="pt-4">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFormSubmitted(false);
+                        setFormError(null);
+                        setFormState({
+                          name: "",
+                          email: "",
+                          category: "Full MVP Development",
+                          budget: "Still deciding",
+                          message: "",
+                        });
+                      }}
+                      className="font-mono text-xs text-emerald-400 hover:underline"
+                    >
+                      Send another note
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <form
+                  action="https://formspree.io/f/xaeqgenr"
+                  method="POST"
+                  onSubmit={handleFormSubmit}
+                  className="space-y-5"
+                >
+                  <h3 className="text-lg font-bold text-foreground">Direct Project Inquiry</h3>
 
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <div className="space-y-1.5">
-                        <label htmlFor="client-name" className="font-mono text-xs font-medium text-text-muted">
-                          Your Name *
-                        </label>
-                        <input
-                          id="client-name"
-                          type="text"
-                          required
-                          value={formState.name}
-                          onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-                          placeholder="e.g. Alex Miller"
-                          className="w-full border border-card-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder-text-subtle focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
-                        />
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <label htmlFor="client-email" className="font-mono text-xs font-medium text-text-muted">
-                          Email Address *
-                        </label>
-                        <input
-                          id="client-email"
-                          type="email"
-                          required
-                          value={formState.email}
-                          onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                          placeholder="name@company.com"
-                          className="w-full border border-card-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder-text-subtle focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <div className="space-y-1.5">
-                        <label htmlFor="project-category" className="font-mono text-xs font-medium text-text-muted">
-                          Project Scope
-                        </label>
-                        <select
-                          id="project-category"
-                          value={formState.category}
-                          onChange={(e) => setFormState({ ...formState, category: e.target.value })}
-                          className="w-full border border-card-border bg-background px-3 py-2.5 text-xs text-foreground focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
-                        >
-                          <option>Full MVP Development</option>
-                          <option>Mobile App Development</option>
-                          <option>Web & Blockchain Engineering</option>
-                          <option>Web Platform Engineering</option>
-                        </select>
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <label htmlFor="project-budget" className="font-mono text-xs font-medium text-text-muted">
-                          Target Budget Range
-                        </label>
-                        <select
-                          id="project-budget"
-                          value={formState.budget}
-                          onChange={(e) => setFormState({ ...formState, budget: e.target.value })}
-                          className="w-full border border-card-border bg-background px-3 py-2.5 text-xs text-foreground focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
-                        >
-                          <option>Still deciding</option>
-                          <option>$1,000 - $2,500</option>
-                          <option>$2,500 - $5,000</option>
-                          <option>$5,000 - $10,000</option>
-                          <option>$10,000+</option>
-                        </select>
-                      </div>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="space-y-1.5">
+                      <label htmlFor="client-name" className="font-mono text-xs font-medium text-text-muted">
+                        Your Name *
+                      </label>
+                      <input
+                        id="client-name"
+                        name="name"
+                        type="text"
+                        required
+                        value={formState.name}
+                        onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                        placeholder="e.g. Alex Miller"
+                        className="w-full border border-card-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder-text-subtle focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
+                      />
                     </div>
 
                     <div className="space-y-1.5">
-                      <label htmlFor="project-message" className="font-mono text-xs font-medium text-text-muted">
-                        Project Summary & Goals *
+                      <label htmlFor="client-email" className="font-mono text-xs font-medium text-text-muted">
+                        Email Address *
                       </label>
-                      <textarea
-                        id="project-message"
+                      <input
+                        id="client-email"
+                        name="email"
+                        type="email"
                         required
-                        rows={4}
-                        value={formState.message}
-                        onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                        placeholder="Describe the product, desired timeline, and key features needed..."
+                        value={formState.email}
+                        onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                        placeholder="name@company.com"
                         className="w-full border border-card-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder-text-subtle focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
-                      ></textarea>
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div className="space-y-1.5">
+                      <label htmlFor="project-category" className="font-mono text-xs font-medium text-text-muted">
+                        Project Scope
+                      </label>
+                      <select
+                        id="project-category"
+                        name="category"
+                        value={formState.category}
+                        onChange={(e) => setFormState({ ...formState, category: e.target.value })}
+                        className="w-full border border-card-border bg-background px-3 py-2.5 text-xs text-foreground focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
+                      >
+                        <option>Full MVP Development</option>
+                        <option>Mobile App Development</option>
+                        <option>Web & Blockchain Engineering</option>
+                        <option>Web Platform Engineering</option>
+                      </select>
                     </div>
 
-                    <button
-                      type="submit"
-                      disabled={formSubmitting}
-                      className="w-full border border-emerald-500 bg-emerald-500 px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-background transition-all hover:bg-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-500 rounded disabled:opacity-50 cursor-pointer"
-                    >
-                      {formSubmitting ? "Dispatching Message..." : "Submit Project Scope →"}
-                    </button>
-                  </form>
-                )}
-              </div>
+                    <div className="space-y-1.5">
+                      <label htmlFor="project-budget" className="font-mono text-xs font-medium text-text-muted">
+                        Target Budget Range
+                      </label>
+                      <select
+                        id="project-budget"
+                        name="budget"
+                        value={formState.budget}
+                        onChange={(e) => setFormState({ ...formState, budget: e.target.value })}
+                        className="w-full border border-card-border bg-background px-3 py-2.5 text-xs text-foreground focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
+                      >
+                        <option>Still deciding</option>
+                        <option>$1,000 - $2,500</option>
+                        <option>$2,500 - $5,000</option>
+                        <option>$5,000 - $10,000</option>
+                        <option>$10,000+</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label htmlFor="project-message" className="font-mono text-xs font-medium text-text-muted">
+                      Project Summary & Goals *
+                    </label>
+                    <textarea
+                      id="project-message"
+                      name="message"
+                      required
+                      rows={4}
+                      value={formState.message}
+                      onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                      placeholder="Describe the product, desired timeline, and key features needed..."
+                      className="w-full border border-card-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder-text-subtle focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
+                    ></textarea>
+                  </div>
+
+                  {formError && (
+                    <div className="border border-red-500/40 bg-red-950/20 text-red-400 p-3 rounded font-mono text-xs">
+                      {formError}
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={formSubmitting}
+                    className="w-full border border-emerald-500 bg-emerald-500 px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-background transition-all hover:bg-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-500 rounded disabled:opacity-50 cursor-pointer"
+                  >
+                    {formSubmitting ? "Dispatching Message..." : "Submit Project Scope →"}
+                  </button>
+                </form>
+              )}
             </div>
+          </div>
         </section>
       </main>
 
       {/* FOOTER */}
-      <footer className="border-t border-card-border bg-background py-8 text-xs text-text-subtle">
+      <footer className="border-t border-card-border bg-background py-8 sm:py-10 text-xs sm:text-sm text-text-muted">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6">
-          <div className="flex items-center gap-2 font-mono">
-            <span className="font-bold text-foreground">FARAN</span>
-            <span>•</span>
-            <span>Full-Stack & Mobile Software Engineer</span>
-          </div>
+          <p className="text-text-muted">
+            &copy; 2026 Faran
+          </p>
 
-          <div className="flex items-center gap-4 font-mono text-xs">
-            <span>Next.js 16 + React 19 + Tailwind v4</span>
-            <span>•</span>
-            <span className="text-emerald-400">All Systems Operational</span>
+          {/* Social & Platform Icon Buttons (matching Hero section) */}
+          <div className="flex flex-wrap items-center gap-2 text-text-muted">
+            {/* Fiverr */}
+            <button
+              type="button"
+              onClick={() => setPlaceholderModal("Fiverr")}
+              title="Hire on Fiverr"
+              aria-label="Hire on Fiverr"
+              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+            >
+              <FiverrIcon className="h-3.5 w-3.5" />
+            </button>
+
+            {/* Upwork */}
+            <button
+              type="button"
+              onClick={() => setPlaceholderModal("Upwork")}
+              title="Hire on Upwork"
+              aria-label="Hire on Upwork"
+              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+            >
+              <UpworkIcon className="h-3.5 w-3.5" />
+            </button>
+
+            {/* Resume */}
+            <button
+              type="button"
+              onClick={() => setPlaceholderModal("Resume")}
+              title="Download Resume"
+              aria-label="Download Resume"
+              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+            >
+              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </button>
+
+            {/* LinkedIn */}
+            <button
+              type="button"
+              onClick={() => setPlaceholderModal("LinkedIn")}
+              title="LinkedIn Profile"
+              aria-label="LinkedIn Profile"
+              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+            >
+              <LinkedInIcon className="h-3.5 w-3.5" />
+            </button>
+
+            {/* GitHub */}
+            <a
+              href="https://github.com/m-faran"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="GitHub Profile"
+              aria-label="GitHub Profile"
+              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+            >
+              <GithubIcon className="h-3.5 w-3.5" />
+            </a>
+
+            {/* Twitter / X */}
+            <button
+              type="button"
+              onClick={() => setPlaceholderModal("Twitter / X")}
+              title="Twitter / X Profile"
+              aria-label="Twitter / X Profile"
+              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+            >
+              <TwitterIcon className="h-3.5 w-3.5" />
+            </button>
+
+            {/* Mail */}
+            <a
+              href="#contact"
+              title="Direct Message / Email"
+              aria-label="Direct Message / Email"
+              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+            >
+              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </a>
           </div>
         </div>
       </footer>
