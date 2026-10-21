@@ -8,13 +8,11 @@
   --card-hover-border: #3f3f46;
   --signal-emerald: #10b981;
   --signal-amber: #f59e0b;
-  --text-muted: #a1a1aa;  --text-subtle: #71717a;
+  --text-muted: #a1a1aa;
+  --text-subtle: #8a8a93;
   --hover-surface: #151518;
   --lift: #18181b;
   --emerald-bright: #34d399;
-
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 @theme inline {
@@ -30,8 +28,8 @@
   --color-signal-amber: var(--signal-amber);
   --color-text-muted: var(--text-muted);
   --color-text-subtle: var(--text-subtle);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
 
 html {
@@ -42,15 +40,15 @@ html {
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  background-color: rgba(16, 185, 129, 0.25);
-  color: #34d399;
+  background-color: rgba(250, 250, 250, 0.2);
+  color: #fafafa;
 }
 
 /* Custom scrollbar matching dark engineering datasheet */

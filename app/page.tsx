@@ -69,28 +69,12 @@ function FiverrIcon({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
-function LinkedInIcon({ className = "h-4 w-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
-    </svg>
-  );
-}
-
-function TwitterIcon({ className = "h-4 w-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-    </svg>
-  );
-}
-
 const PROJECTS: Project[] = [
   {
     id: "roaring-bulls",
     specId: "SPEC-01",
     title: "Roaring Bulls",
-    tagline: "Swipe-based tokenized onchain (solana blockchain) equities/stocks trading platform",
+    tagline: "Swipe-based tokenized onchain (solana blockchain) stocks trading platform",
     category: "web",
     categoryLabel: "Web",
     status: "live",
@@ -356,7 +340,7 @@ const PROJECTS: Project[] = [
     id: "kenzoku",
     specId: "SPEC-05",
     title: "Kenzoku",
-    tagline: "Interests driven non romantic matchmaking app connecting people through authentic interests",
+    tagline: "Interests driven non romantic matchmaking app connecting people",
     category: "mobile",
     categoryLabel: "Mobile",
     status: "testing",
@@ -442,7 +426,7 @@ const PROJECTS: Project[] = [
     id: "genie-markets",
     specId: "SPEC-06",
     title: "Genie Markets",
-    tagline: "Decentralized onchain prediction protocol with Pyth Entropy randomness on Monad",
+    tagline: "Decentralized onchain prediction protocol on Monad Testnet Blockchain",
     category: "web3",
     categoryLabel: "Web & Blockchain",
     status: "live",
@@ -1044,12 +1028,46 @@ const SKILL_CATEGORIES: SkillCategory[] = [
   },
 ];
 
+const CATEGORY_TABS: Array<{ id: "all" | "web" | "mobile" | "web3"; label: string }> = [
+  { id: "all", label: "ALL" },
+  { id: "web", label: "WEB" },
+  { id: "mobile", label: "MOBILE" },
+  { id: "web3", label: "WEB & BLOCKCHAIN" },
+];
+
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<"all" | "web3" | "mobile" | "web">("all");
   const [cardImageIndexes, setCardImageIndexes] = useState<Record<string, number>>({});
   const [placeholderModal, setPlaceholderModal] = useState<string | null>(null);
+  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
+    frontend: true,
+    web3: true,
+  });
+
+  const toggleCategory = (id: string) => {
+    setOpenCategories((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
+  const handleExpandAll = () => {
+    const allOpen: Record<string, boolean> = {};
+    SKILL_CATEGORIES.forEach((cat) => {
+      allOpen[cat.id] = true;
+    });
+    setOpenCategories(allOpen);
+  };
+
+  const handleCollapseAll = () => {
+    setOpenCategories({});
+  };
+
+  const isAllExpanded = SKILL_CATEGORIES.every((cat) => openCategories[cat.id]);
   const placeholderRef = useRef<HTMLDivElement>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
 
   const handlePrevImage = (projectId: string, total: number) => {
     setCardImageIndexes((prev) => {
@@ -1063,6 +1081,48 @@ export default function HomePage() {
       const current = prev[projectId] ?? 0;
       return { ...prev, [projectId]: (current + 1) % total };
     });
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
+    touchStartYRef.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (projectId: string, total: number, e: React.TouchEvent) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    const diffX = e.changedTouches[0].clientX - touchStartXRef.current;
+    const diffY = e.changedTouches[0].clientY - touchStartYRef.current;
+
+    // Register horizontal swipe if movement exceeds 35px threshold and is predominantly horizontal
+    if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX < 0) {
+        handleNextImage(projectId, total);
+      } else {
+        handlePrevImage(projectId, total);
+      }
+    }
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+  };
+
+  const handleTabKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let nextIndex = index;
+    if (e.key === "ArrowRight") {
+      nextIndex = (index + 1) % CATEGORY_TABS.length;
+    } else if (e.key === "ArrowLeft") {
+      nextIndex = (index - 1 + CATEGORY_TABS.length) % CATEGORY_TABS.length;
+    } else if (e.key === "Home") {
+      nextIndex = 0;
+    } else if (e.key === "End") {
+      nextIndex = CATEGORY_TABS.length - 1;
+    } else {
+      return;
+    }
+    e.preventDefault();
+    const targetTab = CATEGORY_TABS[nextIndex];
+    setActiveCategory(targetTab.id);
+    const tabEl = document.getElementById(`tab-${targetTab.id}`);
+    tabEl?.focus();
   };
 
   // Close placeholder modal on Escape; trap Tab inside open dialog
@@ -1193,33 +1253,36 @@ export default function HomePage() {
       <header className="sticky top-0 z-40 border-b border-card-border bg-background/90 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           {/* Logo & Availability Status */}
-          <a
-            href="#top"
-            className="flex items-center gap-2.5 font-mono text-sm font-semibold tracking-wider text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
-          >
-            <span className="flex h-7 w-7 items-center justify-center border border-card-hover bg-lift text-xs font-bold text-emerald-400">
-              F
+          <div className="flex items-center gap-3">
+            <a
+              href="#top"
+              className="font-mono text-sm font-semibold tracking-widest text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
+            >
+              MUHAMMAD FARAN
+            </a>
+            <span className="hidden sm:inline-flex items-center gap-2 border border-card-border bg-lift/80 px-2.5 py-0.5 font-mono text-xs font-medium tracking-wide text-text-muted rounded">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.4)]"></span>
+              AVAILABLE FOR WORK
             </span>
-            <span className="tracking-widest">FARAN</span>
-          </a>
+          </div>
 
           {/* Quick Nav Anchors */}
           <nav aria-label="Main Navigation" className="flex items-center gap-1 sm:gap-6">
             <a
               href="#projects"
-              className="px-2.5 py-1.5 text-xs font-medium text-text-muted transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
+              className="px-2.5 py-1.5 text-sm font-medium text-text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
             >
               Projects
             </a>
             <a
               href="#skills"
-              className="px-2.5 py-1.5 text-xs font-medium text-text-muted transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
+              className="px-2.5 py-1.5 text-sm font-medium text-text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
             >
               Skills
             </a>
             <a
               href="#contact"
-              className="ml-2 inline-flex items-center justify-center border border-emerald-500/40 bg-emerald-950/20 px-3.5 py-1.5 font-mono text-xs font-semibold text-emerald-400 transition-colors hover:border-emerald-500 hover:bg-emerald-950/40 focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
+              className="ml-2 inline-flex items-center justify-center rounded border border-card-border bg-lift px-3.5 py-1.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
             >
               Hire Me
             </a>
@@ -1229,29 +1292,32 @@ export default function HomePage() {
 
       {/* Main Content Area */}
       <main id="top" className="flex-1 mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
-        {/* HERO SECTION */}
-        <section aria-labelledby="hero-title" className="pb-12 sm:pb-16 border-b border-card-border">
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-start">
-            {/* Left Column: Headline, Bio, CTAs & Socials */}
-            <div className="space-y-6 lg:col-span-7">
-              {/* Main Headline */}
-              <h1
-                id="hero-title"
-                className="text-3xl font-bold tracking-tight text-foreground sm:text-5xl sm:leading-[1.15]"
-              >
-                Full-Stack Software Engineer
-              </h1>
+        {/* HERO SECTION (Editorial Manifesto with Authoritative Copywriting) */}
+        <section
+          aria-labelledby="hero-title"
+          className="min-h-[calc(100vh-8rem)] flex flex-col justify-between pb-8 pt-4 sm:pt-6 border-b border-card-border"
+        >
+          <div className="my-auto py-8 sm:py-12 space-y-8 max-w-4xl">
+            {/* Monumental Headline preserving original copy */}
+            <h1
+              id="hero-title"
+              className="text-5xl font-black tracking-tight text-foreground sm:text-7xl lg:text-8xl sm:leading-[1.03]"
+            >
+              Full Stack <br className="hidden sm:inline" />Software Engineer
+            </h1>
 
-              {/* Value Proposition */}
-              <p className="max-w-xl text-base leading-relaxed text-text-muted sm:text-lg">
-                I partner with founders and product teams to take ideas from zero to production. I build end-to-end web and mobile applications with complete technical ownership.
-              </p>
+            {/* Original Value Proposition */}
+            <p className="max-w-2xl text-lg sm:text-xl leading-relaxed text-text-muted">
+              Im Muhammad Faran, a Fullstack Software Engineer, I take mobile apps, web platforms and blockchain systems from zero to deployment with clean architecture and complete technical ownership.
+            </p>
 
-              {/* Action Buttons: Let's talk & Explore my work */}
-              <div className="flex flex-wrap items-center gap-3 pt-1">
+            {/* Action Buttons: Primary CTAs & Sized-Up Freelance Platforms */}
+            <div className="space-y-4 pt-1">
+              {/* Tier 1: Primary Conversion Buttons */}
+              <div className="flex flex-wrap items-center gap-3">
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-xs sm:text-sm font-medium text-background transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 shadow-sm"
+                  className="inline-flex items-center gap-2 rounded bg-foreground px-5 py-2.5 text-xs sm:text-sm font-bold text-background transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground shadow-sm"
                 >
                   <span>Let&apos;s talk</span>
                   <span aria-hidden="true" className="text-sm font-semibold">↗</span>
@@ -1259,134 +1325,61 @@ export default function HomePage() {
 
                 <a
                   href="#projects"
-                  className="inline-flex items-center gap-2 rounded-full border border-card-border bg-card-bg/60 px-5 py-2.5 text-xs sm:text-sm font-medium text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg/60 px-5 py-2.5 text-xs sm:text-sm font-medium text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
                   <span>Explore my work</span>
                   <span aria-hidden="true" className="text-sm font-semibold">↓</span>
                 </a>
               </div>
 
-              {/* Social & Platform Icon Buttons */}
-              <div className="flex flex-wrap items-center gap-2 pt-2 text-text-muted">
-                {/* Fiverr */}
-                <button
-                  type="button"
-                  onClick={() => setPlaceholderModal("Fiverr")}
-                  title="Hire on Fiverr"
-                  aria-label="Hire on Fiverr"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
-                >
-                  <FiverrIcon className="h-3.5 w-3.5" />
-                </button>
-
-                {/* Upwork */}
+              {/* Tier 2: Sized-up Platform Channels (matches touch target & height) */}
+              <div className="flex flex-wrap items-center gap-2.5">
                 <button
                   type="button"
                   onClick={() => setPlaceholderModal("Upwork")}
                   title="Hire on Upwork"
                   aria-label="Hire on Upwork"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+                  className="inline-flex items-center gap-2.5 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
                 >
-                  <UpworkIcon className="h-3.5 w-3.5" />
+                  <UpworkIcon className="h-4 w-4" />
+                  <span>Upwork</span>
+                  <span className="text-text-muted">↗</span>
                 </button>
 
-                {/* Resume */}
                 <button
                   type="button"
-                  onClick={() => setPlaceholderModal("Resume")}
-                  title="Download Resume"
-                  aria-label="Download Resume"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+                  onClick={() => setPlaceholderModal("Fiverr")}
+                  title="Hire on Fiverr"
+                  aria-label="Hire on Fiverr"
+                  className="inline-flex items-center gap-2.5 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
                 >
-                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
+                  <FiverrIcon className="h-4 w-4" />
+                  <span>Fiverr</span>
+                  <span className="text-text-muted">↗</span>
                 </button>
 
-                {/* LinkedIn */}
-                <button
-                  type="button"
-                  onClick={() => setPlaceholderModal("LinkedIn")}
-                  title="LinkedIn Profile"
-                  aria-label="LinkedIn Profile"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
-                >
-                  <LinkedInIcon className="h-3.5 w-3.5" />
-                </button>
-
-                {/* GitHub */}
                 <a
                   href="https://github.com/m-faran"
                   target="_blank"
                   rel="noopener noreferrer"
                   title="GitHub Profile"
                   aria-label="GitHub Profile"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="inline-flex items-center gap-2.5 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
-                  <GithubIcon className="h-3.5 w-3.5" />
-                </a>
-
-                {/* Twitter / X */}
-                <button
-                  type="button"
-                  onClick={() => setPlaceholderModal("Twitter / X")}
-                  title="Twitter / X Profile"
-                  aria-label="Twitter / X Profile"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
-                >
-                  <TwitterIcon className="h-3.5 w-3.5" />
-                </button>
-
-                {/* Mail */}
-                <a
-                  href="#contact"
-                  title="Direct Message / Email"
-                  aria-label="Direct Message / Email"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-                >
-                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
+                  <GithubIcon className="h-4 w-4" />
+                  <span>GitHub</span>
+                  <span className="text-text-muted">↗</span>
                 </a>
               </div>
             </div>
 
-            {/* Right Column: Mobile, Web, and Blockchain Specs */}
-            <div className="space-y-6 lg:col-span-5 lg:pl-6 pt-6 border-t border-card-border/60 lg:border-t-0 lg:pt-2">
-              <div className="space-y-1">
-                <div className="text-sm font-medium text-foreground tracking-tight">
-                  Mobile Development
-                </div>
-                <div className="text-xs text-text-muted leading-relaxed">
-                  React Native · iOS &amp; Android · Expo · Native Modules
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <div className="text-sm font-medium text-foreground tracking-tight">
-                  Web Platforms
-                </div>
-                <div className="text-xs text-text-muted leading-relaxed">
-                  React · Next.js · TypeScript · Tailwind CSS
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <div className="text-sm font-medium text-foreground tracking-tight">
-                  Blockchain &amp; Web3
-                </div>
-                <div className="text-xs text-text-muted leading-relaxed">
-                  Solana · EVM · Smart Contracts · Anchor · Foundry
-                </div>
-              </div>
-            </div>
           </div>
         </section>
 
         {/* PROJECT SHOWCASE SECTION (LEVEL 1: Clean Visual Cards) */}
         <section id="projects" aria-labelledby="projects-title" className="pt-12 sm:pt-16">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pb-8">
-            <h2 id="projects-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            <h2 id="projects-title" className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               Selected Work
             </h2>
 
@@ -1394,60 +1387,33 @@ export default function HomePage() {
             <div
               role="tablist"
               aria-label="Filter projects by category"
-              className="mt-2 inline-flex w-full flex-wrap items-center gap-1 border border-card-border bg-card-bg p-1 rounded sm:mt-0 sm:w-auto"
+              className="mt-2 inline-flex w-full flex-wrap items-center gap-1.5 border border-card-border bg-card-bg p-1.5 rounded sm:mt-0 sm:w-auto"
             >
-              <button
-                role="tab"
-                aria-selected={activeCategory === "all"}
-                aria-controls="projects-grid"
-                onClick={() => setActiveCategory("all")}
-                className={
-                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${activeCategory === "all"
-                    ? "bg-card-border text-foreground"
-                    : "text-text-muted hover:text-foreground"
-                  }`}
-              >
-                ALL ({PROJECTS.length})
-              </button>
-              <button
-                role="tab"
-                aria-selected={activeCategory === "web"}
-                aria-controls="projects-grid"
-                onClick={() => setActiveCategory("web")}
-                className={
-                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${activeCategory === "web"
-                    ? "bg-card-border text-foreground"
-                    : "text-text-muted hover:text-foreground"
-                  }`}
-              >
-                WEB ({PROJECTS.filter((p) => p.category === "web").length})
-              </button>
-              <button
-                role="tab"
-                aria-selected={activeCategory === "mobile"}
-                aria-controls="projects-grid"
-                onClick={() => setActiveCategory("mobile")}
-                className={
-                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${activeCategory === "mobile"
-                    ? "bg-card-border text-foreground"
-                    : "text-text-muted hover:text-foreground"
-                  }`}
-              >
-                MOBILE ({PROJECTS.filter((p) => p.category === "mobile").length})
-              </button>
-              <button
-                role="tab"
-                aria-selected={activeCategory === "web3"}
-                aria-controls="projects-grid"
-                onClick={() => setActiveCategory("web3")}
-                className={
-                  `flex-1 px-3 py-1.5 text-center font-mono text-xs font-medium transition-colors rounded sm:flex-none ${activeCategory === "web3"
-                    ? "bg-card-border text-foreground"
-                    : "text-text-muted hover:text-foreground"
-                  }`}
-              >
-                WEB & BLOCKCHAIN ({PROJECTS.filter((p) => p.category === "web3").length})
-              </button>
+              {CATEGORY_TABS.map((tab, idx) => {
+                const isActive = activeCategory === tab.id;
+                const count =
+                  tab.id === "all"
+                    ? PROJECTS.length
+                    : PROJECTS.filter((p) => p.category === tab.id).length;
+                return (
+                  <button
+                    key={tab.id}
+                    id={`tab-${tab.id}`}
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-controls="projects-grid"
+                    tabIndex={isActive ? 0 : -1}
+                    onClick={() => setActiveCategory(tab.id)}
+                    onKeyDown={(e) => handleTabKeyDown(e, idx)}
+                    className={`flex-1 px-4 py-2 text-center font-mono text-xs sm:text-sm font-medium tracking-wide transition-colors rounded sm:flex-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer ${isActive
+                      ? "bg-card-border text-foreground font-semibold"
+                      : "text-text-muted hover:text-foreground hover:bg-lift"
+                      }`}
+                  >
+                    {tab.label} ({count})
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -1469,6 +1435,7 @@ export default function HomePage() {
               const currentImageIndex = (cardImageIndexes[project.id] ?? 0) % totalImages;
               const currentImage = galleryList[currentImageIndex];
               const hasMultipleImages = totalImages > 1;
+              const isLcpCandidate = filteredProjects.indexOf(project) === 0 && currentImageIndex === 0;
 
               return (
                 <article
@@ -1476,7 +1443,11 @@ export default function HomePage() {
                   className="group relative flex flex-col justify-between border border-card-border bg-card-bg overflow-hidden transition-all hover:border-card-hover hover:bg-hover-surface rounded"
                 >
                   {/* Top Screenshot Viewport with Hover Navigation */}
-                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-background border-b border-card-border flex items-center justify-center select-none">
+                  <div
+                    className="relative aspect-[16/10] w-full overflow-hidden bg-background border-b border-card-border flex items-center justify-center select-none touch-pan-y"
+                    onTouchStart={hasMultipleImages ? handleTouchStart : undefined}
+                    onTouchEnd={hasMultipleImages ? (e) => handleTouchEnd(project.id, totalImages, e) : undefined}
+                  >
                     {project.category === "mobile" ? (
                       <div className="relative h-full w-full flex items-center justify-center p-2.5 bg-gradient-to-b from-lift/50 to-background">
                         <Image
@@ -1484,6 +1455,8 @@ export default function HomePage() {
                           alt={currentImage.alt}
                           width={457}
                           height={914}
+                          preload={isLcpCandidate}
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="h-full w-auto max-w-full object-contain rounded-sm transition-transform duration-300 drop-shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
                         />
                       </div>
@@ -1493,6 +1466,8 @@ export default function HomePage() {
                         alt={currentImage.alt}
                         width={1024}
                         height={550}
+                        preload={isLcpCandidate}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="h-full w-full object-cover object-top transition-transform duration-300"
                       />
                     )}
@@ -1500,19 +1475,19 @@ export default function HomePage() {
                     {/* Operational Status Pill Overlay */}
                     <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10 pointer-events-none">
                       {project.status === "live" ? (
-                        <span className="inline-flex items-center gap-1.5 border border-emerald-500/40 bg-background/85 backdrop-blur-sm px-2.5 py-1 font-mono text-xs font-semibold text-emerald-400 rounded">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-                          {project.statusText}
+                        <span className="inline-flex items-center gap-2 border border-card-border bg-background/90 backdrop-blur-sm px-2.5 py-1 font-mono text-xs font-medium tracking-wide text-foreground rounded shadow-sm">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.4)]"></span>
+                          <span>{project.statusText}</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 border border-amber-500/40 bg-background/85 backdrop-blur-sm px-2.5 py-1 font-mono text-xs font-semibold text-amber-400 rounded">
-                          <span className="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
-                          {project.statusText}
+                        <span className="inline-flex items-center gap-2 border border-card-border bg-background/90 backdrop-blur-sm px-2.5 py-1 font-mono text-xs font-medium tracking-wide text-foreground rounded shadow-sm">
+                          <span className="h-1.5 w-1.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.4)]"></span>
+                          <span>{project.statusText}</span>
                         </span>
                       )}
                     </div>
 
-                    {/* Hover-revealed Gallery Navigation Controls */}
+                    {/* Hover & Touch Gallery Navigation Controls */}
                     {hasMultipleImages && (
                       <>
                         <button
@@ -1523,7 +1498,7 @@ export default function HomePage() {
                             handlePrevImage(project.id, totalImages);
                           }}
                           aria-label={`Previous image for ${project.title}`}
-                          className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-full bg-background/85 hover:bg-background border border-card-border hover:border-card-hover text-foreground backdrop-blur-sm shadow-lg opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all cursor-pointer hover:scale-110 active:scale-95"
+                          className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 h-9 w-9 sm:h-8 sm:w-8 flex items-center justify-center rounded-full bg-background/90 hover:bg-background border border-card-border hover:border-card-hover text-foreground backdrop-blur-sm shadow-lg opacity-90 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-all cursor-pointer hover:scale-110 active:scale-95"
                         >
                           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
@@ -1538,7 +1513,7 @@ export default function HomePage() {
                             handleNextImage(project.id, totalImages);
                           }}
                           aria-label={`Next image for ${project.title}`}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-full bg-background/85 hover:bg-background border border-card-border hover:border-card-hover text-foreground backdrop-blur-sm shadow-lg opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-all cursor-pointer hover:scale-110 active:scale-95"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 h-9 w-9 sm:h-8 sm:w-8 flex items-center justify-center rounded-full bg-background/90 hover:bg-background border border-card-border hover:border-card-hover text-foreground backdrop-blur-sm shadow-lg opacity-90 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-all cursor-pointer hover:scale-110 active:scale-95"
                         >
                           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
@@ -1546,8 +1521,8 @@ export default function HomePage() {
                         </button>
 
                         {/* Visual Indicator: Screen index + Label */}
-                        <div className="absolute bottom-2.5 left-2.5 z-10 flex items-center gap-1.5 bg-background/85 border border-card-border px-2 py-0.5 rounded backdrop-blur-sm font-mono text-[11px] text-text-subtle pointer-events-none">
-                          <span className="text-emerald-400 font-semibold">
+                        <div className="absolute bottom-2.5 left-2.5 z-10 flex items-center gap-1.5 bg-background/90 border border-card-border px-2.5 py-1 rounded backdrop-blur-sm font-mono text-xs tracking-wide text-text-muted pointer-events-none">
+                          <span className="text-foreground font-semibold tracking-normal">
                             {currentImageIndex + 1}/{totalImages}
                           </span>
                           {currentImage.label && (
@@ -1558,11 +1533,11 @@ export default function HomePage() {
                         </div>
 
                         {/* Pagination Dots indicator */}
-                        <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                        <div className="absolute bottom-2.5 right-2.5 z-10 flex items-center gap-1 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity pointer-events-none">
                           {galleryList.map((_, idx) => (
                             <span
                               key={idx}
-                              className={`h-1.5 rounded-full transition-all ${idx === currentImageIndex ? "w-3.5 bg-emerald-400" : "w-1.5 bg-card-border"
+                              className={`h-1.5 rounded-full transition-all ${idx === currentImageIndex ? "w-3.5 bg-foreground" : "w-1.5 bg-card-border"
                                 }`}
                             />
                           ))}
@@ -1573,17 +1548,17 @@ export default function HomePage() {
 
                   {/* Minimal Body Content - No Text Walls */}
                   <div className="p-5 flex flex-col justify-between flex-1 space-y-4">
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between font-mono text-xs text-text-subtle">
-                        <span>{project.specId}</span>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between font-mono text-xs font-semibold tracking-wider uppercase text-text-subtle">
+                        <span className="text-foreground/90">{project.specId}</span>
                         <span className="text-text-muted">{project.categoryLabel}</span>
                       </div>
 
-                      <h3 className="text-xl font-bold tracking-tight text-foreground">
+                      <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
                         {project.title}
                       </h3>
 
-                      <p className="text-xs leading-relaxed text-text-muted line-clamp-2">
+                      <p className="text-sm sm:text-base leading-relaxed text-text-muted line-clamp-2">
                         {project.tagline}
                       </p>
                     </div>
@@ -1599,7 +1574,7 @@ export default function HomePage() {
                                 href={gh.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 border border-card-border bg-lift px-2 py-1 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500"
+                                className="inline-flex items-center gap-1.5 border border-card-border bg-lift px-2.5 py-1.5 font-mono text-xs sm:text-sm font-medium tracking-wide text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:ring-2 focus-visible:ring-foreground"
                                 title={gh.label}
                                 aria-label={`${project.title} ${gh.label}`}
                               >
@@ -1613,7 +1588,7 @@ export default function HomePage() {
                             href={project.githubUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 border border-card-border bg-lift px-2.5 py-1 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500"
+                            className="inline-flex items-center gap-1.5 border border-card-border bg-lift px-3 py-1.5 font-mono text-xs sm:text-sm font-medium tracking-wide text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:ring-2 focus-visible:ring-foreground"
                             title="View GitHub Repository"
                             aria-label={`${project.title} GitHub repository`}
                           >
@@ -1622,10 +1597,10 @@ export default function HomePage() {
                           </a>
                         ) : project.githubPrivate ? (
                           <span
-                            className="inline-flex items-center gap-1 font-mono text-xs text-text-subtle px-1.5 py-1"
+                            className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-sm font-medium tracking-wide text-text-muted px-2 py-1.5"
                             title="Private Repository (Commercial IP)"
                           >
-                            <svg className="h-3 w-3 text-text-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <svg className="h-3.5 w-3.5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                               <rect x="3" y="11" width="18" height="11" rx="2" ry="2" strokeWidth="2" />
                               <path d="M7 11V7a5 5 0 0110 0v4" strokeWidth="2" strokeLinecap="round" />
                             </svg>
@@ -1640,16 +1615,17 @@ export default function HomePage() {
                             href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 font-mono text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors focus-visible:ring-2 focus-visible:ring-emerald-500 rounded px-1.5 py-1"
+                            className="inline-flex items-center gap-1.5 border border-card-border bg-lift hover:border-card-hover hover:bg-card-border px-3.5 py-1.5 font-mono text-xs sm:text-sm font-semibold tracking-wide text-foreground hover:text-white transition-colors rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                           >
                             <span>Launch</span>
-                            <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            <svg className="h-3.5 w-3.5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                           </a>
                         ) : (
-                          <span className="font-mono text-xs text-amber-400/80 px-1.5 py-1">
-                            Closed Beta
+                          <span className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-sm font-medium tracking-wide text-text-muted px-2.5 py-1.5">
+                            <span className="h-1.5 w-1.5 rounded-full bg-amber-400"></span>
+                            <span>Closed Beta</span>
                           </span>
                         )}
                       </div>
@@ -1661,46 +1637,122 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SKILLS & TECHNOLOGIES SECTION */}
+        {/* SKILLS & TECHNOLOGIES SECTION WITH PROGRESSIVE DISCLOSURE ACCORDIONS */}
         <section
           id="skills"
           aria-labelledby="skills-title"
           className="mt-16 sm:mt-24 border-t border-card-border pt-12 sm:pt-16"
         >
-          <h2 id="skills-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Skills & Technologies
-          </h2>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pb-8">
+            <div>
+              <h2 id="skills-title" className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                Skills &amp; Technologies
+              </h2>
+            </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-            {SKILL_CATEGORIES.map((cat) => (
-              <div
-                key={cat.id}
-                className="border border-card-border bg-card-bg p-6 rounded space-y-4 hover:border-card-hover transition-colors"
+            {/* Expand / Collapse All control */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={isAllExpanded ? handleCollapseAll : handleExpandAll}
+                className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg px-3.5 py-2 font-mono text-xs sm:text-sm font-medium tracking-wide text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
               >
-                <div className="flex items-baseline gap-2.5">
-                  <span className="font-mono text-base font-bold text-signal-amber">
-                    {cat.index}
-                  </span>
-                  <h3 className="text-lg font-bold text-foreground">
-                    {cat.title}
-                  </h3>
-                </div>
+                <svg
+                  className={`h-3.5 w-3.5 transition-transform duration-200 ${isAllExpanded ? "rotate-180" : ""}`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+                <span>{isAllExpanded ? "Collapse All" : "Expand All (54)"}</span>
+              </button>
+            </div>
+          </div>
 
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {cat.skills.map((skill) => (
-                    <div
-                      key={skill.name}
-                      className="inline-flex items-center gap-2 border border-card-border bg-lift px-2.5 py-1.5 rounded text-xs font-medium text-foreground hover:border-card-hover hover:bg-hover-surface transition-colors shadow-xs"
-                    >
-                      <span className="shrink-0 flex items-center justify-center w-4 h-4">
-                        {skill.icon}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {SKILL_CATEGORIES.map((cat) => {
+              const isOpen = !!openCategories[cat.id];
+              const displayedPreviewSkills = cat.skills.slice(0, 3).map((s) => s.name).join(", ");
+              const remainingCount = cat.skills.length - 3;
+
+              return (
+                <div
+                  key={cat.id}
+                  className="border border-card-border bg-card-bg rounded transition-all hover:border-card-hover overflow-hidden"
+                >
+                  <button
+                    type="button"
+                    onClick={() => toggleCategory(cat.id)}
+                    aria-expanded={isOpen}
+                    aria-controls={`skills-content-${cat.id}`}
+                    className="w-full flex items-center justify-between p-5 text-left transition-colors hover:bg-hover-surface/50 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                  >
+                    <div className="flex items-center gap-3 min-w-0 pr-2">
+                      <span className="font-mono text-xs font-semibold tracking-wider text-text-muted px-2.5 py-1 rounded border border-card-border bg-lift shrink-0">
+                        {cat.index}
                       </span>
-                      <span>{skill.name}</span>
+                      <div className="min-w-0">
+                        <h3 className="text-base sm:text-lg font-bold text-foreground">
+                          {cat.title}
+                        </h3>
+                        {!isOpen && (
+                          <div className="mt-1 flex items-center gap-1.5 text-xs sm:text-sm text-text-muted font-mono min-w-0">
+                            <span className="truncate text-text-muted">
+                              {displayedPreviewSkills}
+                            </span>
+                            {remainingCount > 0 && (
+                              <span className="shrink-0 text-text-subtle font-medium">
+                                +{remainingCount} more
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  ))}
+
+                    <div className="flex items-center gap-2.5 shrink-0">
+                      <span className="font-mono text-xs sm:text-sm font-medium tracking-wide text-text-muted">
+                        {cat.skills.length} tools
+                      </span>
+                      <svg
+                        className={`h-4 w-4 text-text-muted transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </button>
+
+                  {isOpen && (
+                    <div
+                      id={`skills-content-${cat.id}`}
+                      role="region"
+                      aria-label={`${cat.title} skills`}
+                      className="px-5 pb-5 pt-1 border-t border-card-border/60"
+                    >
+                      <div className="flex flex-wrap gap-2.5 pt-2">
+                        {cat.skills.map((skill) => (
+                          <div
+                            key={skill.name}
+                            className="inline-flex items-center gap-2 border border-card-border bg-lift px-3.5 py-2 rounded text-xs sm:text-sm font-medium text-foreground hover:border-card-hover hover:bg-hover-surface transition-colors shadow-xs"
+                          >
+                            <span className="shrink-0 flex items-center justify-center w-4 h-4">
+                              {skill.icon}
+                            </span>
+                            <span>{skill.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
@@ -1711,17 +1763,17 @@ export default function HomePage() {
           className="mt-16 sm:mt-24 border-t border-card-border pt-12 sm:pt-16 pb-12"
         >
           <div className="max-w-3xl">
-            <h2 id="contact-title" className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            <h2 id="contact-title" className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               Start a Project Conversation
             </h2>
-            <p className="mt-2 text-sm text-text-muted leading-relaxed">
-              Available for zero-to-launch web platforms (end-to-end MVPs), cross-platform mobile apps (React Native for iOS & Android), and smart contracts &amp; dApps (web &amp; blockchain systems). Let’s talk about your requirements, timeline, and deliverables.
+            <p className="mt-3 text-base sm:text-lg text-text-muted leading-relaxed">
+              Available for zero-to-launch web platforms, cross-platform mobile apps, and blockchain systems. Let’s talk about your requirements, timeline, and deliverables.
             </p>
 
             <div className="mt-8 border border-card-border bg-card-bg p-6 sm:p-8 rounded">
               {formSubmitted ? (
                 <div className="space-y-4 py-8 text-center">
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-950/40 border border-emerald-500 text-emerald-400">
+                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-lift border border-card-border text-foreground">
                     <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
                     </svg>
@@ -1744,7 +1796,7 @@ export default function HomePage() {
                           message: "",
                         });
                       }}
-                      className="font-mono text-xs text-emerald-400 hover:underline"
+                      className="font-mono text-xs text-foreground underline underline-offset-4 hover:text-white"
                     >
                       Send another note
                     </button>
@@ -1757,11 +1809,11 @@ export default function HomePage() {
                   onSubmit={handleFormSubmit}
                   className="space-y-5"
                 >
-                  <h3 className="text-lg font-bold text-foreground">Direct Project Inquiry</h3>
+                  <h3 className="text-xl font-bold text-foreground">Direct Project Inquiry</h3>
 
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div className="space-y-1.5">
-                      <label htmlFor="client-name" className="font-mono text-xs font-medium text-text-muted">
+                      <label htmlFor="client-name" className="font-mono text-xs sm:text-sm font-semibold tracking-wide text-text-muted">
                         Your Name *
                       </label>
                       <input
@@ -1769,15 +1821,17 @@ export default function HomePage() {
                         name="name"
                         type="text"
                         required
+                        aria-invalid={formError ? "true" : undefined}
+                        aria-describedby={formError ? "form-error" : undefined}
                         value={formState.name}
                         onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                         placeholder="e.g. Alex Miller"
-                        className="w-full border border-card-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder-text-subtle focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
+                        className="w-full border border-card-border bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
                       />
                     </div>
 
                     <div className="space-y-1.5">
-                      <label htmlFor="client-email" className="font-mono text-xs font-medium text-text-muted">
+                      <label htmlFor="client-email" className="font-mono text-xs sm:text-sm font-semibold tracking-wide text-text-muted">
                         Email Address *
                       </label>
                       <input
@@ -1785,17 +1839,19 @@ export default function HomePage() {
                         name="email"
                         type="email"
                         required
+                        aria-invalid={formError ? "true" : undefined}
+                        aria-describedby={formError ? "form-error" : undefined}
                         value={formState.email}
                         onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                         placeholder="name@company.com"
-                        className="w-full border border-card-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder-text-subtle focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
+                        className="w-full border border-card-border bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div className="space-y-1.5">
-                      <label htmlFor="project-category" className="font-mono text-xs font-medium text-text-muted">
+                      <label htmlFor="project-category" className="font-mono text-xs sm:text-sm font-semibold tracking-wide text-text-muted">
                         Project Scope
                       </label>
                       <select
@@ -1803,7 +1859,7 @@ export default function HomePage() {
                         name="category"
                         value={formState.category}
                         onChange={(e) => setFormState({ ...formState, category: e.target.value })}
-                        className="w-full border border-card-border bg-background px-3 py-2.5 text-xs text-foreground focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
+                        className="w-full border border-card-border bg-background px-3.5 py-3 text-sm sm:text-base text-foreground focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors cursor-pointer"
                       >
                         <option>Full MVP Development</option>
                         <option>Mobile App Development</option>
@@ -1813,7 +1869,7 @@ export default function HomePage() {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label htmlFor="project-budget" className="font-mono text-xs font-medium text-text-muted">
+                      <label htmlFor="project-budget" className="font-mono text-xs sm:text-sm font-semibold tracking-wide text-text-muted">
                         Target Budget Range
                       </label>
                       <select
@@ -1821,7 +1877,7 @@ export default function HomePage() {
                         name="budget"
                         value={formState.budget}
                         onChange={(e) => setFormState({ ...formState, budget: e.target.value })}
-                        className="w-full border border-card-border bg-background px-3 py-2.5 text-xs text-foreground focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
+                        className="w-full border border-card-border bg-background px-3.5 py-3 text-sm sm:text-base text-foreground focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors cursor-pointer"
                       >
                         <option>Still deciding</option>
                         <option>$1,000 - $2,500</option>
@@ -1833,7 +1889,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label htmlFor="project-message" className="font-mono text-xs font-medium text-text-muted">
+                    <label htmlFor="project-message" className="font-mono text-xs sm:text-sm font-semibold tracking-wide text-text-muted">
                       Project Summary & Goals *
                     </label>
                     <textarea
@@ -1841,15 +1897,22 @@ export default function HomePage() {
                       name="message"
                       required
                       rows={4}
+                      aria-invalid={formError ? "true" : undefined}
+                      aria-describedby={formError ? "form-error" : undefined}
                       value={formState.message}
                       onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                       placeholder="Describe the product, desired timeline, and key features needed..."
-                      className="w-full border border-card-border bg-background px-3.5 py-2.5 text-xs text-foreground placeholder-text-subtle focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 rounded"
+                      className="w-full border border-card-border bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle leading-relaxed focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
                     ></textarea>
                   </div>
 
                   {formError && (
-                    <div className="border border-red-500/40 bg-red-950/20 text-red-400 p-3 rounded font-mono text-xs">
+                    <div
+                      id="form-error"
+                      role="alert"
+                      aria-live="polite"
+                      className="border border-red-500/40 bg-red-950/20 text-red-400 p-3 rounded font-mono text-xs"
+                    >
                       {formError}
                     </div>
                   )}
@@ -1857,7 +1920,7 @@ export default function HomePage() {
                   <button
                     type="submit"
                     disabled={formSubmitting}
-                    className="w-full border border-emerald-500 bg-emerald-500 px-5 py-3 font-mono text-xs font-bold uppercase tracking-wider text-background transition-all hover:bg-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-500 rounded disabled:opacity-50 cursor-pointer"
+                    className="w-full border border-foreground bg-foreground text-background px-5 py-3 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded disabled:opacity-50 cursor-pointer shadow-sm"
                   >
                     {formSubmitting ? "Dispatching Message..." : "Submit Project Scope →"}
                   </button>
@@ -1871,56 +1934,28 @@ export default function HomePage() {
       {/* FOOTER */}
       <footer className="border-t border-card-border bg-background py-8 sm:py-10 text-xs sm:text-sm text-text-muted">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6">
-          <p className="text-text-muted">
-            &copy; 2026 Faran
+          <p className="text-sm text-text-muted">
+            &copy; 2026 Muhammad Faran
           </p>
 
-          {/* Social & Platform Icon Buttons (matching Hero section) */}
-          <div className="flex flex-wrap items-center gap-2 text-text-muted">
-            {/* Fiverr */}
-            <button
-              type="button"
-              onClick={() => setPlaceholderModal("Fiverr")}
-              title="Hire on Fiverr"
-              aria-label="Hire on Fiverr"
-              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
-            >
-              <FiverrIcon className="h-3.5 w-3.5" />
-            </button>
-
+          {/* Navigation & Contact Links */}
+          <div className="flex flex-wrap items-center gap-6 sm:gap-8 text-sm text-text-muted">
             {/* Upwork */}
             <button
               type="button"
               onClick={() => setPlaceholderModal("Upwork")}
-              title="Hire on Upwork"
-              aria-label="Hire on Upwork"
-              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+              className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
-              <UpworkIcon className="h-3.5 w-3.5" />
+              Upwork
             </button>
 
-            {/* Resume */}
+            {/* Fiverr */}
             <button
               type="button"
-              onClick={() => setPlaceholderModal("Resume")}
-              title="Download Resume"
-              aria-label="Download Resume"
-              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
+              onClick={() => setPlaceholderModal("Fiverr")}
+              className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
-              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </button>
-
-            {/* LinkedIn */}
-            <button
-              type="button"
-              onClick={() => setPlaceholderModal("LinkedIn")}
-              title="LinkedIn Profile"
-              aria-label="LinkedIn Profile"
-              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
-            >
-              <LinkedInIcon className="h-3.5 w-3.5" />
+              Fiverr
             </button>
 
             {/* GitHub */}
@@ -1928,46 +1963,29 @@ export default function HomePage() {
               href="https://github.com/m-faran"
               target="_blank"
               rel="noopener noreferrer"
-              title="GitHub Profile"
-              aria-label="GitHub Profile"
-              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              className="transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
-              <GithubIcon className="h-3.5 w-3.5" />
+              GitHub
             </a>
 
-            {/* Twitter / X */}
-            <button
-              type="button"
-              onClick={() => setPlaceholderModal("Twitter / X")}
-              title="Twitter / X Profile"
-              aria-label="Twitter / X Profile"
-              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
-            >
-              <TwitterIcon className="h-3.5 w-3.5" />
-            </button>
-
-            {/* Mail */}
+            {/* Contact */}
             <a
               href="#contact"
-              title="Direct Message / Email"
-              aria-label="Direct Message / Email"
-              className="inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-card-bg/60 text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+              className="transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
-              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
+              Contact
             </a>
           </div>
         </div>
       </footer>
 
-
-
-      {/* PLACEHOLDER MODAL FOR UPWORK / FIVERR / RESUME */}
+      {/* PLACEHOLDER / CONTRACT INITIATION MODAL */}
       {placeholderModal && (
         <div
           role="dialog"
           aria-modal="true"
+          aria-labelledby="placeholder-title"
+          aria-describedby="placeholder-desc"
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
           onClick={() => setPlaceholderModal(null)}
         >
@@ -1978,35 +1996,49 @@ export default function HomePage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-card-border pb-3">
-              <span className="font-mono text-xs font-bold text-emerald-400 uppercase">
-                {placeholderModal} Placeholder
-              </span>
+              <h3
+                id="placeholder-title"
+                className="font-mono text-xs sm:text-sm font-bold text-foreground uppercase tracking-wider"
+              >
+                Hire on {placeholderModal}
+              </h3>
               <button
                 type="button"
                 onClick={() => setPlaceholderModal(null)}
-                className="font-mono text-xs text-text-muted hover:text-foreground p-1"
-                aria-label="Close"
+                className="h-7 w-7 flex items-center justify-center font-mono text-xs text-text-muted hover:text-foreground rounded border border-card-border hover:bg-lift transition-colors cursor-pointer"
+                aria-label="Close dialog"
               >
                 ✕
               </button>
             </div>
 
-            <p className="text-sm text-text-muted leading-relaxed">
-              This button is reserved as a direct link for your official <strong>{placeholderModal}</strong> endpoint. When you supply your link or resume file, it will connect directly.
+            <p id="placeholder-desc" className="text-sm text-text-muted leading-relaxed">
+              Official <strong>{placeholderModal}</strong> profile integration is being connected. In the meantime, you can submit your project scope below, and we can initiate an official {placeholderModal} contract or direct freelance agreement.
             </p>
 
-            <div className="border border-card-border bg-background p-3 font-mono text-xs text-emerald-400">
-              STATUS: Placeholder Reserved in PRODUCT.md
+            <div className="border border-card-border bg-background p-3.5 font-mono text-xs tracking-wide text-text-muted flex items-center justify-between rounded">
+              <span>Direct Engagement Status</span>
+              <span className="inline-flex items-center gap-1.5 text-foreground font-semibold">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+                Active &amp; Available
+              </span>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2">
+            <div className="flex justify-end gap-2.5 pt-2">
               <button
                 type="button"
                 onClick={() => setPlaceholderModal(null)}
-                className="border border-card-border bg-lift px-4 py-2 font-mono text-xs text-foreground hover:bg-card-border rounded cursor-pointer"
+                className="border border-card-border bg-lift px-4 py-2 font-mono text-xs font-medium tracking-wide text-text-muted hover:text-foreground hover:bg-card-border rounded cursor-pointer transition-colors"
               >
                 Close
               </button>
+              <a
+                href="#contact"
+                onClick={() => setPlaceholderModal(null)}
+                className="border border-foreground bg-foreground text-background hover:bg-zinc-200 px-4 py-2 font-mono text-xs font-bold tracking-wide rounded transition-colors"
+              >
+                Start Inquiry Form →
+              </a>
             </div>
           </div>
         </div>
