@@ -7,7 +7,6 @@ import Image from "next/image";
 interface ProjectGalleryItem {
   url: string;
   label: string;
-  caption: string;
   alt: string;
 }
 
@@ -33,11 +32,6 @@ interface Project {
   githubUrl?: string;
   githubLinks?: ProjectGithubLink[];
   githubPrivate?: boolean;
-  problemSolved: string;
-  summary: string;
-  capabilities: { title: string; desc: string }[];
-  techStack: string[];
-  architectureNote: string;
 }
 
 // Pixel-perfect Brand Icon Components
@@ -85,50 +79,22 @@ const PROJECTS: Project[] = [
       {
         url: "/projects/roaring-bulls.png",
         label: "Overview",
-        caption: "Terminal landing and live portfolio telemetry dashboard on Solana",
         alt: "Roaring Bulls Solana tokenized equities trading platform screenshot",
       },
       {
         url: "/projects/roaring-bulls-swipe.png",
         label: "Swipe Deck",
-        caption: "Fixed-budget asset swipe allocation deck with Adobe xStock equity receipt and live basket cart",
         alt: "Roaring Bulls swipe-based equity curation deck and basket calculator",
       },
       {
         url: "/projects/roaring-bulls-tape.png",
         label: "Search The Tape",
-        caption: "Searchable directory of 135+ tokenized equities (TSLA, NVDA, GOOGL) with real-time Jupiter DEX quotes",
         alt: "Roaring Bulls live tokenized equity tape with real-time market pricing",
       },
     ],
     link: "https://roaring-bulls.vercel.app/",
     isExternalLink: true,
     githubUrl: "https://github.com/m-faran/roaring-bulls",
-    problemSolved:
-      "Traditional stock trading is intimidating, rigid, and slow for modern retail investors. Roaring Bulls turns equity basket allocation into an intuitive, fixed-budget swipe ritual on Solana.",
-    summary:
-      "A fast, non-custodial trading dApp allowing retail investors to invest in tokenized equities (TSLA, NVDA, SPY) and pre-IPO unicorns through fixed-budget swipe curation.",
-    capabilities: [
-      {
-        title: "Atomic 1-Click Execution",
-        desc: "Packages multiple token swaps into a single atomic transaction routed via Jupiter DEX aggregator.",
-      },
-      {
-        title: "Non-Custodial Login via Privy",
-        desc: "Frictionless onboarding with embedded email/social authentication, eliminating seed-phrase anxiety.",
-      },
-      {
-        title: "Curated Risk Tiers",
-        desc: "Structured asset pools: Conservative (1:1 backed public xStocks), Balanced (Pre-IPO unicorns), and Degen (equity-paired memecoins).",
-      },
-      {
-        title: "Session Budget Guardrails",
-        desc: "Pre-set boundary locks ensuring users can never exceed their intended investment allocation.",
-      },
-    ],
-    techStack: ["Solana", "Jupiter DEX API", "Privy Auth", "Next.js", "TypeScript", "Tailwind CSS"],
-    architectureNote:
-      "Engineered an atomic swap router that constructs and simulates Jupiter transaction batches on Solana Devnet, enforcing slippage limits and wallet balance verification prior to dispatch.",
   },
   {
     id: "chundrigar-capital",
@@ -145,62 +111,32 @@ const PROJECTS: Project[] = [
       {
         url: "/projects/chundrigar-capital.png",
         label: "Overview",
-        caption: "Decentralized securities exchange overview on Base Sepolia with dual currency settlement rails",
         alt: "Chundrigar Capital Pakistan Stock Exchange tokenized shares platform screenshot",
       },
       {
         url: "/projects/chundrigar-markets.png",
         label: "KSE-100 Markets",
-        caption: "Full KSE-100 scrip directory with sector filters, index weights, market caps, and daily points",
         alt: "Chundrigar Capital KSE-100 index scrip working list and sector filters",
       },
       {
         url: "/projects/chundrigar-trade.png",
         label: "Trading Terminal",
-        caption: "Individual scrip execution terminal (ABL) with historical candlesticks, PSX Data API, and dual SPKR/USDC rails",
         alt: "Chundrigar Capital Allied Bank trading terminal with candlestick chart and dual payment rails",
       },
       {
         url: "/projects/chundrigar-kyc.png",
         label: "Identity Check",
-        caption: "Non-custodial identity compliance verification (CNIC, Passport, Driver Licence) for whitelisted wallet settlements",
         alt: "Chundrigar Capital investor identity verification and whitelist compliance step",
       },
       {
         url: "/projects/chundrigar-heritage.png",
         label: "Heritage",
-        caption: "Architectural line illustration of Karachi's I.I. Chundrigar Road and Pakistan Stock Exchange financial district",
         alt: "Chundrigar Capital I.I. Chundrigar Road architectural landmark illustration",
       },
     ],
     link: "https://chundrigar-capital.vercel.app/",
     isExternalLink: true,
     githubUrl: "https://github.com/m-faran/chundrigar-capital",
-    problemSolved:
-      "Overseas diaspora and crypto-native investors face extreme banking barriers when trying to invest in high-yield emerging markets like the Pakistan Stock Exchange (PSX). Chundrigar Capital tokenizes KSE-100 equities on Base Sepolia with dual payment rails.",
-    summary:
-      "Decentralized securities platform enabling domestic and overseas investors to trade tokenized KSE-100 blue chips with dual currency settlement rails.",
-    capabilities: [
-      {
-        title: "Dual Currency Rails",
-        desc: "Native PKR pricing for local investors and direct USDC payment settlement for international investors.",
-      },
-      {
-        title: "Signed On-Chain Quotes",
-        desc: "Every price quote is signed off-chain and cryptographically validated on-chain to prevent front-running.",
-      },
-      {
-        title: "Direct Treasury Counterparty",
-        desc: "Automated minting and burning directly against treasury liquidity at a transparent 0.50% fee.",
-      },
-      {
-        title: "Whitelist Compliance Hooks",
-        desc: "ERC-20 transfer hooks enforcing investor verification and regulatory compliance per jurisdiction.",
-      },
-    ],
-    techStack: ["Base Sepolia (EVM)", "Solidity", "Next.js", "Wagmi", "Viem", "RainbowKit"],
-    architectureNote:
-      "Implemented gas-optimized ERC-20 token contracts on Base with EIP-712 typed data signatures to verify off-chain exchange quote timestamps and prices before minting.",
   },
   {
     id: "devsafar",
@@ -217,50 +153,22 @@ const PROJECTS: Project[] = [
       {
         url: "/projects/devsafar-hero.png",
         label: "Landing Portal",
-        caption: "Public developer tournament portal tracking live hackathons, CTFs, and coding competitions",
         alt: "DevSafar hackathon discovery directory and team recruitment portal screenshot",
       },
       {
         url: "/projects/devsafar-dashboard.png",
         label: "Platform Shell",
-        caption: "Authenticated developer console with left-sidebar navigation (Track, Find Team, Chat, Alerts) and aggregated event feeds",
         alt: "DevSafar authenticated web application console with sidebar navigation",
       },
       {
         url: "/projects/devsafar-directory.png",
         label: "Event Directory",
-        caption: "Comprehensive discovery feed indexing 3,870+ worldwide hackathons with prize pool tracking and registration gates",
         alt: "DevSafar hackathon directory with status filters and prize pools",
       },
     ],
     link: "https://www.devsafar.app/",
     isExternalLink: true,
     githubPrivate: true,
-    problemSolved:
-      "Developers struggle to discover upcoming hackathons across scattered platforms and frequently fail to participate due to missing teammates. DevSafar aggregates tournaments worldwide with live deadline countdowns and built-in team matchmaking.",
-    summary:
-      "Comprehensive developer portal tracking upcoming and live hackathons, CTFs, and tech tournaments with live countdowns and team recruitment.",
-    capabilities: [
-      {
-        title: "Live Deadline Countdowns",
-        desc: "Real-time synchronization tracking registration cutoffs, submission gates, and judging windows.",
-      },
-      {
-        title: "Teammate Matchmaking",
-        desc: "Skill-based matchmaking filters allowing solo developers to recruit complementary frontend, backend, or design peers.",
-      },
-      {
-        title: "Free Community Submissions",
-        desc: "Automated organizer submission pipeline with edge validation and instant community directory listing.",
-      },
-      {
-        title: "High-Performance Aggregation",
-        desc: "Aggregates events across 100+ global platforms with sub-100ms client search and filter queries.",
-      },
-    ],
-    techStack: ["Next.js", "Supabase", "PostgreSQL", "TypeScript", "Tailwind CSS"],
-    architectureNote:
-      "Built resilient Supabase edge queries with optimistic UI caching to handle deadline timers and concurrent team discovery requests with sub-100ms response times.",
   },
   {
     id: "ludo-elemental",
@@ -277,64 +185,37 @@ const PROJECTS: Project[] = [
       {
         url: "/projects/ludo-elemental.png",
         label: "Splash Screen",
-        caption: "Initial game loading splash featuring elemental dice and power tokens",
         alt: "Ludo Elemental loading screen with element tokens",
       },
       {
         url: "/projects/ludo-elemental-board.png",
         label: "Game Board",
-        caption: "In-game turn-based match with elemental pawn temples and cooldown meters",
         alt: "Ludo Elemental active game board screenshot with pawns and power meters",
       },
       {
         url: "/projects/ludo-elemental-shop.png",
         label: "Cosmetic Shop",
-        caption: "In-game store for unlocked boards (Classic, Anime Dream, Cyber Neon)",
         alt: "Ludo Elemental cosmetic shop screenshot showing board skins",
       },
       {
         url: "/projects/ludo-elemental-party.png",
         label: "Party Lobby",
-        caption: "Private room creation and alphanumeric party code sharing",
         alt: "Ludo Elemental party code and room creation screen",
       },
       {
         url: "/projects/ludo-elemental-matchmaking.png",
         label: "Matchmaking",
-        caption: "Real-time 4-player online matchmaking queue with seat indicators",
         alt: "Ludo Elemental online multiplayer matchmaking search screen",
       },
       {
         url: "/projects/ludo-elemental-settings.png",
         label: "Settings",
-        caption: "Account connectivity, Google Sign-In, and ambient elemental lofi audio sliders",
         alt: "Ludo Elemental settings screen with audio and player account controls",
       },
     ],
     link: "#",
     isExternalLink: false,
     githubPrivate: true,
-    problemSolved:
-      "Classic board games rely almost entirely on passive dice rolls, leading to repetitive matches. Ludo Elemental injects tactical skill and strategy through deployable elemental abilities.",
-    summary:
-      "Turn-based competitive mobile board game augmenting classic Ludo mechanics with elemental abilities (Fire, Water, Earth, Wind) to create tactical multiplayer depth.",
-    capabilities: [
-      {
-        title: "Deterministic Game State Engine",
-        desc: "Custom turn-based state machine managing board physics, cooldown counters, and token movements.",
-      },
-      {
-        title: "Multiplayer Reconnect Sync",
-        desc: "State reconciliation recovering dropped mobile connections seamlessly without match abandonment.",
-      },
-      {
-        title: "Resource Skill Management",
-        desc: "Tactical cooldown activations replacing pure dice rolls with strategic pawn shields and speed boosts.",
-      },
-    ],
-    techStack: ["React Native", "Game State Machine", "TypeScript", "Mobile Sound FX"],
-    architectureNote:
-      "Designed a pure deterministic state transition engine running client-side with rollback reconciliation, ensuring cross-platform synchronization between iOS and Android players.",
   },
   {
     id: "kenzoku",
@@ -351,76 +232,47 @@ const PROJECTS: Project[] = [
       {
         url: "/projects/kenzoku.png",
         label: "Discover Feed",
-        caption: "Discovery deck: passion-matched recommendation cards with fluid Pass and Connect gestures",
         alt: "Kenzoku mobile app user discovery interface with passion matching tags",
       },
       {
         url: "/projects/kenzoku-interests.png",
         label: "Interests",
-        caption: "Interest taxonomy: multi-select tags across chess, film photography, indie game dev, climbing, and robotics",
         alt: "Kenzoku interest tag selection interface",
       },
       {
         url: "/projects/kenzoku-profile-setup.png",
         label: "Profile Setup",
-        caption: "Profile builder: custom short bio, location, and authentic passion verification",
         alt: "Kenzoku profile creation and bio setup screen",
       },
       {
         url: "/projects/kenzoku-chats.png",
         label: "Direct Chats",
-        caption: "Direct messaging: private real-time peer conversation threads unlocked upon matching",
         alt: "Kenzoku direct peer messaging screen",
       },
       {
         url: "/projects/kenzoku-notifications.png",
         label: "Notifications",
-        caption: "Connection center: incoming connection requests with instant Accept and Reject actions",
         alt: "Kenzoku connection requests and activity notifications screen",
       },
       {
         url: "/projects/kenzoku-welcome.png",
         label: "Welcome",
-        caption: "Serene onboarding: Japanese-inspired branding, ninja emblem, and single-tap entry",
         alt: "Kenzoku onboarding welcome screen",
       },
       {
         url: "/projects/kenzoku-signup.png",
         label: "Create Account",
-        caption: "Frictionless authentication: email and Google OAuth registration pipelines",
         alt: "Kenzoku account registration screen",
       },
       {
         url: "/projects/kenzoku-login.png",
         label: "Login",
-        caption: "Secure login: returning user authentication with credential validation",
         alt: "Kenzoku user login and password recovery screen",
       },
     ],
     link: "#",
     isExternalLink: false,
     githubUrl: "https://github.com/m-faran/kenzoku",
-    problemSolved:
-      "Building genuine connections is fragmented across noisy social platforms driven by superficial metrics. Whether into chess, film photography, indie game development, rock climbing, or robotics, Kenzoku helps users discover their true inner circle based on authentic passions.",
-    summary:
-      "Cross-platform React Native community matchmaking app helping users build their true inner circle based on authentic passions—from robotics and indie game dev to chess and climbing—rather than superficial social metrics.",
-    capabilities: [
-      {
-        title: "Passion-Vector Discovery",
-        desc: "Matches users based on authentic passions (chess, film photography, indie game dev, rock climbing, robotics) with dynamic compatibility tags.",
-      },
-      {
-        title: "60fps Card Gesture Physics",
-        desc: "Tactile Pass and Connect gesture stack running directly on the native UI thread via Reanimated.",
-      },
-      {
-        title: "Direct Real-Time Messaging",
-        desc: "Instant encrypted peer chats unlocked upon mutual connection with push notifications.",
-      },
-    ],
-    techStack: ["React Native", "Expo EAS", "TypeScript", "Reanimated", "NativeWind"],
-    architectureNote:
-      "Structured gesture interaction handlers entirely on the native UI thread, preventing JS thread frame drops during profile deck swipes and real-time transition physics.",
   },
   {
     id: "genie-markets",
@@ -437,25 +289,21 @@ const PROJECTS: Project[] = [
       {
         url: "/projects/genie-markets.png",
         label: "Landing (Hero)",
-        caption: "Genie Markets landing page hero section on Monad Testnet",
         alt: "Genie Markets landing page hero section",
       },
       {
         url: "/projects/genie-markets-terminal.png",
         label: "Terminal",
-        caption: "Autonomous prediction terminal, onchain vault smart account interface, and protocol odds dashboard",
         alt: "Genie Markets live prediction terminal and onchain vault interface",
       },
       {
         url: "/projects/genie-markets-payouts.png",
         label: "Landing (Features)",
-        caption: "Genie Markets landing page feature section with prediction tiers and execution pipeline",
         alt: "Genie Markets landing page feature section",
       },
       {
         url: "/projects/genie-markets-infrastructure.png",
         label: "Landing (Overview)",
-        caption: "Genie Markets landing page overview of smart accounts, randomness, and call to action",
         alt: "Genie Markets landing page overview and call to action",
       },
     ],
@@ -472,31 +320,6 @@ const PROJECTS: Project[] = [
         url: "https://github.com/m-faran/genie-markets",
       },
     ],
-    problemSolved:
-      "Traditional prediction markets and gaming dApps rely on opaque off-chain randomness, incur high gas fees, and demand confusing seed phrases. Genie Markets brings sub-second verifiable randomness on Monad via Pyth Entropy with zero-gas account abstraction.",
-    summary:
-      "High-throughput onchain prediction protocol on Monad Testnet leveraging Pyth Entropy for cryptographic randomness, ERC-4337 zero-gas accounts, and automated USDC payouts up to 600x.",
-    capabilities: [
-      {
-        title: "Pyth Entropy Oracles",
-        desc: "Cryptographically verified, tamper-proof onchain randomness resolving 3-digit draws with sub-second finality.",
-      },
-      {
-        title: "Zero-Gas Smart Accounts (ERC-4337)",
-        desc: "Embedded Privy wallet onboarding sponsoring all gas fees, enabling immediate trading via social login without seed phrases.",
-      },
-      {
-        title: "Structured Odds Multipliers",
-        desc: "Single (9x), Exact Pair (90x), and Genie Trio (140x–600x) payout calculation models settled instantaneously in USDC.",
-      },
-      {
-        title: "Non-Custodial Escrow & Recovery",
-        desc: "Automated smart contract lockups with 24-hour permissionless stale round recovery to safeguard user capital.",
-      },
-    ],
-    techStack: ["Monad Testnet", "Pyth Entropy", "Solidity", "Privy (ERC-4337)", "Next.js", "TypeScript", "Tailwind CSS"],
-    architectureNote:
-      "Engineered high-throughput settlement contracts on Monad EVM integrated directly with Pyth Entropy callback handlers, coupled with an ERC-4337 paymaster pipeline for fully sponsored user transactions.",
   },
 ];
 
@@ -521,7 +344,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "React",
         icon: (
-          <svg viewBox="-11.5 -10.23 23 20.46" className="w-4 h-4 text-[#61DAFB]" fill="currentColor">
+          <svg viewBox="-11.5 -10.23 23 20.46" className="w-5 h-5 text-[#61DAFB]" fill="currentColor">
             <circle cx="0" cy="0" r="2.05" />
             <g stroke="currentColor" strokeWidth="1" fill="none">
               <ellipse rx="11" ry="4.2" />
@@ -534,7 +357,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Next.js",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
             <path d="M18.665 21.978a10 10 0 1 1 3.313-3.322l-8.665-11.127H10.5v8.942h1.666V10.15l7.165 9.183.003-.004c-.218.232-.442.456-.669.649zm-4.331-4.821l1.666 2.138A9.97 9.97 0 0 0 22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10c2.04 0 3.93-.612 5.5-1.665l-3.166-4.178v1z" />
           </svg>
         ),
@@ -542,7 +365,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "TypeScript",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
             <rect width="24" height="24" rx="4" fill="#3178C6" />
             <path d="M11.5 9H6v2h2.2v8h2.6v-8H13V9h-1.5zm6.8 3.5c-1.3-.4-2-.8-2-1.5 0-.7.6-1.1 1.6-1.1.9 0 1.7.3 2.3.7l.8-1.7c-.8-.6-1.9-.9-3.2-.9-2.3 0-3.9 1.3-3.9 3.2 0 1.8 1.2 2.7 3.1 3.3 1.4.5 1.8.9 1.8 1.6 0 .8-.8 1.3-1.9 1.3-1.2 0-2.3-.5-3.1-1.2l-.9 1.8c1 .8 2.4 1.3 3.9 1.3 2.6 0 4.3-1.3 4.3-3.4 0-1.9-1.2-2.9-2.8-3.4z" fill="#fff" />
           </svg>
@@ -551,7 +374,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "JavaScript",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
             <rect width="24" height="24" rx="4" fill="#F7DF1E" />
             <path d="M7.5 18c-.8 0-1.5-.3-2-.7l.8-1.5c.3.3.7.5 1.2.5.6 0 1-.3 1-1V8.5H11v6.8c0 1.8-1.1 2.7-3.5 2.7zm8.5 0c-2.3 0-3.7-1.3-3.7-3.2l2.2-.1c.1 1 .8 1.5 1.6 1.5.8 0 1.4-.4 1.4-1 0-.7-.5-1-1.6-1.4-2.1-.7-3.3-1.4-3.3-3.1 0-1.8 1.4-3.2 3.6-3.2 1.8 0 3 .8 3.5 1.9l-1.9 1.1c-.3-.6-.8-1-1.6-1s-1.2.4-1.2 1c0 .6.4.9 1.4 1.3 2.3.8 3.5 1.6 3.5 3.3 0 2-1.6 3.4-3.9 3.4z" fill="#000" />
           </svg>
@@ -560,7 +383,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "HTML",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
             <path d="M3 2l1.8 17.5L12 22l7.2-2.5L21 2H3zm14.8 5.7h-7.6l.2 2.3h7.2l-.6 6.3-4.6 1.3-4.6-1.3-.3-3.3h2.3l.1 1.5 2.5.7 2.5-.7.3-2.9H7.6l-.6-6.6h11l-.2 2.7z" fill="#E34F26" />
           </svg>
         ),
@@ -568,15 +391,15 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "CSS",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
-            <path d="M3 2l1.8 17.5L12 22l7.2-2.5L21 2H3zm13.7 5.7l-.3 3.3h-4.4v2.3h4.2l-.5 5.3-3.7 1-3.7-1-.3-2.7h2.3l.1 1.2 1.6.4 1.6-.4.2-2h-5.8l-.6-6.6h10.9z" fill="#1572B6" />
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
+            <path d="M3 2l1.8 17.5L12 22l7.2-2.5L21 2H3zm13.7 5.7l-.3 3.3h-4.4v2.3h4.2l-.5 5.3-3.7 1-3.7-1-.3-2.7h2.3l.1 1.2 1.6.4 1.6-.4.2-2h-5.8l-.6-6.6h10.9z" fill="#2997FF" />
           </svg>
         ),
       },
       {
         name: "Tailwind CSS",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#38BDF8]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#38BDF8]" fill="currentColor">
             <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.001 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z" />
           </svg>
         ),
@@ -584,7 +407,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Vite",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
             <path d="M21.5 3.5L12.7 20.8a.7.7 0 0 1-1.3 0L2.5 3.5a.7.7 0 0 1 .8-.9l8.4 1.5a.7.7 0 0 0 .3 0l8.7-1.5a.7.7 0 0 1 .8.9z" fill="#646CFF" />
             <path d="M14.6 3.3L8.8 13.5h3.6L10.3 20l7.3-10.7h-3.8l1.8-6h-1z" fill="#FFD43B" />
           </svg>
@@ -593,25 +416,24 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "GSAP",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
-            <rect width="24" height="24" rx="4" fill="#0AE448" />
-            <path d="M12 4a8 8 0 1 0 8 8 8 8 0 0 0-8-8zm2.8 11.6a4.8 4.8 0 0 1-5.6 0l1.2-1.6a2.8 2.8 0 0 0 3.2 0z" fill="#000" />
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#88CE02]" fill="currentColor">
+            <path d="M17.21 0c-.545.003-1.084.134-1.256.367-.11.165-.192 1.196-.11 1.718 0 0 .032.345.09.614a14.6 14.6 0 0 1-.02.182 7.024 7.024 0 0 1-.097.605c-.01.056-.207.095-.425.152a2.495 2.495 0 0 0-.138-.042c-.234-.069-.385.123-.618.26-.069-.04-.371-.178-.536-.082-.165.096-.275.193-.44.261-.082-.041-.302-.041-.48.028a1.27 1.27 0 0 0-.483.278c-2.314.58-4.813 1.635-5.012 1.741-1.017.522-2.679 1.415-3.434 2.033-1.291 1.071-2.06 2.322-2.363 3.242-.385 1.14-.275 1.827.096 1.387.298-.366 1.632-1.454 2.475-1.999l-.002.007a3.219 3.219 0 0 1 .44-.26l.233-.124.505-.323c.602.552.803 1.433.937 2.63.22 1.841 1.704 2.693 3.434 2.72 1.8.028 2.446.399 3.119 1.305.153.201.318.307.47.368a1.954 1.954 0 0 0-.16.405c-.075.17-.125.38-.157.608a.157.157 0 0 0-.03.075c-.068.536-.055 1.8-.068 2.473-.014.673-.028.77-.083.866-.055.11-.11.178-.178.467-.069.302-.193.384-.316.631-.206.385-.165.81.041 1.003.206.192.77.481 1.538.385.77-.096.88-.151.756-.893-.014-.11-.192-.605-.137-.797.082-.206-.096-.563-.055-.577.041-.014.096-.288.096-.426 0-.137-.014-.796.137-1.14.062-.14.193-.46.326-.785.442-.723.459-1.161.48-1.41.03-.202.046-.46.018-.744.055-.083.289-.275.316-.646 0 0 .644-.337 1.102-1.148.16.557.31.91.286 1.272-.499.39-.684.678-.76.959-.048-.02-.076-.037-.11-.04h-.027a.437.437 0 0 0-.106.029c-.192.068-.041 1.318.165 1.827.206.508.316.81.398 1.36.083.549-.192 1.222-.302 1.524 0 0-.179.536.233.824.358.248 1.704.18 2.308.18.605 0 1.511.219 2.088.109.715-.124.824-.55.399-.77-.426-.22-1.072-.329-1.91-.933-.22-.152-.522-.289-.563-.412-.041-.124-.041-.838-.027-1.457.013-.618.22-1.414.288-1.84.064-.398-.076-.388-.262-.351.032-.147.066-.292.097-.446.344-.632.193-1.223.193-1.223.82-1.044.4-3.27.22-4.048.64.303.96.188.96.188.102-.055.192-.134.274-.224.337-.362.51-.916.51-.916V11c.782-.783 1.151-1.936.26-2.692a1.331 1.331 0 0 0-.219-1.263 1.56 1.56 0 0 0-.37-1.731 1.36 1.36 0 0 0-.487-.297c-.2-.295-.245-.417-.572-.349-.15-.165-.178-.288-.494-.178 0 0-.096-.234-.275-.289a.25.25 0 0 0-.05-.015c-.302-.21-.576-.215-.772-.16-.064-.048-.061-.124-.07-.388-.008-.2-.019-.486-.031-.744.027-.328.102-.974.126-1.303.028-.37.042-.948-.123-1.195C18.303.12 17.754-.003 17.21 0zm-.005.34c.7 0 1.002.22 1.044.343.013.028.082.495.04.797-.013.11-.027.509-.054.687-.014.179-.069.385-.124.673-.041.234-.233.495-.384.536-.261.069-.742.055-1.017 0-.069-.014-.124-.055-.192-.096-.151-.248-.234-.44-.261-.742-.028-.289-.083-.412-.096-.632-.014-.33-.014-.55-.014-.55.014-.178.069-.618.069-.659.013-.123.233-.357.989-.357zm-1.133 2.702c.146.149.301.306.432.416.124.11.426.096.7.096.248 0 .468.028.564-.027.154-.077.355-.235.523-.394.011.152.022.304.026.435.01.295-.043.468.024.57-.082.048-.174.105-.269.156-.151.08-.306.136-.403.115h-.002c-.209-.035-.931-.215-1.331-.407-.167-.259-.335-.398-.326-.448.027-.137.04-.247.054-.425.004-.03.005-.058.008-.088zm-.853.69l.035.001c.424.036.65.152.808.284l.076.03.008-.027c.047.03.102.06.162.088.47.159 1.104.308 1.309.353.247.055.645-.192.838-.316.343-.22.783-.04.989.193.137.15.192.247.192.288.316-.11.357.041.508.206.385-.179.412.041.44.137-.122 0-.298.014-.538.04l-.012-.012c-.144-.153-.402-.289-.599-.384-.087-.031-.18-.049-.252-.097-.11-.055-.22-.137-.385-.123-.687.082-.824.315-1.415.178-.577-.134-.737-.254-1.333-.221l.001.026c-.105.016-.2.03-.22.03-.206.012-.722.067-1.153-.1a1.256 1.256 0 0 0-.161-.076l-.005-.002h-.001c-.18-.07-.39-.11-.63-.112h-.026c.218-.11.356-.259.56-.218.22.041.44.22.564.357a.858.858 0 0 0-.178-.288c.128-.09.245-.229.418-.234zm-1.1.545c.15.002.28.026.417.073.018.009.034.018.059.029.288.137.81.164 1.25.137a2.26 2.26 0 0 0 .563-.095c.322.024.514.11.977.216.31.07.502.045.695-.007.193-.053.386-.13.723-.17a.542.542 0 0 1 .188.013c.038.02.075.04.11.061.062.049.214.135.343.189.164.068.59.357.645.425a.1.1 0 0 0 .038.03c.242.314.407.755.396 1.21-.06.46-.426.214-.626.12-.412-.178-.824-.302-1.305-.302-.48 0-1.099.041-1.635.179-.741.206-.961.192-1.29.027-.33-.178-.907-.618-.907-.618v.01c-.007-.007-.012-.012-.014-.01-.042.069-.138.247-.193.33-.027.522-.343 1.346-.934 1.552a.547.547 0 0 1-.467-.041 2.503 2.503 0 0 0-.55-.275c.481.384.729.673.949 1.181.174.43.415 1.017 1.002 1.646.363-.004.725.097.962.346.137.137.357.289.33.426 0 .041-.083.151-.151.234a3.231 3.231 0 0 1-.207.22c-.054.04-.247.192-.288.22-.041.027-.096.095-.137.109-.138.069-.289.014-.426-.055s.027-.082-.124-.192c-.34-.24-.541-.411-.454-.832-.932-.794-2.561-1.26-2.911-2.108-.22-.55-.248-.824-.042-1.058.605-.687.371-1.346.825-1.634.425-.275.783.04.989.33-.124-.509-.55-.633-.55-.674 0-.632.605-1.071 1.21-1.181.218-.041.389-.062.54-.06zm-1.847.534c-.14.196-.231.435-.246.721-.206.028-.673.055-.907.907a3.39 3.39 0 0 1-.214.62c-.103.045-2.946 1.274-5.229 2.542l-.01-.007c-.32.18-.627.363-.919.546l-.125.077-.001.003c-1.136.723-2.04 1.45-2.637 2.112.412-2.679 2.528-4.08 3.53-4.698 2.42-1.489 4.629-2.225 6.758-2.823zm8.037.323c.26-.004.536.06.756.275.59.577.425 1.209.247 1.648.15.179.508.687.288 1.291-.04.138-.343.138-.563.495.55-.316.893-.233 1.017.165.192.618-.234 1.36-.605 1.772 0-.014-.014-.028-.014-.041-.055.206-.123.604-.535 1.044-.206.22-.371.192-.605.137-.215-.054-.322-.142-.543-.276-.036-.207-.102-.482-.102-.59 0-.044-.004-.141-.01-.243.032-.036.066-.074.106-.114 0 0 .178-.247.44-.233.26.014.535-.041.604-.11 0-.48-.55-.494-.357-1.319.013-.04.082-.11.302-.137-.33-.069-.48-.083-.714-.302l-.013-.013c.11-.253.224-.457.301-.605.193-.385.082-.852.082-.852.207-.069.385-.179.413-.247.203-.673-.164-1.322-.605-1.74.036-.003.073-.005.11-.006zm-5.46.925c.01.016.02.033.034.05.179.22.577.495 1.113.673.26.083.467.028.7-.027 1.123-.278 2.304-.346 3.33.155a1.82 1.82 0 0 1-.157 1.068c-.232.465-.533 1.068-.48 2.215-.246.044-1.419.144-1.992.037-.521-.097-1.416-.525-1.62-.69a6.703 6.703 0 0 1-.125-.848 1.37 1.37 0 0 0 .454-.343c-.412.068-.577.04-.825-.097-.235-.13-.642-.533-.87-.82.229-.29.393-.69.335-1.226.037-.05.07-.099.102-.147zm-4.38 1.598c-.09.253.093.654.224.953.508 1.179 2.07 1.29 3.127 2.18a.723.723 0 0 0 .06.388c.083.165.371.413.371.413-.055.054-.027.164-.027.164.204.217.504.243.547.246-.435 1.248-.816 2.626-.451 4.095-.179.244-.368.445-.531.668a.851.851 0 0 1-.444-.31c-.591-.852-1.457-1.416-3.023-1.374-2.349.055-3.283-.907-3.461-2.748-.094-.974-.357-1.922-.888-2.479C7.489 9.014 9.6 7.937 10.268 7.73a2.8 2.8 0 0 0 .2-.073zm3.496.18c.381.442.795.727 1.193.979.082.343.11.577.192 1.03h-.041l-.027.308a2.836 2.836 0 0 0-.62-.113l.001-.003c-.893-1.057-.7-1.47-1.058-2.019.097-.034.225-.094.36-.182zm5.911 1.086c.076.067.178.12.323.154-.327.68.33.912.37 1.17-.143.083-.367.037-.603.025-.115-.006-.229.065-.321.147l.032-.367c.006-.43.09-.809.2-1.13zM15.79 9.947c.024.035.178.131 1.002.352 1.026.275 2.323.12 2.55.09a.378.378 0 0 1-.022.089c0 .343.055.59.096.81.053.308.13.533.163.74l.008-.007c.234 1.367.561 3.133-.267 4.048.041.192.069.467.014.783a3.204 3.204 0 0 1-.151.535 2.29 2.29 0 0 0-.108.352c-1.1.142-1.755.055-2.06-.015.123-.374.407-.754.876-.735-.022-.911-.264-1.223-.511-1.891.395-.883.299-1.665.621-2.848-.247.261-.44 1.209-.604 1.786-.206.838-.563 1.648-1.525 2.294 0 .22-.069.384-.151.494-.179.261-.412.344-.494.77.11-.138.26-.261.26-.22a8.51 8.51 0 0 1-.025.493l.012.001c-.165 1.044-.522 1.525-.742 2.115-.151.426-.096 1.36-.151 1.374-.385.083-.975-.068-1.14-.15.162-1.14.019-2.278.436-3.6l-.015-.006c.16-.554.478-.878.939-1.464-.161-.52-.532-1.64.266-4.182.033-.014.067-.03.105-.049l.206-.137c.04-.028.096-.069.137-.096.069-.042.371-.371.412-.412.096-.097.165-.124.192-.234.055-.206-.247-.412-.37-.55-.018-.019-.03-.034-.043-.05.013-.039.027-.077.042-.114.01-.125.028-.26.042-.367zm.883 7.942c.05.002.174.122.751.158.66.04 1.539-.083 1.772-.138.234-.055.097.11.069.275l-.026.169c-.399.134-1.008.188-1.416.202-.393.013-.846-.012-1.161-.11-.048-.26-.063-.47-.007-.55a.024.024 0 0 1 .018-.006zm2.506.846c-.02.135-.035.223-.058.372-.388.12-.888.122-1.27.135a4.413 4.413 0 0 1-1.012-.07 2.065 2.065 0 0 1-.033-.109 11.343 11.343 0 0 1-.065-.252c.179.034.53.079 1.15.087a4.142 4.142 0 0 0 1.288-.163zm-.106.685c-.069.44-.055 1.786-.014 2.157.014.11.948.522 1.277.77.107.085.259.157.422.222.042.042.116.105.197.203.162.213.052.436-.135.526-.264-.007-.568-.052-1.074-.128-.695-.104-1.129-.101-1.73-.106v-.003c-.152-.275-.056-.728-.056-.728a2.2 2.2 0 0 1-.809-.18l.012-.026c.234-.48.22-.591.151-1.415-.047-.578-.196-.883-.335-1.195.169.016.409.035.857.041a4.567 4.567 0 0 0 1.237-.138zm-5.306 2.084c.243 0 .6.032.676.1v.014c.014.165.165.399.11.522-.027.069-.096-.041-.192-.068.041.26.151.741.316 1.112.11.248.041.426-.33.495-.33.014-.755 0-1.112-.083-.412-.206-.55-.316-.467-.7.068-.275.494-.59.865-.838-.206.014-.426.165-.398-.014.055-.357.206-.33.302-.508-.02-.02.084-.032.23-.032z" />
           </svg>
         ),
       },
       {
         name: "Three.js",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
-            <path d="M2.5 19.5L12 3l9.5 16.5H2.5zm3.2-1.8h12.6L12 6.2 5.7 17.7z" />
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+            <path d="M.38 0a.268.268 0 0 0-.256.332l2.894 11.716a.268.268 0 0 0 .01.04l2.89 11.708a.268.268 0 0 0 .447.128L23.802 7.15a.268.268 0 0 0-.112-.45l-5.784-1.667a.268.268 0 0 0-.123-.035L6.38 1.715a.268.268 0 0 0-.144-.04L.456.01A.268.268 0 0 0 .38 0zm.374.654L5.71 2.08 1.99 5.664zM6.61 2.34l4.864 1.4-3.65 3.515zm-.522.12l1.217 4.926-4.877-1.4zm6.28 1.538l4.878 1.404-3.662 3.53zm-.52.13l1.208 4.9-4.853-1.392zm6.3 1.534l4.947 1.424-3.715 3.574zm-.524.12l1.215 4.926-4.876-1.398zm-15.432.696l4.964 1.424-3.726 3.586zM8.047 8.15l4.877 1.4-3.66 3.527zm-.518.137l1.236 5.017-4.963-1.432zm6.274 1.535l4.965 1.425-3.73 3.586zm-.52.127l1.235 5.012-4.958-1.43zm-9.63 2.438l4.873 1.406-3.656 3.523zm5.854 1.687l4.863 1.403-3.648 3.51zm-.54.04l1.214 4.927-4.875-1.4zm-3.896 4.02l5.037 1.442-3.782 3.638z" />
           </svg>
         ),
       },
       {
         name: "shadcn/ui",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M4 20L20 4M4 4h4v4H4z" />
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+            <path d="M22.219 11.784 11.784 22.219c-.407.407-.407 1.068 0 1.476.407.407 1.068.407 1.476 0L23.695 13.26c.407-.408.407-1.069 0-1.476-.408-.407-1.069-.407-1.476 0ZM20.132.305.305 20.132c-.407.407-.407 1.068 0 1.476.408.407 1.069.407 1.476 0L21.608 1.781c.407-.407.407-1.068 0-1.476-.408-.407-1.069-.407-1.476 0Z" />
           </svg>
         ),
       },
@@ -625,7 +447,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Node.js",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#5FA04E]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#68BC51]" fill="currentColor">
             <path d="M12 2l9 5.2v10.4L12 22l-9-5.2V7.2L12 2zm0 2.3L4.8 8.5v7l7.2 4.2 7.2-4.2v-7L12 4.3z" />
           </svg>
         ),
@@ -633,15 +455,15 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Express",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 8h4M5 12h3M5 16h4M14 8l5 8M19 8l-5 8" />
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+            <path d="M12.262 16.666h1.146l6.975-9.325H19.22zm9.778 1.441v.004l-4.334-5.706-.557.74 4.873 6.682H.945V4.173h9.505l5.026 6.7.574-.772-4.374-5.928h.003l-.719-.945H0v17.544h24zM10.917 8.705a3.8 3.8 0 0 0-1.292-1.183q-.796-.45-1.916-.45c-.746 0-1.37.14-1.906.424a3.76 3.76 0 0 0-1.31 1.12 4.9 4.9 0 0 0-.75 1.581 7.17 7.17 0 0 0 0 3.696c.148.567.402 1.101.75 1.573a3.5 3.5 0 0 0 1.31 1.066q.803.39 1.906.389 1.77 0 2.739-.868.966-.867 1.328-2.457h-1.139q-.271 1.084-.977 1.734-.704.651-1.952.65-.812 0-1.392-.342a3.1 3.1 0 0 1-.957-.869 3.5 3.5 0 0 1-.551-1.182 5 5 0 0 1-.17-1.133 9 9 0 0 0-.015-.286 4.5 4.5 0 0 1 .015-.829c.047-.418.147-.83.296-1.223A3.7 3.7 0 0 1 5.54 9.05a2.9 2.9 0 0 1 .922-.742q.541-.28 1.246-.28c.47 0 .869.093 1.23.28q.541.281.922.742.379.461.587 1.057t.225 1.246H5.625l.004.957h6.182a7.3 7.3 0 0 0-.18-1.924 4.9 4.9 0 0 0-.715-1.68z" />
           </svg>
         ),
       },
       {
         name: "Supabase",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#3ECF8E]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#3ECF8E]" fill="currentColor">
             <path d="M13.4 22c-.6 0-1-.5-.8-1.1l2.4-7.9H4.8c-.7 0-1.2-.7-.9-1.3L11.5 2c.4-.7 1.4-.4 1.3.4l-2.2 7.6h9.6c.8 0 1.2.9.7 1.5L14.3 21.6c-.2.3-.5.4-.9.4z" />
           </svg>
         ),
@@ -649,7 +471,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "PostgreSQL",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#336791]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#4169E1]" fill="currentColor">
             <path d="M12 2C6.5 2 2 6.5 2 12c0 4.1 2.5 7.6 6.1 9.1.5.1.7-.2.7-.5v-1.8c-2.4.5-3-1-3-1-.4-1-1-1.3-1-1.3-.8-.5.1-.5.1-.5.9.1 1.4.9 1.4.9.8 1.4 2.1 1 2.6.8.1-.6.3-1 .6-1.2-2-.2-4.1-1-4.1-4.4 0-1 .4-1.8 1-2.4-.1-.2-.4-1.1.1-2.4 0 0 .8-.2 2.5.9.7-.2 1.5-.3 2.3-.3.8 0 1.6.1 2.3.3 1.7-1.1 2.5-.9 2.5-.9.5 1.3.2 2.2.1 2.4.6.6 1 1.4 1 2.4 0 3.4-2.1 4.2-4.1 4.4.3.3.6.8.6 1.7V20.5c0 .3.2.6.7.5C19.5 19.6 22 16.1 22 12c0-5.5-4.5-10-10-10z" />
           </svg>
         ),
@@ -657,7 +479,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Firebase",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
             <path d="M4.5 17.5L8.5 2.5l3.8 7.2L4.5 17.5zm15 0L17.7 5.2l-2.4 4.5 4.2 7.8zm-7.5 4.5l6.5-4.5-4-7.5-6.5 10 4 2z" fill="#FFA000" />
             <path d="M12 22l4-2-4-7.5-4 7.5 4 2z" fill="#FFCA28" />
           </svg>
@@ -666,7 +488,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "MongoDB",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#47A248]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#00ED64]" fill="currentColor">
             <path d="M12 1.5s-5.5 5.5-5.5 11c0 4.2 3.1 7.8 5.5 10 2.4-2.2 5.5-5.8 5.5-10 0-5.5-5.5-11-5.5-11zm-.1 18.8c-.3 0-.6-.3-.6-.6V4.8c.3.5.7 1.1 1.2 1.8v13.1c0 .3-.3.6-.6.6z" />
           </svg>
         ),
@@ -674,7 +496,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Prisma",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
             <path d="M12.7 2.3a1 1 0 0 0-1.4 0L2.5 11.1a1 1 0 0 0 0 1.4l8.8 8.8a1 1 0 0 0 1.4 0l8.8-8.8a1 1 0 0 0 0-1.4L12.7 2.3zm-.7 2.4l6.6 6.6-6.6 6.6-6.6-6.6L12 4.7z" />
           </svg>
         ),
@@ -682,7 +504,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Redis",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#DC382D]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#FF4438]" fill="currentColor">
             <path d="M21.4 8.7L12.6 4a1.4 1.4 0 0 0-1.2 0L2.6 8.7a1.4 1.4 0 0 0 0 2.6l8.8 4.7a1.4 1.4 0 0 0 1.2 0l8.8-4.7a1.4 1.4 0 0 0 0-2.6zM12 14.3L4.5 10.3 12 6.3l7.5 4-7.5 4zm9.4 1.4l-2 .9v2.2l2-.9v-2.2zm-4 1.7l-4.8 2.6a1.4 1.4 0 0 1-1.2 0L6.6 17.4v2.2l4.8 2.6c.4.2.8.2 1.2 0l4.8-2.6v-2.2z" />
           </svg>
         ),
@@ -690,16 +512,16 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Socket.io",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
-            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14.5l-3-4.5h2.5V7.5l3 4.5H13v4.5z" />
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+            <path d="M11.9362.0137a12.1694 12.1694 0 00-2.9748.378C4.2816 1.5547.5678 5.7944.0918 10.6012c-.59 4.5488 1.7079 9.2856 5.6437 11.6345 3.8608 2.4179 9.0926 2.3199 12.8734-.223 3.3969-2.206 5.5118-6.2277 5.3858-10.2845-.058-4.0159-2.31-7.9167-5.7588-9.9796C16.354.5876 14.1431.0047 11.9362.0137zm-.063 1.696c4.9448-.007 9.7886 3.8137 10.2815 8.9245.945 5.6597-3.7528 11.4125-9.4875 11.5795-5.4538.544-10.7245-4.0798-10.8795-9.5566-.407-4.4338 2.5159-8.8346 6.6977-10.2995a9.1126 9.1126 0 013.3878-.647zm5.0908 3.2248c-2.6869 2.0849-5.2598 4.3078-7.8886 6.4567 1.2029.017 2.4118.016 3.6208.01 1.41-2.165 2.8589-4.3008 4.2678-6.4667zm-5.6647 7.6536c-1.41 2.166-2.86 4.3088-4.2699 6.4737 2.693-2.0799 5.2548-4.3198 7.9017-6.4557a255.4132 255.4132 0 00-3.6318-.018z" />
           </svg>
         ),
       },
       {
         name: "Python",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
-            <path d="M11.9 2c-3.1 0-2.9 1.3-2.9 1.3l.1 1.4h2.9v.4H6.7S4 4.8 4 8c0 3.1 1.7 3 1.7 3l.9-.1v-1.3c0-1.5 1.3-1.4 1.3-1.4h4.7s1.4 0 1.4-1.3V3.4S14.8 2 11.9 2zm-.9 1.2a.6.6 0 1 1 0 1.2.6.6 0 0 1 0-1.2z" fill="#3776AB" />
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
+            <path d="M11.9 2c-3.1 0-2.9 1.3-2.9 1.3l.1 1.4h2.9v.4H6.7S4 4.8 4 8c0 3.1 1.7 3 1.7 3l.9-.1v-1.3c0-1.5 1.3-1.4 1.3-1.4h4.7s1.4 0 1.4-1.3V3.4S14.8 2 11.9 2zm-.9 1.2a.6.6 0 1 1 0 1.2.6.6 0 0 1 0-1.2z" fill="#4B8BBE" />
             <path d="M12.1 22c3.1 0 2.9-1.3 2.9-1.3l-.1-1.4h-2.9v-.4h5.3s2.7.3 2.7-2.9c0-3.1-1.7-3-1.7-3l-.9.1v1.3c0 1.5-1.3 1.4-1.3 1.4H11.4s-1.4 0-1.4 1.3v3.5s-.8 1.4 2.1 1.4zm.9-1.2a.6.6 0 1 1 0-1.2.6.6 0 0 1 0 1.2z" fill="#FFD43B" />
           </svg>
         ),
@@ -707,14 +529,14 @@ const SKILL_CATEGORIES: SkillCategory[] = [
     ],
   },
   {
-    id: "mobile-desktop",
+    id: "mobile",
     index: "03",
-    title: "Mobile and desktop",
+    title: "Mobile",
     skills: [
       {
         name: "Android",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#3DDC84]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#3DDC84]" fill="currentColor">
             <path d="M6 18c0 .5.4 1 1 1h1v3c0 .5.5 1 1 1s1-.5 1-1v-3h4v3c0 .5.5 1 1 1s1-.5 1-1v-3h1c.6 0 1-.5 1-1V9H6v9zm-3-8c-.5 0-1 .5-1 1v6c0 .5.5 1 1 1s1-.5 1-1v-6c0-.5-.5-1-1-1zm18 0c-.5 0-1 .5-1 1v6c0 .5.5 1 1 1s1-.5 1-1v-6c0-.5-.5-1-1-1zM15.5 3.8l1.2-1.2a.5.5 0 0 0-.7-.7l-1.3 1.3A7.3 7.3 0 0 0 12 3c-.9 0-1.8.1-2.7.2L8 1.9a.5.5 0 0 0-.7.7l1.2 1.2A5.8 5.8 0 0 0 6 8h12a5.8 5.8 0 0 0-2.5-4.2zM9 6a.7.7 0 1 1 0-1.4.7.7 0 0 1 0 1.4zm6 0a.7.7 0 1 1 0-1.4.7.7 0 0 1 0 1.4z" />
           </svg>
         ),
@@ -722,7 +544,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Expo",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
             <path d="M4.5 4.5L12 12l7.5-7.5L21 6l-9 9-9-9 1.5-1.5zm0 7.5L12 19.5l7.5-7.5L21 13.5l-9 9-9-9 1.5-1.5z" />
           </svg>
         ),
@@ -730,7 +552,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Play Console",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
             <path d="M4 3.5v17l10-8.5L4 3.5z" fill="#00C1A0" />
             <path d="M14 12l3.5 3L4 20.5 14 12z" fill="#FF3A44" />
             <path d="M14 12L4 3.5 17.5 9 14 12z" fill="#00E676" />
@@ -739,36 +561,10 @@ const SKILL_CATEGORIES: SkillCategory[] = [
         ),
       },
       {
-        name: "Electron",
+        name: "Apple",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#9FEAF9]" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(30 12 12)" />
-            <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(-30 12 12)" />
-            <circle cx="12" cy="12" r="1.8" fill="currentColor" />
-          </svg>
-        ),
-      },
-      {
-        name: "Windows",
-        icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="#0078D6">
-            <path d="M3 5.5L10.5 4.5v6.5H3V5.5zm8.5-1.2L21 3v8H11.5V4.3zM3 13h7.5v6.5L3 18.5V13zm8.5 0H21v8l-9.5-1.3V13z" />
-          </svg>
-        ),
-      },
-      {
-        name: "macOS",
-        icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
             <path d="M18.7 19.5c-.8 1.2-1.7 2.4-3 2.4-1.3 0-1.7-.8-3.2-.8-1.5 0-2 .8-3.2.8-1.3 0-2.3-1.3-3.2-2.5-1.7-2.5-3-7.1-1.2-10.2 1-1.6 2.6-2.6 4.3-2.6 1.3 0 2.5.9 3.3.9.8 0 2.3-1.1 3.9-.9 1.4.1 2.6.6 3.4 1.7-3.1 1.7-2.6 5.8.5 7.1-.6 1.5-1.4 3-2.6 4.1zM15.4 4.5c.6-.8 1.1-2 1-3-.9.1-2.1.6-2.7 1.4-.6.7-1.1 1.9-.9 2.9 1.1.1 2-.5 2.6-1.3z" />
-          </svg>
-        ),
-      },
-      {
-        name: "Linux",
-        icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="#FCC624">
-            <path d="M12 2C9.8 2 8 3.8 8 6v4c0 1.1-.9 2-2 2H5c-.6 0-1 .4-1 1 0 2.2 1.8 4 4 4h8c2.2 0 4-1.8 4-4 0-.6-.4-1-1-1h-1c-1.1 0-2-.9-2-2V6c0-2.2-1.8-4-4-4zm-1.5 4a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-1.5 2.5c.8 0 1.5.3 1.5.8s-.7.8-1.5.8-1.5-.3-1.5-.8.7-.8 1.5-.8zM7 18c-1.7 0-3 1.3-3 3 0 .6.4 1 1 1h14c.6 0 1-.4 1-1 0-1.7-1.3-3-3-3H7z" />
           </svg>
         ),
       },
@@ -782,7 +578,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Claude",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#D97706]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#F59E0B]" fill="currentColor">
             <path d="M12 2l1.6 6.2L20 8l-4.8 4.6 3 6.4-6.2-2.5L7 22l1.2-6.8L3 11l6.4-.8L12 2z" />
           </svg>
         ),
@@ -790,7 +586,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Gemini",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#8E75FF]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#8E75FF]" fill="currentColor">
             <path d="M12 2C12 7.5 7.5 12 2 12c5.5 0 10 4.5 10 10 0-5.5 4.5-10 10-10-5.5 0-10-4.5-10-10z" />
           </svg>
         ),
@@ -798,7 +594,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Hugging Face",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#FFD21E]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#FFD21E]" fill="currentColor">
             <circle cx="12" cy="12" r="10" />
             <circle cx="8.5" cy="10.5" r="1.5" fill="#000" />
             <circle cx="15.5" cy="10.5" r="1.5" fill="#000" />
@@ -809,7 +605,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Codex",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#10A37F]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#10A37F]" fill="currentColor">
             <path d="M22.3 9.4a5.7 5.7 0 0 0-.5-4.8 5.8 5.8 0 0 0-6.1-2.7 5.8 5.8 0 0 0-4.6-2 5.9 5.9 0 0 0-5.6 4A5.8 5.8 0 0 0 1.8 7a5.8 5.8 0 0 0 .5 6.6 5.8 5.8 0 0 0 .5 4.8 5.8 5.8 0 0 0 6.1 2.7 5.8 5.8 0 0 0 4.6 2 5.9 5.9 0 0 0 5.6-4 5.8 5.8 0 0 0 3.7-3.1 5.8 5.8 0 0 0-.5-6.6zM13.2 21.8a4.3 4.3 0 0 1-2.6-.9l3.5-2a2 2 0 0 0 1-1.7v-4.9l1.8 1v4.3a4.3 4.3 0 0 1-3.7 4.2zm-8.8-3.7a4.3 4.3 0 0 1-.5-2.7l3.5 2a2 2 0 0 0 2 0l4.2-2.4v2.1l-3.7 2.1a4.3 4.3 0 0 1-5.5-1.1zm-1.8-8.7a4.3 4.3 0 0 1 2.1-1.8V11.5a2 2 0 0 0 1 1.7l4.2 2.4-1.8 1-3.7-2.1a4.3 4.3 0 0 1-1.8-4.9zm15.1 2.3l-4.2-2.4 1.8-1 3.7 2.1a4.3 4.3 0 0 1-.3 7.6v-3.9a2 2 0 0 0-1-2.4zm2.1-4a4.3 4.3 0 0 1-2.1 1.8V5.6a2 2 0 0 0-1-1.7l-4.2-2.4 1.8-1 3.7 2.1a4.3 4.3 0 0 1 1.8 4.9zm-8.3-4.3a4.3 4.3 0 0 1 2.6.9l-3.5 2a2 2 0 0 0-1 1.7v4.9l-1.8-1V5.9a4.3 4.3 0 0 1 3.7-4.2zM12 13.8l-2.4-1.4 2.4-1.4 2.4 1.4L12 13.8z" />
           </svg>
         ),
@@ -817,16 +613,15 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Antigravity",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
-            <rect width="24" height="24" rx="4" fill="#FF6B00" />
-            <path d="M12 6v7M12 17v1" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#3186FF]" fill="currentColor">
+            <path d="M20.533 21.233C21.705 22.113 23.464 21.527 21.852 19.915C17.015 15.225 18.041 2.328 12.032 2.328C6.024 2.328 7.049 15.225 2.213 19.915C0.454 21.673 2.360 22.113 3.532 21.233C8.075 18.156 7.782 12.733 12.032 12.733C16.283 12.733 15.989 18.156 20.533 21.233Z" />
           </svg>
         ),
       },
       {
         name: "FFmpeg",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#007808]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#00C814]" fill="currentColor">
             <path d="M2.5 3.5l8 4.5-8 4.5v-9zm9.5 5.5l8 4.5-8 4.5V9zm-9.5 5.5l8 4.5-8 4.5v-9z" />
           </svg>
         ),
@@ -834,7 +629,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Puppeteer",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#00D8A2]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#00D8A2]" fill="currentColor">
             <path d="M12 2a4 4 0 0 0-4 4v1H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2V6a4 4 0 0 0-4-4zm-2 4a2 2 0 1 1 4 0v1h-4V6zm7 7a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-7 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
           </svg>
         ),
@@ -849,19 +644,19 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Git",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#F05032]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#F05032]" fill="currentColor">
             <path d="M21.6 10.9L13.1 2.4a1.7 1.7 0 0 0-2.4 0l-1.8 1.8 2.3 2.3a2 2 0 0 1 2.5 2.5l2.2 2.2a2 2 0 1 1-1.2 1.2l-2.1-2.1v4.3a2 2 0 1 1-1.7 0V9.8a2 2 0 0 1-1.1-2.6L7.4 4.8 2.4 9.8a1.7 1.7 0 0 0 0 2.4l8.5 8.5c.7.7 1.7.7 2.4 0l8.3-8.3a1.7 1.7 0 0 0 0-2.4z" />
           </svg>
         ),
       },
       {
         name: "GitHub",
-        icon: <GithubIcon className="w-4 h-4 text-foreground" />,
+        icon: <GithubIcon className="w-5 h-5 text-white" />,
       },
       {
         name: "Docker",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#2496ED]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#2496ED]" fill="currentColor">
             <path d="M13.5 8.5h2v2h-2zm-2.5 0h2v2h-2zm-2.5 0h2v2h-2zm5-2.5h2v2h-2zm-2.5 0h2v2h-2zm-2.5 0h2v2h-2zm-2.5 2.5h2v2h-2zm14.8 4.2c-.3-.2-1.3-.7-2.6-.4-.3-1-1.1-1.8-2-2.1l-.8-.3-.5.7c-.7 1.1-.7 2.6-.2 3.8-.7.4-1.7.5-2.6.5H2.2c-.4 1.4.1 3.2 1.2 4.4 1.6 1.7 3.8 2.2 6.5 2.2 6 0 10.5-3.3 11.8-8.2.7 0 1.4-.2 1.9-.6h-.8z" />
           </svg>
         ),
@@ -869,7 +664,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Vercel",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
             <path d="M12 2L2 20h20L12 2z" />
           </svg>
         ),
@@ -877,27 +672,15 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Cloudflare",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#F38020]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#F38020]" fill="currentColor">
             <path d="M18.2 10.2a5.4 5.4 0 0 0-5.2-4.2c-2.3 0-4.3 1.5-5 3.6a4.8 4.8 0 0 0-4.5 4.8c0 2.7 2.2 4.8 4.8 4.8h14.4c2.3 0 4.2-1.9 4.2-4.2 0-2.2-1.7-4-3.8-4.2l-.9-.1-.2-.5z" />
-          </svg>
-        ),
-      },
-      {
-        name: "Figma",
-        icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
-            <path d="M8 2h4v5H8a2.5 2.5 0 0 1 0-5z" fill="#F24E1E" />
-            <path d="M12 2h4a2.5 2.5 0 0 1 0 5h-4V2z" fill="#FF7262" />
-            <path d="M8 7h4v5H8a2.5 2.5 0 0 1 0-5z" fill="#A259FF" />
-            <path d="M12 7h4a2.5 2.5 0 0 1 0 5 2.5 2.5 0 0 1-4 0V7z" fill="#1ABCFE" />
-            <path d="M8 12h4v5a2.5 2.5 0 0 1-4-2 2.5 2.5 0 0 1 0-3z" fill="#0ACF83" />
           </svg>
         ),
       },
       {
         name: "npm",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#CB3837]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#E53E3E]" fill="currentColor">
             <path d="M2 4v16h20V4H2zm16 13h-3.5V9h-3v8H5V7h13v10z" />
           </svg>
         ),
@@ -905,7 +688,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "pnpm",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#F69220]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#F69220]" fill="currentColor">
             <path d="M3 3h5v5H3zm6 0h5v5H9zm6 0h5v5h-5zM3 9h5v5H3zm12 0h5v5h-5zm-6 6h5v5H9zm6 0h5v5h-5zm-12 0h5v5H3z" />
           </svg>
         ),
@@ -915,12 +698,12 @@ const SKILL_CATEGORIES: SkillCategory[] = [
   {
     id: "web3",
     index: "06",
-    title: "Web3",
+    title: "Web3/Blockchain",
     skills: [
       {
         name: "Solidity",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
             <path d="M12 2l4.5 8L12 18l-4.5-8L12 2zm0 4.5l-2.5 4.5 2.5 4.5 2.5-4.5L12 6.5zM17 11l4.5 7.5L17 22l-2.5-4.5 2.5-6.5zM7 11l2.5 6.5L7 22l-4.5-3.5L7 11z" />
           </svg>
         ),
@@ -928,7 +711,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Rust",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#CE412B]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#F74C00]" fill="currentColor">
             <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 4a6 6 0 1 1-6 6 6 6 0 0 1 6-6zm-1 2h2v2h-2zm-3.5 1.5l1.4 1.4-1.4 1.4-1.4-1.4zm9 0l1.4 1.4-1.4 1.4-1.4-1.4zM7 11h2v2H7zm8 0h2v2h-2zm-4.5 3.5h2v2h-2z" />
           </svg>
         ),
@@ -936,7 +719,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Foundry",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#FF5722]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#FF5722]" fill="currentColor">
             <path d="M21 7h-4.2l-2-2H4c-.6 0-1 .4-1 1v2.5c0 .3.1.6.3.8L5.5 11v3h2.5v2H6v3h12v-3h-2v-2h2.5v-1l2-2.5c.3-.3.5-.7.5-1.1V7z" />
           </svg>
         ),
@@ -944,7 +727,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Anchor",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#3B82F6]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#3B82F6]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="5" r="3" />
             <line x1="12" y1="8" x2="12" y2="21" />
             <path d="M5 12H19" />
@@ -955,7 +738,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Ethereum",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#627EEA]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#8A9DF5]" fill="currentColor">
             <path d="M12 2L4.5 13.5 12 18l7.5-4.5L12 2zm0 17.5L4.5 15 12 22l7.5-7-7.5 4.5z" />
           </svg>
         ),
@@ -963,7 +746,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Solana",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
             <path d="M4 6.5l3-3h13l-3 3H4zm0 6l3-3h13l-3 3H4zm0 6l3-3h13l-3 3H4z" fill="url(#solana-grad)" />
             <defs>
               <linearGradient id="solana-grad" x1="4" y1="3.5" x2="20" y2="18.5" gradientUnits="userSpaceOnUse">
@@ -977,7 +760,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Viem",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-foreground" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
             <path d="M2.5 4h4.8l5.2 12.8L17.7 4h4.8L14.2 20h-4.4L2.5 4z" />
           </svg>
         ),
@@ -985,7 +768,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Wagmi",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#E65100]" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#FF6B2B]" fill="currentColor">
             <path d="M3.5 5.5h3.2l3.3 9.8 3-9.8h2.8l3 9.8 3.3-9.8h3.2l-4.8 13h-3.4l-2.8-9-2.8 9H4.9L3.5 5.5z" />
           </svg>
         ),
@@ -993,7 +776,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "RainbowKit",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
             <path d="M4 18a8 8 0 0 1 16 0" stroke="#FF494A" strokeWidth="2.2" strokeLinecap="round" />
             <path d="M7 18a5 5 0 0 1 10 0" stroke="#FFB020" strokeWidth="2.2" strokeLinecap="round" />
             <path d="M10 18a2 2 0 0 1 4 0" stroke="#00D26A" strokeWidth="2.2" strokeLinecap="round" />
@@ -1003,7 +786,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Solana Web3.js",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+          <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
             <path d="M4 6.5l3-3h13l-3 3H4zm0 6l3-3h13l-3 3H4zm0 6l3-3h13l-3 3H4z" fill="url(#solana-web3-grad)" />
             <defs>
               <linearGradient id="solana-web3-grad" x1="4" y1="3.5" x2="20" y2="18.5" gradientUnits="userSpaceOnUse">
@@ -1017,7 +800,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Wallet Adapter",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-4 h-4 text-[#14F195]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#14F195]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" />
             <path d="M3 5v14a2 2 0 0 0 2 2h16v-5" />
             <path d="M18 12a2 2 0 0 0 0 4h4v-4z" />
@@ -1199,8 +982,10 @@ export default function HomePage() {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
-    category: "Full MVP Development",
+    category: "Web app development",
+    customCategory: "",
     budget: "Still deciding",
+    customBudget: "",
     message: "",
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -1217,17 +1002,39 @@ export default function HomePage() {
     if (!formState.name.trim() || !formState.email.trim() || !formState.message.trim()) {
       return;
     }
+    if (formState.category === "Other" && !formState.customCategory.trim()) {
+      setFormError("Please specify your custom project scope.");
+      return;
+    }
+    if (formState.budget === "Custom" && !formState.customBudget.trim()) {
+      setFormError("Please enter your target budget amount.");
+      return;
+    }
     setFormSubmitting(true);
     setFormError(null);
 
     try {
+      const payload = {
+        name: formState.name,
+        email: formState.email,
+        category:
+          formState.category === "Other" && formState.customCategory.trim()
+            ? formState.customCategory.trim()
+            : formState.category,
+        budget:
+          formState.budget === "Custom" && formState.customBudget.trim()
+            ? formState.customBudget.trim()
+            : formState.budget,
+        message: formState.message,
+      };
+
       const response = await fetch("https://formspree.io/f/xaeqgenr", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(formState),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
@@ -1260,8 +1067,7 @@ export default function HomePage() {
             >
               MUHAMMAD FARAN
             </a>
-            <span className="hidden sm:inline-flex items-center gap-2 border border-card-border bg-lift/80 px-2.5 py-0.5 font-mono text-xs font-medium tracking-wide text-text-muted rounded">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.4)]"></span>
+            <span className="hidden sm:inline-flex items-center border border-card-border bg-lift/80 px-2.5 py-0.5 font-mono text-xs font-medium tracking-wide text-text-muted rounded">
               AVAILABLE FOR WORK
             </span>
           </div>
@@ -1291,13 +1097,13 @@ export default function HomePage() {
       </header>
 
       {/* Main Content Area */}
-      <main id="top" className="flex-1 mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
+      <main id="top" className="flex-1 mx-auto w-full max-w-6xl px-4 pb-12 sm:px-6 sm:pb-16">
         {/* HERO SECTION (Editorial Manifesto with Authoritative Copywriting) */}
         <section
           aria-labelledby="hero-title"
-          className="min-h-[calc(100vh-8rem)] flex flex-col justify-between pb-8 pt-4 sm:pt-6 border-b border-card-border"
+          className="min-h-[calc(100vh-4rem)] flex flex-col justify-center pt-8 pb-16 sm:pt-12 sm:pb-24 border-b border-card-border"
         >
-          <div className="my-auto py-8 sm:py-12 space-y-8 max-w-4xl">
+          <div className="space-y-8 max-w-4xl">
             {/* Monumental Headline preserving original copy */}
             <h1
               id="hero-title"
@@ -1308,7 +1114,7 @@ export default function HomePage() {
 
             {/* Original Value Proposition */}
             <p className="max-w-2xl text-lg sm:text-xl leading-relaxed text-text-muted">
-              Im Muhammad Faran, a Fullstack Software Engineer, I take mobile apps, web platforms and blockchain systems from zero to deployment with clean architecture and complete technical ownership.
+              I&apos;m <strong className="font-bold text-foreground">Muhammad Faran</strong>, a Fullstack Software Engineer, I take mobile apps, web platforms and blockchain systems from zero to deployment with clean architecture and complete technical ownership.
             </p>
 
             {/* Action Buttons: Primary CTAs & Sized-Up Freelance Platforms */}
@@ -1320,12 +1126,12 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 rounded bg-foreground px-5 py-2.5 text-xs sm:text-sm font-bold text-background transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground shadow-sm"
                 >
                   <span>Let&apos;s talk</span>
-                  <span aria-hidden="true" className="text-sm font-semibold">↗</span>
+                  <span aria-hidden="true" className="text-sm font-semibold">↓</span>
                 </a>
 
                 <a
                   href="#projects"
-                  className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg/60 px-5 py-2.5 text-xs sm:text-sm font-medium text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                  className="inline-flex items-center gap-2 rounded bg-foreground px-5 py-2.5 text-xs sm:text-sm font-bold text-background transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground shadow-sm"
                 >
                   <span>Explore my work</span>
                   <span aria-hidden="true" className="text-sm font-semibold">↓</span>
@@ -1339,9 +1145,8 @@ export default function HomePage() {
                   onClick={() => setPlaceholderModal("Upwork")}
                   title="Hire on Upwork"
                   aria-label="Hire on Upwork"
-                  className="inline-flex items-center gap-2.5 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
                 >
-                  <UpworkIcon className="h-4 w-4" />
                   <span>Upwork</span>
                   <span className="text-text-muted">↗</span>
                 </button>
@@ -1351,9 +1156,8 @@ export default function HomePage() {
                   onClick={() => setPlaceholderModal("Fiverr")}
                   title="Hire on Fiverr"
                   aria-label="Hire on Fiverr"
-                  className="inline-flex items-center gap-2.5 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
                 >
-                  <FiverrIcon className="h-4 w-4" />
                   <span>Fiverr</span>
                   <span className="text-text-muted">↗</span>
                 </button>
@@ -1364,9 +1168,8 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   title="GitHub Profile"
                   aria-label="GitHub Profile"
-                  className="inline-flex items-center gap-2.5 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                  className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
-                  <GithubIcon className="h-4 w-4" />
                   <span>GitHub</span>
                   <span className="text-text-muted">↗</span>
                 </a>
@@ -1428,7 +1231,6 @@ export default function HomePage() {
                       url: project.image,
                       alt: project.imageAlt,
                       label: "Overview",
-                      caption: "",
                     },
                   ];
               const totalImages = galleryList.length;
@@ -1579,7 +1381,7 @@ export default function HomePage() {
                                 aria-label={`${project.title} ${gh.label}`}
                               >
                                 <GithubIcon className="h-3.5 w-3.5 text-foreground" />
-                                <span>{idx === 0 ? "Frontend" : "Contracts"}</span>
+                                <span>{idx === 0 ? "UI" : "Contracts"}</span>
                               </a>
                             ))}
                           </div>
@@ -1666,7 +1468,7 @@ export default function HomePage() {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
-                <span>{isAllExpanded ? "Collapse All" : "Expand All (54)"}</span>
+                <span>{isAllExpanded ? "Collapse All" : "Expand All (50)"}</span>
               </button>
             </div>
           </div>
@@ -1739,12 +1541,12 @@ export default function HomePage() {
                         {cat.skills.map((skill) => (
                           <div
                             key={skill.name}
-                            className="inline-flex items-center gap-2 border border-card-border bg-lift px-3.5 py-2 rounded text-xs sm:text-sm font-medium text-foreground hover:border-card-hover hover:bg-hover-surface transition-colors shadow-xs"
+                            className="flex-1 min-w-[calc(50%-0.625rem)] sm:min-w-[125px] inline-flex items-center justify-center gap-2.5 border border-card-border bg-lift px-3.5 py-2.5 rounded text-xs sm:text-sm font-medium text-foreground hover:border-card-hover hover:bg-hover-surface transition-colors shadow-xs"
                           >
-                            <span className="shrink-0 flex items-center justify-center w-4 h-4">
+                            <span className="shrink-0 flex items-center justify-center w-5 h-5">
                               {skill.icon}
                             </span>
-                            <span>{skill.name}</span>
+                            <span className="truncate">{skill.name}</span>
                           </div>
                         ))}
                       </div>
@@ -1791,8 +1593,10 @@ export default function HomePage() {
                         setFormState({
                           name: "",
                           email: "",
-                          category: "Full MVP Development",
+                          category: "Web app development",
+                          customCategory: "",
                           budget: "Still deciding",
+                          customBudget: "",
                           message: "",
                         });
                       }}
@@ -1856,16 +1660,30 @@ export default function HomePage() {
                       </label>
                       <select
                         id="project-category"
-                        name="category"
+                        name={formState.category === "Other" ? undefined : "category"}
                         value={formState.category}
                         onChange={(e) => setFormState({ ...formState, category: e.target.value })}
                         className="w-full border border-card-border bg-background px-3.5 py-3 text-sm sm:text-base text-foreground focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors cursor-pointer"
                       >
-                        <option>Full MVP Development</option>
-                        <option>Mobile App Development</option>
-                        <option>Web & Blockchain Engineering</option>
-                        <option>Web Platform Engineering</option>
+                        <option value="Web app development">Web app development</option>
+                        <option value="Mobile app development">Mobile app development</option>
+                        <option value="Blockchain system development">Blockchain system development</option>
+                        <option value="Other">Other (write your own)</option>
                       </select>
+                      {formState.category === "Other" && (
+                        <input
+                          type="text"
+                          id="custom-category"
+                          name="category"
+                          required
+                          value={formState.customCategory}
+                          onChange={(e) => setFormState({ ...formState, customCategory: e.target.value })}
+                          placeholder="Specify project scope (e.g. AI platform, API)..."
+                          aria-label="Custom project scope"
+                          className="mt-2 w-full border border-card-border bg-background px-4 py-2.5 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
+                          autoFocus
+                        />
+                      )}
                     </div>
 
                     <div className="space-y-1.5">
@@ -1874,17 +1692,32 @@ export default function HomePage() {
                       </label>
                       <select
                         id="project-budget"
-                        name="budget"
+                        name={formState.budget === "Custom" ? undefined : "budget"}
                         value={formState.budget}
                         onChange={(e) => setFormState({ ...formState, budget: e.target.value })}
                         className="w-full border border-card-border bg-background px-3.5 py-3 text-sm sm:text-base text-foreground focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors cursor-pointer"
                       >
-                        <option>Still deciding</option>
-                        <option>$1,000 - $2,500</option>
-                        <option>$2,500 - $5,000</option>
-                        <option>$5,000 - $10,000</option>
-                        <option>$10,000+</option>
+                        <option value="Still deciding">Still deciding</option>
+                        <option value="$1,000 - $2,500">$1,000 - $2,500</option>
+                        <option value="$2,500 - $5,000">$2,500 - $5,000</option>
+                        <option value="$5,000 - $10,000">$5,000 - $10,000</option>
+                        <option value="$10,000+">$10,000+</option>
+                        <option value="Custom">Custom amount (enter your own)</option>
                       </select>
+                      {formState.budget === "Custom" && (
+                        <input
+                          type="text"
+                          id="custom-budget"
+                          name="budget"
+                          required
+                          value={formState.customBudget}
+                          onChange={(e) => setFormState({ ...formState, customBudget: e.target.value })}
+                          placeholder="e.g. $3,500 or $15k - $25k"
+                          aria-label="Custom budget amount"
+                          className="mt-2 w-full border border-card-border bg-background px-4 py-2.5 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
+                          autoFocus
+                        />
+                      )}
                     </div>
                   </div>
 
