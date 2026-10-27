@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 
 // Project Data Schema
@@ -47,28 +47,12 @@ function GithubIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
   );
 }
 
-function UpworkIcon({ className = "h-4 w-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M18.561 13.158c-1.102 0-2.135-.467-3.074-1.227l.228-1.076.008-.042c.207-1.143.849-3.06 2.839-3.06 1.492 0 2.703 1.212 2.703 2.703-.001 1.489-1.212 2.702-2.704 2.702zm0-8.14c-2.539 0-4.51 1.649-5.31 4.366-1.22-1.834-2.148-4.036-2.687-5.892H7.828v7.112c-.002 1.406-1.141 2.546-2.547 2.548-1.405-.002-2.545-1.142-2.547-2.548V3.592H.5v7.112c0 2.235 1.547 4.133 3.659 4.606v3.29h2.368v-3.328c.954.215 1.951.325 2.972.324 2.527 0 4.708-1.026 6.136-2.684l1.248 5.86h2.417l-1.776-8.344c.594-.658 1.054-1.442 1.332-2.327 1.455.978 3.193 1.559 5.063 1.559V10.74c-1.486 0-2.87-.492-3.999-1.322z" />
-    </svg>
-  );
-}
-
-function FiverrIcon({ className = "h-4 w-4" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M23.004 15.588a.995.995 0 1 0 .002-1.99.995.995 0 0 0-.002 1.99zm-.996-3.705h-.85c-.546 0-.84.41-.84 1.092v2.466h-1.61v-3.558h-.684c-.547 0-.84.41-.84 1.092v2.466h-1.61v-4.874h1.61v.74c.264-.574.626-.74 1.163-.74h1.972v.74c.264-.574.625-.74 1.162-.74h.527v1.316zm-6.786 1.501h-3.359c.088.546.43.858 1.006.858.43 0 .732-.175.83-.487l1.425.4c-.351.848-1.22 1.364-2.255 1.364-1.748 0-2.549-1.355-2.549-2.515 0-1.14.703-2.505 2.45-2.505 1.856 0 2.471 1.384 2.471 2.408 0 .224-.01.37-.02.477zm-1.562-.945c-.04-.42-.342-.81-.889-.81-.508 0-.81.225-.908.81h1.797zM7.508 15.44h1.416l1.767-4.874h-1.62l-.86 2.837-.878-2.837H5.72l1.787 4.874zm-6.6 0H2.51v-3.558h1.524v3.558h1.591v-4.874H2.51v-.302c0-.332.235-.536.606-.536h.918V8.412H2.85c-1.162 0-1.943.712-1.943 1.755v.4H0v1.316h.908v3.558z" />
-    </svg>
-  );
-}
-
 const PROJECTS: Project[] = [
   {
     id: "roaring-bulls",
     specId: "SPEC-01",
     title: "Roaring Bulls",
-    tagline: "Swipe-based tokenized onchain (solana blockchain) stocks trading platform",
+    tagline: "Swipe-based basket curation web application which allows users to buy onchain (solana blockchain) stocks.",
     category: "web",
     categoryLabel: "Web",
     status: "live",
@@ -100,7 +84,7 @@ const PROJECTS: Project[] = [
     id: "chundrigar-capital",
     specId: "SPEC-02",
     title: "Chundrigar Capital",
-    tagline: "Tokenized Pakistan Stock Exchange shares on Base Sepolia Blockchain",
+    tagline: "Web trading platform that provides tokenized Pakistan Stock Exchange shares on Base Sepolia Blockchain.",
     category: "web3",
     categoryLabel: "Web & Blockchain",
     status: "live",
@@ -142,7 +126,7 @@ const PROJECTS: Project[] = [
     id: "devsafar",
     specId: "SPEC-03",
     title: "DevSafar",
-    tagline: "Global hackathon & coding competition discovery directory",
+    tagline: "Hackathon & coding competition discovery directory built for developers and students of Pakistan.",
     category: "web",
     categoryLabel: "Web",
     status: "live",
@@ -821,7 +805,6 @@ const CATEGORY_TABS: Array<{ id: "all" | "web" | "mobile" | "web3"; label: strin
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<"all" | "web3" | "mobile" | "web">("all");
   const [cardImageIndexes, setCardImageIndexes] = useState<Record<string, number>>({});
-  const [placeholderModal, setPlaceholderModal] = useState<string | null>(null);
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     frontend: true,
     web3: true,
@@ -847,8 +830,7 @@ export default function HomePage() {
   };
 
   const isAllExpanded = SKILL_CATEGORIES.every((cat) => openCategories[cat.id]);
-  const placeholderRef = useRef<HTMLDivElement>(null);
-  const lastFocusedRef = useRef<HTMLElement | null>(null);
+
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
 
@@ -908,75 +890,7 @@ export default function HomePage() {
     tabEl?.focus();
   };
 
-  // Close placeholder modal on Escape; trap Tab inside open dialog
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setPlaceholderModal(null);
-        return;
-      }
-      if (e.key === "Tab" && placeholderModal) {
-        const container = placeholderRef.current;
-        if (!container) return;
-        const focusables = Array.from(
-          container.querySelectorAll<HTMLElement>(
-            "button:not([disabled]), a[href], input, select, textarea"
-          )
-        ).filter((el) => el.offsetParent !== null);
-        if (focusables.length === 0) {
-          e.preventDefault();
-          return;
-        }
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        const active = document.activeElement;
-        if (e.shiftKey) {
-          if (active === first || !container.contains(active)) {
-            e.preventDefault();
-            last.focus();
-          }
-        } else if (active === last || !container.contains(active)) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [placeholderModal]);
 
-  // Move focus into the placeholder dialog on open, restore focus on close
-  useEffect(() => {
-    if (placeholderModal) {
-      lastFocusedRef.current = document.activeElement as HTMLElement | null;
-      const raf = requestAnimationFrame(() => {
-        const first = placeholderRef.current?.querySelector<HTMLElement>("button, a[href]");
-        first?.focus();
-      });
-      return () => {
-        cancelAnimationFrame(raf);
-        lastFocusedRef.current?.focus?.();
-      };
-    }
-  }, [placeholderModal]);
-
-  // Lock body scroll when placeholder modal is open
-  useEffect(() => {
-    if (placeholderModal) {
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = "hidden";
-      if (scrollbarWidth > 0) {
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-      }
-    } else {
-      document.body.style.overflow = "unset";
-      document.body.style.paddingRight = "";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-      document.body.style.paddingRight = "";
-    };
-  }, [placeholderModal]);
 
   // Contact Form State
   const [formState, setFormState] = useState({
@@ -1140,27 +1054,17 @@ export default function HomePage() {
 
               {/* Tier 2: Sized-up Platform Channels (matches touch target & height) */}
               <div className="flex flex-wrap items-center gap-2.5">
-                <button
-                  type="button"
-                  onClick={() => setPlaceholderModal("Upwork")}
+                <a
+                  href="https://www.upwork.com/freelancers/~01958faf0bb3c23d8a"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   title="Hire on Upwork"
                   aria-label="Hire on Upwork"
-                  className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
                   <span>Upwork</span>
                   <span className="text-text-muted">↗</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setPlaceholderModal("Fiverr")}
-                  title="Hire on Fiverr"
-                  aria-label="Hire on Fiverr"
-                  className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
-                >
-                  <span>Fiverr</span>
-                  <span className="text-text-muted">↗</span>
-                </button>
+                </a>
 
                 <a
                   href="https://github.com/m-faran"
@@ -1221,7 +1125,12 @@ export default function HomePage() {
           </div>
 
           {/* Level 1 Modular Project Grid with Visual Viewports */}
-          <div id="projects-grid" className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div
+            id="projects-grid"
+            role="tabpanel"
+            aria-labelledby={`tab-${activeCategory}`}
+            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+          >
             {filteredProjects.map((project) => {
               const galleryList =
                 project.gallery && project.gallery.length > 0
@@ -1249,6 +1158,10 @@ export default function HomePage() {
                     className="relative aspect-[16/10] w-full overflow-hidden bg-background border-b border-card-border flex items-center justify-center select-none touch-pan-y"
                     onTouchStart={hasMultipleImages ? handleTouchStart : undefined}
                     onTouchEnd={hasMultipleImages ? (e) => handleTouchEnd(project.id, totalImages, e) : undefined}
+                    onTouchCancel={hasMultipleImages ? () => {
+                      touchStartXRef.current = null;
+                      touchStartYRef.current = null;
+                    } : undefined}
                   >
                     {project.category === "mobile" ? (
                       <div className="relative h-full w-full flex items-center justify-center p-2.5 bg-gradient-to-b from-lift/50 to-background">
@@ -1300,7 +1213,7 @@ export default function HomePage() {
                             handlePrevImage(project.id, totalImages);
                           }}
                           aria-label={`Previous image for ${project.title}`}
-                          className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 h-9 w-9 sm:h-8 sm:w-8 flex items-center justify-center rounded-full bg-background/90 hover:bg-background border border-card-border hover:border-card-hover text-foreground backdrop-blur-sm shadow-lg opacity-90 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-all cursor-pointer hover:scale-110 active:scale-95"
+                          className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 h-10 w-10 sm:h-8 sm:w-8 flex items-center justify-center rounded-full bg-background/90 hover:bg-background border border-card-border hover:border-card-hover text-foreground backdrop-blur-sm shadow-lg opacity-90 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground transition-all cursor-pointer hover:scale-110 active:scale-95"
                         >
                           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
@@ -1315,7 +1228,7 @@ export default function HomePage() {
                             handleNextImage(project.id, totalImages);
                           }}
                           aria-label={`Next image for ${project.title}`}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 h-9 w-9 sm:h-8 sm:w-8 flex items-center justify-center rounded-full bg-background/90 hover:bg-background border border-card-border hover:border-card-hover text-foreground backdrop-blur-sm shadow-lg opacity-90 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 transition-all cursor-pointer hover:scale-110 active:scale-95"
+                          className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 h-10 w-10 sm:h-8 sm:w-8 flex items-center justify-center rounded-full bg-background/90 hover:bg-background border border-card-border hover:border-card-hover text-foreground backdrop-blur-sm shadow-lg opacity-90 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground transition-all cursor-pointer hover:scale-110 active:scale-95"
                         >
                           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
@@ -1360,7 +1273,7 @@ export default function HomePage() {
                         {project.title}
                       </h3>
 
-                      <p className="text-sm sm:text-base leading-relaxed text-text-muted line-clamp-2">
+                      <p className="text-sm sm:text-base leading-relaxed text-text-muted min-h-[4.5rem] sm:min-h-[4.875rem]">
                         {project.tagline}
                       </p>
                     </div>
@@ -1681,7 +1594,6 @@ export default function HomePage() {
                           placeholder="Specify project scope (e.g. AI platform, API)..."
                           aria-label="Custom project scope"
                           className="mt-2 w-full border border-card-border bg-background px-4 py-2.5 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
-                          autoFocus
                         />
                       )}
                     </div>
@@ -1715,7 +1627,6 @@ export default function HomePage() {
                           placeholder="e.g. $3,500 or $15k - $25k"
                           aria-label="Custom budget amount"
                           className="mt-2 w-full border border-card-border bg-background px-4 py-2.5 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
-                          autoFocus
                         />
                       )}
                     </div>
@@ -1774,29 +1685,22 @@ export default function HomePage() {
           {/* Navigation & Contact Links */}
           <div className="flex flex-wrap items-center gap-6 sm:gap-8 text-sm text-text-muted">
             {/* Upwork */}
-            <button
-              type="button"
-              onClick={() => setPlaceholderModal("Upwork")}
-              className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
+            <a
+              href="https://www.upwork.com/freelancers/~01958faf0bb3c23d8a"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-1.5 px-1 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
               Upwork
-            </button>
+            </a>
 
-            {/* Fiverr */}
-            <button
-              type="button"
-              onClick={() => setPlaceholderModal("Fiverr")}
-              className="cursor-pointer transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
-            >
-              Fiverr
-            </button>
 
             {/* GitHub */}
             <a
               href="https://github.com/m-faran"
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
+              className="py-1.5 px-1 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
               GitHub
             </a>
@@ -1804,7 +1708,7 @@ export default function HomePage() {
             {/* Contact */}
             <a
               href="#contact"
-              className="transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
+              className="py-1.5 px-1 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
               Contact
             </a>
@@ -1812,70 +1716,7 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* PLACEHOLDER / CONTRACT INITIATION MODAL */}
-      {placeholderModal && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="placeholder-title"
-          aria-describedby="placeholder-desc"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
-          onClick={() => setPlaceholderModal(null)}
-        >
-          <div
-            id="placeholder-dialog"
-            ref={placeholderRef}
-            className="w-full max-w-md border border-card-border bg-card-bg p-6 space-y-4 rounded shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between border-b border-card-border pb-3">
-              <h3
-                id="placeholder-title"
-                className="font-mono text-xs sm:text-sm font-bold text-foreground uppercase tracking-wider"
-              >
-                Hire on {placeholderModal}
-              </h3>
-              <button
-                type="button"
-                onClick={() => setPlaceholderModal(null)}
-                className="h-7 w-7 flex items-center justify-center font-mono text-xs text-text-muted hover:text-foreground rounded border border-card-border hover:bg-lift transition-colors cursor-pointer"
-                aria-label="Close dialog"
-              >
-                ✕
-              </button>
-            </div>
 
-            <p id="placeholder-desc" className="text-sm text-text-muted leading-relaxed">
-              Official <strong>{placeholderModal}</strong> profile integration is being connected. In the meantime, you can submit your project scope below, and we can initiate an official {placeholderModal} contract or direct freelance agreement.
-            </p>
-
-            <div className="border border-card-border bg-background p-3.5 font-mono text-xs tracking-wide text-text-muted flex items-center justify-between rounded">
-              <span>Direct Engagement Status</span>
-              <span className="inline-flex items-center gap-1.5 text-foreground font-semibold">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-                Active &amp; Available
-              </span>
-            </div>
-
-            <div className="flex justify-end gap-2.5 pt-2">
-              <button
-                type="button"
-                onClick={() => setPlaceholderModal(null)}
-                className="border border-card-border bg-lift px-4 py-2 font-mono text-xs font-medium tracking-wide text-text-muted hover:text-foreground hover:bg-card-border rounded cursor-pointer transition-colors"
-              >
-                Close
-              </button>
-              <a
-                href="#contact"
-                onClick={() => setPlaceholderModal(null)}
-                className="border border-foreground bg-foreground text-background hover:bg-zinc-200 px-4 py-2 font-mono text-xs font-bold tracking-wide rounded transition-colors"
-              >
-                Start Inquiry Form →
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

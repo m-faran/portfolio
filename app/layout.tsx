@@ -20,9 +20,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Faran | Full-Stack & Mobile Engineer (React, React Native, Web3)",
+  title: "Faran | Full Stack Software Engineer",
   description:
-    "Product-minded Full-Stack & Mobile Engineer specializing in production web platforms, cross-platform mobile apps (React Native), and Web3 dApps. Available for freelance MVPs and contracts on Upwork & Fiverr.",
+    "Product-minded Full-Stack & Mobile Engineer specializing in production web platforms, cross-platform mobile apps (React Native), and Web3 dApps. Available for freelance MVPs and contracts on Upwork.",
   keywords: [
     "Full-Stack Engineer",
     "React Native Developer",

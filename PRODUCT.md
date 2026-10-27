@@ -8,9 +8,9 @@ web
 
 ## Users
 
-- **Upwork & Fiverr Clients / Startup Founders**: Business owners, agency leads, and non-technical founders seeking an autonomous engineer to build full MVPs, cross-platform mobile apps (React Native), web dashboards, or blockchain dApps.
+- **Upwork Clients / Startup Founders**: Business owners, agency leads, and non-technical founders seeking an autonomous engineer to build full MVPs, cross-platform mobile apps (React Native), web dashboards, or blockchain dApps.
 - **Technical Leads & Engineering Managers**: Technical evaluators reviewing code quality, frontend architecture, and state management.
-- **Core Priority**: Primary focus is tailored to Upwork/Fiverr clients and non-technical decision-makers who value end-to-end autonomy, reliability, and clear business outcomes.
+- **Core Priority**: Primary focus is tailored to Upwork clients and non-technical decision-makers who value end-to-end autonomy, reliability, and clear business outcomes.
 
 ## Product Purpose
 
@@ -35,7 +35,6 @@ A product-minded Full-Stack & Mobile Engineer (React & React Native) specializin
   3. Web & Blockchain (Solana, Base, Monad / EVM)
 - **Placeholders Reserved for Faran**:
   - Upwork Profile link
-  - Fiverr Profile link
   - Downloadable / Viewable Resume link
 - **Design Philosophy**: Minimal, fast, accessible, and distraction-free.
 
@@ -59,8 +58,7 @@ A product-minded Full-Stack & Mobile Engineer (React & React Native) specializin
 2. **[Genie Markets](https://geniemarkets.vercel.app/)** ([Frontend Repo](https://github.com/m-faran/geniemarkets-frontend) / [Protocol Contracts](https://github.com/m-faran/genie-markets)): Decentralized onchain prediction protocol on Monad Testnet featuring Pyth Entropy cryptographic randomness, zero-gas ERC-4337 smart accounts via Privy, and non-custodial USDC payouts up to 600x.
 
 ### Placeholders (To be provided by Faran)
-- Upwork profile URL placeholder
-- Fiverr profile URL placeholder
+- Upwork Profile: [https://www.upwork.com/freelancers/~01958faf0bb3c23d8a](https://www.upwork.com/freelancers/~01958faf0bb3c23d8a)
 - Resume PDF / link placeholder
 
 ## Product Principles
@@ -68,4 +66,4 @@ A product-minded Full-Stack & Mobile Engineer (React & React Native) specializin
 1. **Clarity for Non-Technical Clients**: Communicate the value, function, and outcome of each project in plain, compelling language before diving into technical specs.
 2. **Strict Minimalism**: Eliminate huge, distracting animations and bloated layouts. Let typographic discipline, clean spacing, and speed establish premium quality.
 3. **Verifiable Proof**: Feature real, live web deployments and concrete mobile project contexts rather than abstract claims.
-4. **Frictionless Client Onboarding**: Keep Upwork, Fiverr, and direct project inquiry channels prominent and effortless to reach from any screen.
+4. **Frictionless Client Onboarding**: Keep Upwork and direct project inquiry channels prominent and effortless to reach from any screen.
