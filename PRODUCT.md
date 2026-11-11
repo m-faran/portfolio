@@ -8,7 +8,7 @@ web
 
 ## Users
 
-Founders, engineering leaders, product managers, and freelance/contract clients (including Upwork and direct inquiries) evaluating Muhammad Faran for full-stack web platforms, cross-platform mobile applications (React Native / Expo), and Web3 / blockchain systems (Solana & EVM).
+Founders, engineering leaders, product managers, and freelance/contract clients (including Upwork and direct inquiries) evaluating Muhammad Faran for full-stack web platforms and cross-platform mobile applications (React Native / Expo).
 
 ## Product Purpose
 
@@ -26,15 +26,15 @@ Visitors typically review the portfolio on desktop or mobile while vetting candi
 
 - **Hero Section:** Preserves the authoritative high-contrast editorial headline ("Full Stack Software Engineer"), ownership statement, primary CTAs ("Let's talk", "Explore my work"), and direct platform links (Upwork, GitHub).
 - **Selected Work (9 Production & Closed-Beta Systems):**
-  - `SPEC-01` Roaring Bulls (Web / Solana Tokenized Equities)
-  - `SPEC-02` Chundrigar Capital (Web & Blockchain / Base Sepolia KSE-100 Exchange)
-  - `SPEC-03` DevSafar (Web / Hackathon Discovery & Matchmaking Platform)
-  - `SPEC-04` Ludo Elemental (Mobile / Deterministic Turn-Based Multiplayer Game)
-  - `SPEC-05` Kenzoku (Mobile / Passion-Vector Matchmaking App)
-  - `SPEC-06` Genie Markets (Web & Blockchain / Monad Testnet Prediction Protocol)
-  - `SPEC-07` StormPKR (Mobile / Gasless Base Stablecoin Wallet)
-  - `SPEC-08` StormPKR Website (Web / Landing Portal, CNIC KYC Flow & Support Hub)
-  - `SPEC-09` Kenzoku Website (Web / Six-Stratum Narrative Portal)
+  - `SPEC-01` StormPKR Mobile Wallet (Mobile / Digital Rupee Mobile Wallet)
+  - `SPEC-02` Chundrigar Capital (Web / KSE-100 Stock Exchange Platform)
+  - `SPEC-03` Roaring Bulls (Web / Swipe-Based Stock Basket Platform)
+  - `SPEC-04` Ludo Elemental (Mobile / Live on Google Play Store - Turn-Based Multiplayer Game)
+  - `SPEC-05` Kenzoku Mobile App (Mobile / Passion & Hobbies Friend Discovery App)
+  - `SPEC-06` DevSafar (Web / Hackathon Discovery & Matchmaking Platform)
+  - `SPEC-07` StormPKR Website & KYC Hub (Web / Landing Portal, CNIC KYC Flow & Support Hub)
+  - `SPEC-08` Kenzoku Narrative Portal (Web / Live Narrative Web Portal)
+  - `SPEC-09` Genie Markets (Web / Interactive Online Prediction Web Platform)
 - **Skills & Technologies:** 50 tools organized across 6 engineering domains (Frontend, Backend & Data, Mobile, AI/Media/Scraping, Shipping & Tooling, Web3/Blockchain).
 - **Direct Inquiry Form:** Formspree-backed project scope and budget intake.
 

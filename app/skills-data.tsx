@@ -28,7 +28,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   {
     id: "frontend",
     title: "Frontend Engineering",
-    scope: "SSR web applications, interactive UIs, 3D & motion systems",
+    scope: "Web applications, interactive UIs, 3D & motion systems",
     skills: [
       {
         name: "React",

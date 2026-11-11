@@ -5,29 +5,15 @@ import Image from "next/image";
 import { PROJECTS, Project } from "./project-data";
 import { SKILL_CATEGORIES, GithubIcon } from "./skills-data";
 
-const CATEGORY_TABS: Array<{ id: "all" | "web" | "mobile" | "web3"; label: string }> = [
+const CATEGORY_TABS: Array<{ id: "all" | "web" | "mobile"; label: string }> = [
   { id: "all", label: "ALL" },
   { id: "web", label: "WEB" },
   { id: "mobile", label: "MOBILE" },
-  { id: "web3", label: "WEB & BLOCKCHAIN" },
 ];
 
 interface LightboxState {
   project: Project;
   index: number;
-}
-
-function StatusBadge({ status, statusText }: { status: "live" | "testing"; statusText: string }) {
-  return (
-    <span className="inline-flex items-center gap-2 border border-card-border bg-background/95 px-2.5 py-1 font-mono text-xs font-medium tracking-wide text-foreground rounded">
-      <span
-        className={`h-1.5 w-1.5 rounded-full ${
-          status === "live" ? "bg-emerald-400" : "bg-amber-400"
-        }`}
-      />
-      <span>{statusText}</span>
-    </span>
-  );
 }
 
 function ProjectActionButtons({ project }: { project: Project }) {
@@ -86,7 +72,9 @@ function ProjectActionButtons({ project }: { project: Project }) {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 border border-foreground bg-foreground px-3.5 py-1.5 font-mono text-xs font-bold tracking-wide text-background hover:opacity-90 transition-opacity rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
         >
-          <span>Launch Live</span>
+          <span>
+            {project.link.includes("play.google.com") ? "Google Play" : "Launch Live"}
+          </span>
           <span aria-hidden="true">↗</span>
         </a>
       ) : (
@@ -133,6 +121,35 @@ function ProjectMediaStage({
   const nextIdx = (safeIndex + 1) % total;
   const triptychIndices = total >= 3 ? [prevIdx, safeIndex, nextIdx] : gallery.map((_, i) => i);
 
+  // Auto-scroll the footer switcher so the active screen is always centered and in view
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const prevProjectIdRef = useRef("");
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const activeBtn = container.querySelector<HTMLElement>('[data-active="true"]');
+    if (!activeBtn) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+
+    const targetScrollLeft =
+      btnRect.left -
+      containerRect.left +
+      container.scrollLeft -
+      container.clientWidth / 2 +
+      btnRect.width / 2;
+
+    const isNewProject = prevProjectIdRef.current !== project.id;
+    prevProjectIdRef.current = project.id;
+
+    container.scrollTo({
+      left: Math.max(0, targetScrollLeft),
+      behavior: isNewProject ? "auto" : "smooth",
+    });
+  }, [safeIndex, project.id]);
+
   return (
     <div className="flex flex-col border border-card-border bg-background rounded-md overflow-hidden">
       {/* Top Viewport Chrome Bar */}
@@ -144,7 +161,7 @@ function ProjectMediaStage({
             <span className="h-2 w-2 rounded-full bg-card-border" />
           </div>
           <span className="ml-1 font-mono text-xs text-text-muted truncate tabular-nums">
-            {project.specId} · {isMobile ? "3-UP MOBILE STAGE" : "WEB VIEWPORT"} ·{" "}
+            {project.specId} ·{" "}
             <strong className="text-foreground font-semibold">{current.label}</strong>
           </span>
         </div>
@@ -167,7 +184,7 @@ function ProjectMediaStage({
 
       {/* Main Visual Stage:
           - Mobile Specs: Multi-Screen (3-Up Mobile Triptych)
-          - Web & Blockchain Specs: High-Res Viewport + Visual Thumbnail Filmstrip */}
+          - Web Specs: High-Res Viewport + Visual Thumbnail Filmstrip */}
       {isMobile ? (
         <div className="relative bg-gradient-to-b from-lift/40 via-background to-background px-3 py-6 sm:px-6 sm:py-8">
           <div className="grid grid-cols-3 gap-2.5 sm:gap-5 items-center max-w-2xl mx-auto">
@@ -338,10 +355,13 @@ function ProjectMediaStage({
       </div>
 
       {/* Interactive Footer:
-          - Web & Blockchain Specs: Visual Thumbnail Filmstrip
+          - Web Specs: Visual Thumbnail Filmstrip
           - Mobile Specs: Compact Screen Switcher Pills complementing the 3-Up Triptych */}
       {total > 1 && (
-        <div className="border-t border-card-border bg-lift/40 px-3 py-2.5 overflow-x-auto">
+        <div
+          ref={scrollContainerRef}
+          className="border-t border-card-border bg-lift/40 px-3 py-2.5 overflow-x-auto"
+        >
           {!isMobile ? (
             <div className="flex items-center gap-2.5">
               {gallery.map((item, idx) => {
@@ -349,6 +369,7 @@ function ProjectMediaStage({
                 return (
                   <button
                     key={item.url}
+                    data-active={isSelected ? "true" : undefined}
                     type="button"
                     onClick={() => onSelectIndex(idx)}
                     className={`group/thumb flex items-center gap-2.5 p-1.5 rounded border shrink-0 transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
@@ -386,6 +407,7 @@ function ProjectMediaStage({
                 return (
                   <button
                     key={item.url}
+                    data-active={isSelected ? "true" : undefined}
                     type="button"
                     onClick={() => onSelectIndex(idx)}
                     className={`px-2.5 py-1 rounded font-mono text-xs whitespace-nowrap transition-colors cursor-pointer tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
@@ -408,48 +430,11 @@ function ProjectMediaStage({
 
 function ProjectNarrativePanel({ project }: { project: Project }) {
   return (
-    <div className="flex flex-col justify-between h-full space-y-6">
-      <div className="space-y-5">
-        {/* Executive Summary */}
-        <p className="text-base sm:text-lg text-foreground/95 font-medium leading-relaxed">
-          {project.summary}
-        </p>
-
-        {/* Side-by-Side Problem & System Architecture Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="border border-card-border bg-lift/40 p-4 rounded space-y-1.5">
-            <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-foreground">
-              Problem &amp; Context
-            </h4>
-            <p className="text-sm text-text-muted leading-relaxed">{project.problemSolved}</p>
-          </div>
-
-          <div className="border border-card-border bg-lift/40 p-4 rounded space-y-1.5">
-            <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-foreground">
-              System Architecture
-            </h4>
-            <p className="text-sm text-text-muted leading-relaxed">{project.architectureNote}</p>
-          </div>
-        </div>
-
-        {/* Core Capabilities Breakdown */}
-        <div className="space-y-3 pt-1">
-          <h4 className="font-mono text-xs font-semibold uppercase tracking-wider text-text-muted">
-            Key Technical Capabilities
-          </h4>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {project.capabilities.map((cap) => (
-              <div
-                key={cap.title}
-                className="border border-card-border/80 bg-background/70 p-3.5 rounded space-y-1"
-              >
-                <div className="text-xs sm:text-sm font-bold text-foreground">{cap.title}</div>
-                <p className="text-xs sm:text-sm text-text-muted leading-relaxed">{cap.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+    <div className="space-y-6 pt-2">
+      {/* Executive Summary */}
+      <p className="text-base sm:text-lg text-foreground/95 font-medium leading-relaxed">
+        {project.summary}
+      </p>
 
       {/* Technology Stack Footer */}
       <div className="pt-4 border-t border-card-border space-y-2.5">
@@ -472,7 +457,7 @@ function ProjectNarrativePanel({ project }: { project: Project }) {
 }
 
 export default function HomePage() {
-  const [activeCategory, setActiveCategory] = useState<"all" | "web3" | "mobile" | "web">("all");
+  const [activeCategory, setActiveCategory] = useState<"all" | "web" | "mobile">("all");
   const [cardImageIndexes, setCardImageIndexes] = useState<Record<string, number>>({});
   const [selectedWorkbenchId, setSelectedWorkbenchId] = useState<string>(PROJECTS[0].id);
 
@@ -519,13 +504,19 @@ export default function HomePage() {
       if (e.key === "Escape") {
         setLightbox(null);
       } else if (e.key === "ArrowRight") {
-        setLightbox((prev) =>
-          prev ? { ...prev, index: (prev.index + 1) % total } : null
-        );
+        setLightbox((prev) => {
+          if (!prev) return null;
+          const nextIdx = (prev.index + 1) % total;
+          setCardImageIndexes((ci) => ({ ...ci, [prev.project.id]: nextIdx }));
+          return { ...prev, index: nextIdx };
+        });
       } else if (e.key === "ArrowLeft") {
-        setLightbox((prev) =>
-          prev ? { ...prev, index: (prev.index - 1 + total) % total } : null
-        );
+        setLightbox((prev) => {
+          if (!prev) return null;
+          const nextIdx = (prev.index - 1 + total) % total;
+          setCardImageIndexes((ci) => ({ ...ci, [prev.project.id]: nextIdx }));
+          return { ...prev, index: nextIdx };
+        });
       }
     };
 
@@ -654,10 +645,6 @@ export default function HomePage() {
             >
               MUHAMMAD FARAN
             </a>
-            <span className="hidden sm:inline-flex items-center gap-2 border border-card-border bg-lift/80 px-2.5 py-0.5 font-mono text-xs font-medium tracking-wide text-text-muted rounded">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              <span>AVAILABLE FOR WORK</span>
-            </span>
           </div>
 
           <nav aria-label="Main Navigation" className="flex items-center gap-1 sm:gap-6">
@@ -701,7 +688,7 @@ export default function HomePage() {
 
             <p className="max-w-2xl text-lg sm:text-xl leading-relaxed text-text-muted">
               I&apos;m <strong className="font-bold text-foreground">Muhammad Faran</strong>, a
-              Fullstack Software Engineer, I take mobile apps, web platforms and blockchain systems
+              Fullstack Software Engineer, I take web platforms and mobile applications
               from zero to deployment with clean architecture and complete technical ownership.
             </p>
 
@@ -835,7 +822,7 @@ export default function HomePage() {
                           type="button"
                           onClick={() => handleSelectProject(proj.id)}
                           aria-current={isSelected ? "true" : undefined}
-                          className={`w-full text-left p-4 transition-colors cursor-pointer flex flex-col gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground ${
+                          className={`w-full text-left p-3.5 sm:p-4 transition-colors cursor-pointer flex flex-col gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground ${
                             isSelected
                               ? "bg-lift text-foreground"
                               : "bg-card-bg text-text-muted hover:bg-hover-surface hover:text-foreground"
@@ -859,7 +846,7 @@ export default function HomePage() {
                             </span>
                           </div>
                           <div className="flex items-center justify-between gap-2">
-                            <span className="text-base font-bold text-foreground">
+                            <span className="text-sm sm:text-base font-bold text-foreground">
                               {proj.title}
                             </span>
                             {isSelected && (
@@ -867,22 +854,6 @@ export default function HomePage() {
                                 Active
                               </span>
                             )}
-                          </div>
-                          <p className="text-xs text-text-muted line-clamp-2 leading-relaxed">
-                            {proj.tagline}
-                          </p>
-                          <div className="flex flex-wrap gap-1 pt-1">
-                            {proj.techStack.slice(0, 3).map((t) => (
-                              <span
-                                key={t}
-                                className="border border-card-border bg-background px-2 py-0.5 rounded font-mono text-[10px] text-text-muted"
-                              >
-                                {t}
-                              </span>
-                            ))}
-                            <span className="font-mono text-[10px] text-text-subtle px-1.5 py-0.5 tabular-nums">
-                              {proj.gallery.length} screens
-                            </span>
                           </div>
                         </button>
                       );
@@ -897,20 +868,10 @@ export default function HomePage() {
                 >
                   {/* Workbench Top Bar */}
                   <div className="border-b border-card-border bg-lift/50 px-5 py-4 sm:px-6 sm:py-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="space-y-1">
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-                          {workbenchProject.title}
-                        </h3>
-                        <span className="border border-card-border bg-background px-2.5 py-0.5 font-mono text-xs font-semibold text-text-muted rounded tabular-nums">
-                          {workbenchProject.specId}
-                        </span>
-                        <StatusBadge
-                          status={workbenchProject.status}
-                          statusText={workbenchProject.statusText}
-                        />
-                      </div>
-                      <p className="text-sm text-text-muted">{workbenchProject.tagline}</p>
+                    <div>
+                      <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+                        {workbenchProject.title}
+                      </h3>
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
@@ -948,18 +909,15 @@ export default function HomePage() {
                   <div className="p-5 sm:p-6 space-y-6">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <span className="font-mono text-xs text-text-muted tabular-nums">
-                        Inspecting {workbenchProject.specId} ({workbenchIndex + 1} of{" "}
-                        {filteredProjects.length}) ·{" "}
-                        {workbenchProject.category === "mobile"
-                          ? "Multi-Screen Mobile Flow"
-                          : "Web Viewport + Filmstrip"}
+                        {workbenchProject.specId} ({workbenchIndex + 1} of{" "}
+                        {filteredProjects.length})
                       </span>
                       <ProjectActionButtons project={workbenchProject} />
                     </div>
 
                     {/* Hybrid Media Stage:
                         - Mobile projects -> 3-Up Multi-Screen Triptych
-                        - Web & Blockchain projects -> High-Res Viewport + Thumbnail Filmstrip */}
+                        - Web projects -> High-Res Viewport + Thumbnail Filmstrip */}
                     <ProjectMediaStage
                       project={workbenchProject}
                       activeIndex={cardImageIndexes[workbenchProject.id] ?? 0}
@@ -994,8 +952,7 @@ export default function HomePage() {
                 Skills &amp; Technologies
               </h2>
               <p className="text-sm sm:text-base text-text-muted max-w-2xl">
-                Production stack across frontend interfaces, backend data infrastructure, smart
-                contracts, and cross-platform mobile runtimes.
+                Production stack across frontend interfaces, backend data infrastructure, and cross-platform mobile runtimes.
               </p>
             </div>
 
@@ -1132,59 +1089,21 @@ export default function HomePage() {
                   Start a Project Conversation
                 </h2>
                 <p className="text-base text-text-muted leading-relaxed">
-                  Available for zero-to-launch web platforms, cross-platform mobile apps, and
-                  blockchain systems. Share your scope, timeline, or contract requirements.
+                  Available for zero-to-launch web platforms and cross-platform mobile apps.
+                  Send a brief note about what you&apos;d like to build.
                 </p>
               </div>
 
-              <div className="border border-card-border bg-card-bg p-5 rounded-md space-y-4">
-                <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-foreground">
-                  Engagement Scope &amp; Deliverables
-                </h3>
-                <ul className="space-y-3 text-sm text-text-muted">
-                  <li className="flex items-start gap-2.5">
-                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-foreground shrink-0" />
-                    <span>
-                      <strong className="text-foreground">Full-Stack Web Platforms:</strong> Next.js,
-                      TypeScript, PostgreSQL/Supabase, real-time APIs &amp; dashboards.
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-2.5">
-                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-foreground shrink-0" />
-                    <span>
-                      <strong className="text-foreground">Cross-Platform Mobile:</strong> React
-                      Native &amp; Expo builds from architecture to Play Store / App Store release.
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-2.5">
-                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-foreground shrink-0" />
-                    <span>
-                      <strong className="text-foreground">Web3 &amp; Smart Contracts:</strong>{" "}
-                      Solana (Anchor/Jupiter) &amp; EVM (Solidity/Foundry, Account Abstraction).
-                    </span>
-                  </li>
-                </ul>
-
-                <div className="pt-3 border-t border-card-border flex flex-wrap items-center gap-2.5">
-                  <a
-                    href="https://www.upwork.com/freelancers/~01958faf0bb3c23d8a"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded border border-card-border bg-lift px-3.5 py-2 font-mono text-xs font-medium text-foreground hover:border-card-hover"
-                  >
-                    <span>Hire via Upwork</span>
-                    <span className="text-text-muted">↗</span>
-                  </a>
-                  <a
-                    href="https://github.com/m-faran"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded border border-card-border bg-lift px-3.5 py-2 font-mono text-xs font-medium text-foreground hover:border-card-hover"
-                  >
-                    <GithubIcon className="h-3.5 w-3.5" />
-                    <span>GitHub Profile</span>
-                  </a>
-                </div>
+              <div className="pt-1">
+                <a
+                  href="https://www.upwork.com/freelancers/~01958faf0bb3c23d8a"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded border border-card-border bg-lift px-4 py-2.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-card-border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                >
+                  <span>Hire via Upwork</span>
+                  <span className="text-text-muted">↗</span>
+                </a>
               </div>
             </div>
 
@@ -1299,9 +1218,6 @@ export default function HomePage() {
                       >
                         <option value="Web app development">Web app development</option>
                         <option value="Mobile app development">Mobile app development</option>
-                        <option value="Blockchain system development">
-                          Blockchain system development
-                        </option>
                         <option value="Other">Other (write your own)</option>
                       </select>
                       {formState.category === "Other" && (
@@ -1365,18 +1281,18 @@ export default function HomePage() {
                       htmlFor="project-message"
                       className="font-mono text-xs sm:text-sm font-semibold tracking-wide text-text-muted"
                     >
-                      Project Summary &amp; Goals *
+                      Short Project Intro *
                     </label>
                     <textarea
                       id="project-message"
                       name="message"
                       required
-                      rows={4}
+                      rows={3}
                       aria-invalid={formError ? "true" : undefined}
                       aria-describedby={formError ? "form-error" : undefined}
                       value={formState.message}
                       onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                      placeholder="Describe the product, desired timeline, and key features needed..."
+                      placeholder="Briefly describe what you're looking to build..."
                       className="w-full border border-card-border bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle leading-relaxed focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
                     />
                   </div>
@@ -1397,7 +1313,7 @@ export default function HomePage() {
                     disabled={formSubmitting}
                     className="w-full border border-foreground bg-foreground text-background px-5 py-3 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded disabled:opacity-50 cursor-pointer"
                   >
-                    {formSubmitting ? "Dispatching Message..." : "Submit Project Scope →"}
+                    {formSubmitting ? "Sending..." : "Send Inquiry →"}
                   </button>
                 </form>
               )}
@@ -1501,14 +1417,16 @@ export default function HomePage() {
               <>
                 <button
                   type="button"
-                  onClick={() =>
+                  onClick={() => {
+                    const prevIdx =
+                      (lightbox.index - 1 + lightbox.project.gallery.length) %
+                      lightbox.project.gallery.length;
+                    setCardImageIndexes((ci) => ({ ...ci, [lightbox.project.id]: prevIdx }));
                     setLightbox({
                       ...lightbox,
-                      index:
-                        (lightbox.index - 1 + lightbox.project.gallery.length) %
-                        lightbox.project.gallery.length,
-                    })
-                  }
+                      index: prevIdx,
+                    });
+                  }}
                   aria-label="Previous image"
                   className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 h-11 w-11 flex items-center justify-center rounded-full border border-card-border bg-card-bg/90 hover:border-card-hover text-foreground shadow-lg cursor-pointer"
                 >
@@ -1516,12 +1434,14 @@ export default function HomePage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() =>
+                  onClick={() => {
+                    const nextIdx = (lightbox.index + 1) % lightbox.project.gallery.length;
+                    setCardImageIndexes((ci) => ({ ...ci, [lightbox.project.id]: nextIdx }));
                     setLightbox({
                       ...lightbox,
-                      index: (lightbox.index + 1) % lightbox.project.gallery.length,
-                    })
-                  }
+                      index: nextIdx,
+                    });
+                  }}
                   aria-label="Next image"
                   className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 h-11 w-11 flex items-center justify-center rounded-full border border-card-border bg-card-bg/90 hover:border-card-hover text-foreground shadow-lg cursor-pointer"
                 >

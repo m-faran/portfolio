@@ -137,8 +137,8 @@ A restrained monochrome obsidian-and-alabaster foundation where real product scr
 The page uses a centered `max-w-6xl` (`1152px`) container with `16px` (`px-4`) mobile and `24px` (`sm:px-6`) desktop horizontal padding, anchored by a sticky `64px` (`h-16`) top engineering masthead.
 
 In **Selected Work**, projects use an interactive 12-column **Split Workbench** master-detail architecture:
-- **Sticky System Directory (4 columns on desktop):** Filterable directory of all 9 specifications (`SPEC-01` to `SPEC-09`) with status telemetry, category labels, taglines, and top stack pills.
-- **Deep-Dive Inspection Theatre (8 columns on desktop):** Dedicated inspection stage pairing a hybrid media theatre (**Viewport + Visual Thumbnail Filmstrip** for Web & Blockchain specs; **3-Up Multi-Screen Triptych** for Mobile specs) with side-by-side Problem & System Architecture cards, a 2x2 Key Technical Capabilities grid, and Technology Stack badges.
+- **Sticky System Directory (4 columns on desktop):** Streamlined directory of all 9 specifications (`SPEC-01` to `SPEC-09`) displaying spec IDs, category classification, live status telemetry, active state indicators, and project titles (with deeper details delegated to the adjacent inspection theatre).
+- **Deep-Dive Inspection Theatre (8 columns on desktop):** Dedicated inspection stage pairing a hybrid media theatre (**Viewport + Visual Thumbnail Filmstrip** for Web specs; **3-Up Multi-Screen Triptych** for Mobile specs) with an executive system summary and comprehensive Technology Stack badges.
 
 ## Elevation & Depth
 

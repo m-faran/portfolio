@@ -22,12 +22,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Faran | Full Stack Software Engineer",
   description:
-    "Product-minded Full-Stack & Mobile Engineer specializing in production web platforms, cross-platform mobile apps (React Native), and Web3 dApps. Available for freelance MVPs and contracts on Upwork.",
+    "Product-minded Full-Stack & Mobile Engineer specializing in production web platforms and cross-platform mobile apps (React Native). Available for freelance MVPs and contracts on Upwork.",
   keywords: [
     "Full-Stack Engineer",
     "React Native Developer",
-    "Web3 Developer",
-    "Solana dApps",
     "Next.js Developer",
     "Mobile App Developer",
     "Freelance Software Engineer",
@@ -37,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Faran | Full-Stack & Mobile Engineer",
     description:
-      "Production web platforms, cross-platform mobile apps (React Native), and Web3 dApps. Taking products from zero to deployment.",
+      "Production web platforms and cross-platform mobile apps (React Native). Taking products from zero to deployment.",
     type: "website",
     locale: "en_US",
   },
