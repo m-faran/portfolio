@@ -92,16 +92,16 @@ We reject cramped 3-column thumbnail grids that crush mobile portrait screens in
 
 ## Colors
 
-A restrained monochrome obsidian-and-alabaster foundation where real product screenshots and functional status telemetry provide the only chromatic accents.
+A restrained dual-mode monochrome foundation (**Obsidian Monograph** in Dark Mode and **Architectural Paper Monograph** in Light Mode) where real product screenshots and functional status telemetry provide the only chromatic accents. Theme activation follows the visitor's OS `prefers-color-scheme` by default and includes an interactive toggle in the top engineering masthead persisted via `localStorage`.
 
 ### Primary
-- **Alabaster Ink** (`#fafafa`): Primary display headlines, project titles, active controls, and high-emphasis primary CTA fills.
+- **Foreground Ink** (`#fafafa` Alabaster in Dark / `#09090b` Obsidian in Light): Primary display headlines, project titles, active controls, and high-emphasis primary CTA fills.
 
 ### Secondary
-- **Live Signal Emerald** (`#34d399`): Used exclusively for verified live deployment indicators (`LIVE`) and active session telemetry.
-- **Testing Signal Amber** (`#fbbf24`): Used exclusively for closed-beta and Play Store testing indicators (`PLAYSTORE CLOSED TESTING`).
+- **Live Signal Emerald** (`#34d399` in Dark / `#10b981` in Light): Used exclusively for verified live deployment indicators (`LIVE`) and active session telemetry.
+- **Testing Signal Amber** (`#fbbf24` in Dark / `#f59e0b` in Light): Used exclusively for closed-beta and Play Store testing indicators (`TESTING`).
 
-### Neutral
+### Neutral (Dark Mode — Obsidian Monograph)
 - **Obsidian Canvas** (`#09090b`): Root page background, media stage backdrop, and form input wells.
 - **Carbon Surface** (`#121215`): Primary container surface for project dossiers, skill accordions, and inquiry panels.
 - **Hover Surface** (`#151518`): Subtle interactive surface shift for expandable rows and interactive cards.
@@ -110,6 +110,16 @@ A restrained monochrome obsidian-and-alabaster foundation where real product scr
 - **Active Border Zinc** (`#3f3f46`): Hover and focus border highlight state.
 - **Muted Pewter** (`#a1a1aa`): Primary narrative body copy, problem statements, and capability descriptions (≥7.5:1 contrast on `#09090b`).
 - **Subtle Ash** (`#8a8a93`): Secondary metadata, inactive tab labels, and input placeholders (≥5.2:1 contrast on `#09090b`).
+
+### Neutral (Light Mode — Architectural Paper Monograph)
+- **Architectural Paper Canvas** (`#f8f8f8`): Root page background, media stage backdrop, and form input wells.
+- **Pure White Dossier Surface** (`#ffffff`): Primary container surface for project dossiers, skill accordions, and inquiry panels.
+- **Hover Surface** (`#f4f4f5`): Subtle interactive surface shift for expandable rows and interactive cards.
+- **Lifted Stone** (`#f1f1f3`): Elevated secondary controls, technology badges, and viewport chrome headers.
+- **Hairline Zinc** (`#e4e4e7`): 1px structural dividers, card borders, and viewport frames.
+- **Active Border Zinc** (`#a1a1aa`): Hover and focus border highlight state.
+- **Muted Charcoal** (`#4b4b53`): Primary narrative body copy and descriptions (≥7.2:1 contrast on `#f8f8f8` and `#ffffff`).
+- **Subtle Slate** (`#63636b`): Secondary metadata, spec counters, and input placeholders (≥5.4:1 contrast across all light surfaces).
 
 ### Named Rules
 **The Earned Chroma Rule.** Never apply decorative brand colors, neon gradients, or colored borders to containers. Color appears only inside real product screenshots, technology logos, and 6px operational status dots.

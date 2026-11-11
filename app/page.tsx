@@ -79,7 +79,7 @@ function ProjectActionButtons({ project }: { project: Project }) {
         </a>
       ) : (
         <span className="inline-flex items-center gap-1.5 border border-card-border bg-lift/60 px-3 py-1.5 font-mono text-xs font-medium tracking-wide text-text-muted rounded">
-          <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--signal-amber)]" />
           <span>Closed Testing Build</span>
         </span>
       )}
@@ -223,7 +223,7 @@ function ProjectMediaStage({
                   <div
                     className={`relative w-full aspect-[9/19] rounded-lg overflow-hidden border bg-card-bg flex items-center justify-center ${
                       isCenter
-                        ? "border-foreground/40 shadow-[0_16px_36px_-8px_rgba(0,0,0,0.85)]"
+                        ? "border-foreground/40 shadow-[var(--shadow-stage)]"
                         : "border-card-border"
                     }`}
                   >
@@ -457,9 +457,56 @@ function ProjectNarrativePanel({ project }: { project: Project }) {
 }
 
 export default function HomePage() {
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [activeCategory, setActiveCategory] = useState<"all" | "web" | "mobile">("all");
   const [cardImageIndexes, setCardImageIndexes] = useState<Record<string, number>>({});
   const [selectedWorkbenchId, setSelectedWorkbenchId] = useState<string>(PROJECTS[0].id);
+
+  // Synchronize theme with OS preference and localStorage
+  useEffect(() => {
+    const root = document.documentElement;
+    const resolveTheme = (): "light" | "dark" => {
+      const currentAttr = root.dataset.theme;
+      if (currentAttr === "light" || currentAttr === "dark") {
+        return currentAttr;
+      }
+      try {
+        const stored = localStorage.getItem("theme");
+        if (stored === "light" || stored === "dark") {
+          return stored;
+        }
+      } catch {}
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    };
+
+    const initial = resolveTheme();
+    root.dataset.theme = initial;
+    setTheme(initial);
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
+      try {
+        const stored = localStorage.getItem("theme");
+        if (stored !== "light" && stored !== "dark") {
+          const next = e.matches ? "dark" : "light";
+          root.dataset.theme = next;
+          setTheme(next);
+        }
+      } catch {}
+    };
+
+    mediaQuery.addEventListener("change", handleSystemThemeChange);
+    return () => mediaQuery.removeEventListener("change", handleSystemThemeChange);
+  }, []);
+
+  const handleToggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    document.documentElement.dataset.theme = nextTheme;
+    try {
+      localStorage.setItem("theme", nextTheme);
+    } catch {}
+  };
 
   // Fullscreen Lightbox State
   const [lightbox, setLightbox] = useState<LightboxState | null>(null);
@@ -666,6 +713,45 @@ export default function HomePage() {
             >
               Hire Me
             </a>
+            <button
+              type="button"
+              onClick={handleToggleTheme}
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              className="ml-1 inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-lift text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
+            >
+              {theme === "dark" ? (
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="4" />
+                  <path
+                    strokeLinecap="round"
+                    d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+                  />
+                </svg>
+              )}
+            </button>
           </nav>
         </div>
       </header>
@@ -839,7 +925,9 @@ export default function HomePage() {
                             <span className="inline-flex items-center gap-1.5 font-mono text-[11px]">
                               <span
                                 className={`h-1.5 w-1.5 rounded-full ${
-                                  proj.status === "live" ? "bg-emerald-400" : "bg-amber-400"
+                                  proj.status === "live"
+                                    ? "bg-[var(--signal-emerald)]"
+                                    : "bg-[var(--signal-amber)]"
                                 }`}
                               />
                               <span>{proj.status === "live" ? "LIVE" : "TESTING"}</span>
@@ -1142,7 +1230,7 @@ export default function HomePage() {
                           message: "",
                         });
                       }}
-                      className="font-mono text-xs text-foreground underline underline-offset-4 hover:text-white cursor-pointer"
+                      className="font-mono text-xs text-foreground underline underline-offset-4 hover:text-text-muted cursor-pointer"
                     >
                       Send another note
                     </button>
@@ -1302,7 +1390,7 @@ export default function HomePage() {
                       id="form-error"
                       role="alert"
                       aria-live="polite"
-                      className="border border-red-500/40 bg-red-950/20 text-red-400 p-3 rounded font-mono text-xs"
+                      className="border border-red-500/40 bg-red-500/10 text-[var(--signal-error)] p-3 rounded font-mono text-xs"
                     >
                       {formError}
                     </div>
@@ -1311,7 +1399,7 @@ export default function HomePage() {
                   <button
                     type="submit"
                     disabled={formSubmitting}
-                    className="w-full border border-foreground bg-foreground text-background px-5 py-3 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all hover:bg-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded disabled:opacity-50 cursor-pointer"
+                    className="w-full border border-foreground bg-foreground text-background px-5 py-3 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded disabled:opacity-50 cursor-pointer"
                   >
                     {formSubmitting ? "Sending..." : "Send Inquiry →"}
                   </button>
@@ -1410,7 +1498,7 @@ export default function HomePage() {
               width={1600}
               height={1000}
               sizes="95vw"
-              className="max-h-[68vh] w-auto max-w-full object-contain rounded border border-card-border shadow-[0_20px_50px_rgba(0,0,0,0.9)]"
+              className="max-h-[68vh] w-auto max-w-full object-contain rounded border border-card-border shadow-[var(--shadow-lightbox)]"
             />
 
             {lightbox.project.gallery.length > 1 && (

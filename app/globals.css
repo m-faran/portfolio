@@ -1,6 +1,47 @@
 @import "tailwindcss";
 
-:root {
+:root,
+html[data-theme="light"] {
+  --background: #f8f8f8;
+  --foreground: #09090b;
+  --card-bg: #ffffff;
+  --card-border: #e4e4e7;
+  --card-hover-border: #a1a1aa;
+  --text-muted: #4b4b53;
+  --text-subtle: #63636b;
+  --hover-surface: #f4f4f5;
+  --lift: #f1f1f3;
+  --signal-emerald: #10b981;
+  --signal-amber: #f59e0b;
+  --signal-error: #dc2626;
+  --selection-bg: rgba(9, 9, 11, 0.14);
+  --shadow-stage: 0 16px 36px -8px rgba(9, 9, 11, 0.14), 0 4px 12px -2px rgba(9, 9, 11, 0.08);
+  --shadow-lightbox: 0 24px 60px -12px rgba(9, 9, 11, 0.24);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #09090b;
+    --foreground: #fafafa;
+    --card-bg: #121215;
+    --card-border: #27272a;
+    --card-hover-border: #3f3f46;
+    --text-muted: #a1a1aa;
+    --text-subtle: #8a8a93;
+    --hover-surface: #151518;
+    --lift: #18181b;
+    --signal-emerald: #34d399;
+    --signal-amber: #fbbf24;
+    --signal-error: #f87171;
+    --selection-bg: rgba(250, 250, 250, 0.2);
+    --shadow-stage: 0 16px 36px -8px rgba(0, 0, 0, 0.85);
+    --shadow-lightbox: 0 20px 50px rgba(0, 0, 0, 0.9);
+    color-scheme: dark;
+  }
+}
+
+html[data-theme="dark"] {
   --background: #09090b;
   --foreground: #fafafa;
   --card-bg: #121215;
@@ -10,6 +51,13 @@
   --text-subtle: #8a8a93;
   --hover-surface: #151518;
   --lift: #18181b;
+  --signal-emerald: #34d399;
+  --signal-amber: #fbbf24;
+  --signal-error: #f87171;
+  --selection-bg: rgba(250, 250, 250, 0.2);
+  --shadow-stage: 0 16px 36px -8px rgba(0, 0, 0, 0.85);
+  --shadow-lightbox: 0 20px 50px rgba(0, 0, 0, 0.9);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -27,13 +75,13 @@
 }
 
 html {
-  color-scheme: dark;
   scroll-behavior: smooth;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
+  caret-color: var(--foreground);
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -41,27 +89,27 @@ body {
 }
 
 ::selection {
-  background-color: rgba(250, 250, 250, 0.2);
-  color: #fafafa;
+  background-color: var(--selection-bg);
+  color: var(--foreground);
 }
 
-/* Custom scrollbar matching dark engineering monograph */
+/* Custom scrollbar matching active engineering monograph theme */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: var(--background);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: var(--card-border);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: var(--card-hover-border);
 }
 
 /* Tabular numerals for spec IDs, counters, and metrics */

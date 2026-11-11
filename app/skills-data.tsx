@@ -46,7 +46,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Next.js",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M18.665 21.978a10 10 0 1 1 3.313-3.322l-8.665-11.127H10.5v8.942h1.666V10.15l7.165 9.183.003-.004c-.218.232-.442.456-.669.649zm-4.331-4.821l1.666 2.138A9.97 9.97 0 0 0 22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10c2.04 0 3.93-.612 5.5-1.665l-3.166-4.178v1z" />
           </svg>
         ),
@@ -114,7 +114,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Three.js",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M.38 0a.268.268 0 0 0-.256.332l2.894 11.716a.268.268 0 0 0 .01.04l2.89 11.708a.268.268 0 0 0 .447.128L23.802 7.15a.268.268 0 0 0-.112-.45l-5.784-1.667a.268.268 0 0 0-.123-.035L6.38 1.715a.268.268 0 0 0-.144-.04L.456.01A.268.268 0 0 0 .38 0zm.374.654L5.71 2.08 1.99 5.664zM6.61 2.34l4.864 1.4-3.65 3.515zm-.522.12l1.217 4.926-4.877-1.4zm6.28 1.538l4.878 1.404-3.662 3.53zm-.52.13l1.208 4.9-4.853-1.392zm6.3 1.534l4.947 1.424-3.715 3.574zm-.524.12l1.215 4.926-4.876-1.398zm-15.432.696l4.964 1.424-3.726 3.586zM8.047 8.15l4.877 1.4-3.66 3.527zm-.518.137l1.236 5.017-4.963-1.432zm6.274 1.535l4.965 1.425-3.73 3.586zm-.52.127l1.235 5.012-4.958-1.43zm-9.63 2.438l4.873 1.406-3.656 3.523zm5.854 1.687l4.863 1.403-3.648 3.51zm-.54.04l1.214 4.927-4.875-1.4zm-3.896 4.02l5.037 1.442-3.782 3.638z" />
           </svg>
         ),
@@ -122,7 +122,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "shadcn/ui",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M22.219 11.784 11.784 22.219c-.407.407-.407 1.068 0 1.476.407.407 1.068.407 1.476 0L23.695 13.26c.407-.408.407-1.069 0-1.476-.408-.407-1.069-.407-1.476 0ZM20.132.305.305 20.132c-.407.407-.407 1.068 0 1.476.408.407 1.069.407 1.476 0L21.608 1.781c.407-.407.407-1.068 0-1.476-.408-.407-1.069-.407-1.476 0Z" />
           </svg>
         ),
@@ -145,7 +145,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Express",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M12.262 16.666h1.146l6.975-9.325H19.22zm9.778 1.441v.004l-4.334-5.706-.557.74 4.873 6.682H.945V4.173h9.505l5.026 6.7.574-.772-4.374-5.928h.003l-.719-.945H0v17.544h24zM10.917 8.705a3.8 3.8 0 0 0-1.292-1.183q-.796-.45-1.916-.45c-.746 0-1.37.14-1.906.424a3.76 3.76 0 0 0-1.31 1.12 4.9 4.9 0 0 0-.75 1.581 7.17 7.17 0 0 0 0 3.696c.148.567.402 1.101.75 1.573a3.5 3.5 0 0 0 1.31 1.066q.803.39 1.906.389 1.77 0 2.739-.868.966-.867 1.328-2.457h-1.139q-.271 1.084-.977 1.734-.704.651-1.952.65-.812 0-1.392-.342a3.1 3.1 0 0 1-.957-.869 3.5 3.5 0 0 1-.551-1.182 5 5 0 0 1-.17-1.133 9 9 0 0 0-.015-.286 4.5 4.5 0 0 1 .015-.829c.047-.418.147-.83.296-1.223A3.7 3.7 0 0 1 5.54 9.05a2.9 2.9 0 0 1 .922-.742q.541-.28 1.246-.28c.47 0 .869.093 1.23.28q.541.281.922.742.379.461.587 1.057t.225 1.246H5.625l.004.957h6.182a7.3 7.3 0 0 0-.18-1.924 4.9 4.9 0 0 0-.715-1.68z" />
           </svg>
         ),
@@ -186,7 +186,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Prisma",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M12.7 2.3a1 1 0 0 0-1.4 0L2.5 11.1a1 1 0 0 0 0 1.4l8.8 8.8a1 1 0 0 0 1.4 0l8.8-8.8a1 1 0 0 0 0-1.4L12.7 2.3zm-.7 2.4l6.6 6.6-6.6 6.6-6.6-6.6L12 4.7z" />
           </svg>
         ),
@@ -202,7 +202,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Socket.io",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M11.9362.0137a12.1694 12.1694 0 00-2.9748.378C4.2816 1.5547.5678 5.7944.0918 10.6012c-.59 4.5488 1.7079 9.2856 5.6437 11.6345 3.8608 2.4179 9.0926 2.3199 12.8734-.223 3.3969-2.206 5.5118-6.2277 5.3858-10.2845-.058-4.0159-2.31-7.9167-5.7588-9.9796C16.354.5876 14.1431.0047 11.9362.0137zm-.063 1.696c4.9448-.007 9.7886 3.8137 10.2815 8.9245.945 5.6597-3.7528 11.4125-9.4875 11.5795-5.4538.544-10.7245-4.0798-10.8795-9.5566-.407-4.4338 2.5159-8.8346 6.6977-10.2995a9.1126 9.1126 0 013.3878-.647zm5.0908 3.2248c-2.6869 2.0849-5.2598 4.3078-7.8886 6.4567 1.2029.017 2.4118.016 3.6208.01 1.41-2.165 2.8589-4.3008 4.2678-6.4667zm-5.6647 7.6536c-1.41 2.166-2.86 4.3088-4.2699 6.4737 2.693-2.0799 5.2548-4.3198 7.9017-6.4557a255.4132 255.4132 0 00-3.6318-.018z" />
           </svg>
         ),
@@ -226,7 +226,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Solidity",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M12 2l4.5 8L12 18l-4.5-8L12 2zm0 4.5l-2.5 4.5 2.5 4.5 2.5-4.5L12 6.5zM17 11l4.5 7.5L17 22l-2.5-4.5 2.5-6.5zM7 11l2.5 6.5L7 22l-4.5-3.5L7 11z" />
           </svg>
         ),
@@ -283,7 +283,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Viem",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M2.5 4h4.8l5.2 12.8L17.7 4h4.8L14.2 20h-4.4L2.5 4z" />
           </svg>
         ),
@@ -348,7 +348,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Expo",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M4.5 4.5L12 12l7.5-7.5L21 6l-9 9-9-9 1.5-1.5zm0 7.5L12 19.5l7.5-7.5L21 13.5l-9 9-9-9 1.5-1.5z" />
           </svg>
         ),
@@ -367,7 +367,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Apple",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M18.7 19.5c-.8 1.2-1.7 2.4-3 2.4-1.3 0-1.7-.8-3.2-.8-1.5 0-2 .8-3.2.8-1.3 0-2.3-1.3-3.2-2.5-1.7-2.5-3-7.1-1.2-10.2 1-1.6 2.6-2.6 4.3-2.6 1.3 0 2.5.9 3.3.9.8 0 2.3-1.1 3.9-.9 1.4.1 2.6.6 3.4 1.7-3.1 1.7-2.6 5.8.5 7.1-.6 1.5-1.4 3-2.6 4.1zM15.4 4.5c.6-.8 1.1-2 1-3-.9.1-2.1.6-2.7 1.4-.6.7-1.1 1.9-.9 2.9 1.1.1 2-.5 2.6-1.3z" />
           </svg>
         ),
@@ -455,7 +455,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       },
       {
         name: "GitHub",
-        icon: <GithubIcon className="w-5 h-5 text-white" />,
+        icon: <GithubIcon className="w-5 h-5 text-foreground" />,
       },
       {
         name: "Docker",
@@ -468,7 +468,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       {
         name: "Vercel",
         icon: (
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-white" fill="currentColor">
+          <svg viewBox="0 0 24 24" className="w-5 h-5 text-foreground" fill="currentColor">
             <path d="M12 2L2 20h20L12 2z" />
           </svg>
         ),
