@@ -8,62 +8,49 @@ web
 
 ## Users
 
-- **Upwork Clients / Startup Founders**: Business owners, agency leads, and non-technical founders seeking an autonomous engineer to build full MVPs, cross-platform mobile apps (React Native), web dashboards, or blockchain dApps.
-- **Technical Leads & Engineering Managers**: Technical evaluators reviewing code quality, frontend architecture, and state management.
-- **Core Priority**: Primary focus is tailored to Upwork clients and non-technical decision-makers who value end-to-end autonomy, reliability, and clear business outcomes.
+Founders, engineering leaders, product managers, and freelance/contract clients (including Upwork and direct inquiries) evaluating Muhammad Faran for full-stack web platforms, cross-platform mobile applications (React Native / Expo), and Web3 / blockchain systems (Solana & EVM).
 
 ## Product Purpose
 
-Establish a high-converting, minimal, and authoritative digital portfolio for Faran (Full-Stack & Mobile Engineer). The site demonstrates the ability to take products from zero to deployment across web, mobile, and Web3/blockchain, converting founders and freelance clients into active contracts while preserving technical credibility for engineering leads.
+Demonstrate complete zero-to-deployment technical ownership through concrete, verifiable production engineering work—combining visual interface proof with deep architectural context—and convert qualified visitors into project inquiries or Upwork contracts.
 
 ## Positioning
 
-A product-minded Full-Stack & Mobile Engineer (React & React Native) specializing in production-grade web platforms, cross-platform mobile apps, and secure dApps. Focused on taking products from zero to deployment with clean architecture, responsive UI, and complete ownership.
+Unlike template portfolios that show either shallow screenshot thumbnails or unverified text claims, this portfolio presents each shipped system as an interactive engineering dossier: pairing multi-screen product workflows and live deployment links with the underlying problem solved, system architecture, core capabilities, and technology stack.
 
 ## Operating Context
 
-- Evaluated across desktop and mobile viewports by clients scanning for relevant past work and hiring channels.
-- Fast evaluation time (30–60 seconds): visitors need immediate clarity on what Faran builds, proof of past work, and quick access to hiring channels.
-- **Visual & Motion Constraint**: Minimalist, clean, and restrained. No huge animations, heavy parallax, or slow visual gimmicks. Fast, crisp, high-signal design.
+Visitors typically review the portfolio on desktop or mobile while vetting candidates for MVP builds, protocol launches, or product engineering contracts. They scan the hero to confirm domain fit, inspect 2–4 projects in depth to verify UI quality and architectural rigor, check stack coverage, and initiate contact via the project scope form or Upwork.
 
 ## Capabilities and Constraints
 
-- **Stack**: Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4.
-- **Core Engineering Pillars**:
-  1. Web (Next.js / React)
-  2. Mobile (iOS & Android)
-  3. Web & Blockchain (Solana, Base, Monad / EVM)
-- **Placeholders Reserved for Faran**:
-  - Upwork Profile link
-  - Downloadable / Viewable Resume link
-- **Design Philosophy**: Minimal, fast, accessible, and distraction-free.
+- **Hero Section:** Preserves the authoritative high-contrast editorial headline ("Full Stack Software Engineer"), ownership statement, primary CTAs ("Let's talk", "Explore my work"), and direct platform links (Upwork, GitHub).
+- **Selected Work (9 Production & Closed-Beta Systems):**
+  - `SPEC-01` Roaring Bulls (Web / Solana Tokenized Equities)
+  - `SPEC-02` Chundrigar Capital (Web & Blockchain / Base Sepolia KSE-100 Exchange)
+  - `SPEC-03` DevSafar (Web / Hackathon Discovery & Matchmaking Platform)
+  - `SPEC-04` Ludo Elemental (Mobile / Deterministic Turn-Based Multiplayer Game)
+  - `SPEC-05` Kenzoku (Mobile / Passion-Vector Matchmaking App)
+  - `SPEC-06` Genie Markets (Web & Blockchain / Monad Testnet Prediction Protocol)
+  - `SPEC-07` StormPKR (Mobile / Gasless Base Stablecoin Wallet)
+  - `SPEC-08` StormPKR Website (Web / Landing Portal, CNIC KYC Flow & Support Hub)
+  - `SPEC-09` Kenzoku Website (Web / Six-Stratum Narrative Portal)
+- **Skills & Technologies:** 50 tools organized across 6 engineering domains (Frontend, Backend & Data, Mobile, AI/Media/Scraping, Shipping & Tooling, Web3/Blockchain).
+- **Direct Inquiry Form:** Formspree-backed project scope and budget intake.
 
 ## Brand Commitments
 
-- **Name**: Faran.
-- **Voice**: Pragmatic, direct, approachable to non-technical clients, and technically articulate. Clear communication without jargon overload.
+- **Dark Architectural Aesthetic:** Deep zinc-black canvas (`#09090b`), crisp alabaster typography (`#fafafa`), structured carbon surfaces (`#121215`), and disciplined 1px structural hairlines (`#27272a`).
+- **Hero Preservation:** Keep the established Hero section copy, typography scale, and monochrome CTA hierarchy intact.
 
 ## Evidence on Hand
 
-### Web
-1. **[Roaring Bulls](https://roaring-bulls.vercel.app/)** ([GitHub Repo](https://github.com/m-faran/roaring-bulls)): Solana tokenized equities trading platform featuring swipe-based basket curation, atomic Jupiter DEX swaps, and Privy non-custodial auth (Web interface without custom smart contracts).
-2. **[DevSafar](https://www.devsafar.app/)** (*Private Repository*): Hackathon, CTF, and coding competition discovery directory with real-time deadline tracking and team matching.
-
-### Mobile
-1. **Kenzoku** ([GitHub Repo](https://github.com/m-faran/kenzoku)): Passion-driven matchmaking app connecting people through authentic interests (chess, robotics, climbing, game dev) to build true inner circles (currently in closed testing).
-2. **Ludo Elemental** (*Private Repository*): Competitive multiplayer mobile board game with elemental power-ups (currently in closed testing).
-
-### Web & Blockchain
-1. **[Chundrigar Capital](https://chundrigar-capital.vercel.app/)** ([GitHub Repo](https://github.com/m-faran/chundrigar-capital)): Tokenized Pakistan Stock Exchange (KSE-100) trading platform on Base Sepolia with signed on-chain price quotes and dual payment rails (PKR & USDC).
-2. **[Genie Markets](https://geniemarkets.vercel.app/)** ([Frontend Repo](https://github.com/m-faran/geniemarkets-frontend) / [Protocol Contracts](https://github.com/m-faran/genie-markets)): Decentralized onchain prediction protocol on Monad Testnet featuring Pyth Entropy cryptographic randomness, zero-gas ERC-4337 smart accounts via Privy, and non-custodial USDC payouts up to 600x.
-
-### Placeholders (To be provided by Faran)
-- Upwork Profile: [https://www.upwork.com/freelancers/~01958faf0bb3c23d8a](https://www.upwork.com/freelancers/~01958faf0bb3c23d8a)
-- Resume PDF / link placeholder
+- 9 real projects with multi-screen galleries located under `public/projects/` (50+ real product screenshots across web viewports and mobile portrait screens).
+- Live deployment URLs (`roaring-bulls.vercel.app`, `chundrigar-capital.vercel.app`, `devsafar.app`, `geniemarkets.vercel.app`) and public GitHub repositories (`github.com/m-faran`).
 
 ## Product Principles
 
-1. **Clarity for Non-Technical Clients**: Communicate the value, function, and outcome of each project in plain, compelling language before diving into technical specs.
-2. **Strict Minimalism**: Eliminate huge, distracting animations and bloated layouts. Let typographic discipline, clean spacing, and speed establish premium quality.
-3. **Verifiable Proof**: Feature real, live web deployments and concrete mobile project contexts rather than abstract claims.
-4. **Frictionless Client Onboarding**: Keep Upwork and direct project inquiry channels prominent and effortless to reach from any screen.
+1. **Visual Proof Needs Architectural Context:** Never show a screenshot without explaining what screen the user is looking at, what problem the product solves, and how the system is engineered underneath.
+2. **Respect Native Aspect Ratios:** Web platforms belong in wide browser stages; portrait mobile apps belong in multi-screen phone triptychs or tall portrait stages—never shrunk into tiny landscape postage stamps.
+3. **Progressive Depth Without Clutter:** Give fast scanners immediate clarity (title, tagline, live status, stack) while rewarding deep evaluators with full architecture notes, capability breakdowns, and fullscreen lightbox inspection.
+4. **Honest Operational Telemetry:** Clearly distinguish publicly live deployments (`LIVE`) from closed-testing mobile builds (`PLAYSTORE CLOSED TESTING` / `CLOSED TESTING`) and private commercial repositories (`Private`).

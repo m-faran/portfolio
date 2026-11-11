@@ -45,7 +45,7 @@ body {
   color: #fafafa;
 }
 
-/* Custom scrollbar matching dark engineering datasheet */
+/* Custom scrollbar matching dark engineering monograph */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
@@ -64,21 +64,22 @@ body {
   background: #3f3f46;
 }
 
-/* Respect reduced-motion; disable purely decorative motion (infinite ping,
-   smooth-scroll, hover zoom) while keeping short functional 150ms state
-   transitions so hover/focus feedback still communicates state. */
+/* Tabular numerals for spec IDs, counters, and metrics */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Respect reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .animate-ping {
+  .animate-ping,
+  .animate-pulse {
     animation: none !important;
-    opacity: 0 !important; /* keep the halo dot from rendering as a static blur */
   }
-  .group-hover\:scale-105 {
-    transform: none !important;
-  }
-  .transition-transform {
-    transition-property: none !important;
+  .transition-transform,
+  .transition-all {
+    transition-duration: 0.01ms !important;
   }
 }

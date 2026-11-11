@@ -1,168 +1,191 @@
 ---
-name: Faran Portfolio
-description: High-density modular production datasheet for an autonomous full-stack and mobile engineer
+name: Muhammad Faran — Engineering Portfolio
+description: High-contrast dark architectural portfolio and interactive system dossiers for a Full-Stack, Mobile & Web3 Software Engineer.
 colors:
-  primary: "#10b981"
-  primary-hover: "#059669"
-  warning: "#f59e0b"
-  surface-ground: "#09090b"
-  surface-card: "#121215"
+  canvas-obsidian: "#09090b"
+  surface-carbon: "#121215"
   surface-hover: "#151518"
-  border-subtle: "#27272a"
-  border-hover: "#3f3f46"
-  text-high: "#fafafa"
-  text-muted: "#a1a1aa"
-  text-subtle: "#71717a"
+  surface-lift: "#18181b"
+  border-hairline: "#27272a"
+  border-active: "#3f3f46"
+  ink-alabaster: "#fafafa"
+  ink-muted: "#a1a1aa"
+  ink-subtle: "#8a8a93"
+  signal-emerald: "#34d399"
+  signal-amber: "#fbbf24"
 typography:
   display:
-    fontFamily: "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
-    fontSize: "clamp(2rem, 5vw, 3.25rem)"
+    fontFamily: "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif"
+    fontSize: "clamp(3rem, 7vw, 6rem)"
+    fontWeight: 900
+    lineHeight: 1.03
+    letterSpacing: "-0.035em"
+  headline:
+    fontFamily: "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif"
+    fontSize: "clamp(1.875rem, 3.5vw, 2.5rem)"
     fontWeight: 700
     lineHeight: 1.15
-    letterSpacing: "-0.03em"
-  headline:
-    fontFamily: "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
-    fontSize: "1.5rem"
+    letterSpacing: "-0.025em"
+  title:
+    fontFamily: "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif"
+    fontSize: "clamp(1.25rem, 2vw, 1.625rem)"
     fontWeight: 700
     lineHeight: 1.25
     letterSpacing: "-0.02em"
   body:
-    fontFamily: "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif"
-    fontSize: "0.875rem"
+    fontFamily: "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif"
+    fontSize: "1rem"
     fontWeight: 400
-    lineHeight: 1.6
-    letterSpacing: "normal"
-  mono:
-    fontFamily: "var(--font-geist-mono), ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco, Consolas, Liberation Mono, monospace"
+    lineHeight: 1.65
+    letterSpacing: "0em"
+  label:
+    fontFamily: "var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace"
     fontSize: "0.75rem"
     fontWeight: 500
     lineHeight: 1.4
-    letterSpacing: "0.05em"
+    letterSpacing: "0.04em"
 rounded:
   sm: "4px"
   md: "6px"
-  full: "9999px"
+  lg: "8px"
 spacing:
+  xs: "4px"
   sm: "8px"
   md: "16px"
   lg: "24px"
   xl: "32px"
+  2xl: "48px"
+  3xl: "64px"
 components:
   button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.surface-ground}"
+    backgroundColor: "{colors.ink-alabaster}"
+    textColor: "{colors.canvas-obsidian}"
     rounded: "{rounded.sm}"
-    padding: "8px 20px"
-  card-spec:
-    backgroundColor: "{colors.surface-card}"
-    textColor: "{colors.text-high}"
+    padding: "10px 20px"
+  button-secondary:
+    backgroundColor: "{colors.surface-lift}"
+    textColor: "{colors.ink-alabaster}"
     rounded: "{rounded.sm}"
+    padding: "10px 16px"
+  dossier-card:
+    backgroundColor: "{colors.surface-carbon}"
+    textColor: "{colors.ink-alabaster}"
+    rounded: "{rounded.md}"
     padding: "24px"
 ---
 
-# Design System: Faran Portfolio
+# Design System: Muhammad Faran — Engineering Portfolio
 
 ## Overview
 
-**Creative North Star: "The Production Component Datasheet"**
+**Creative North Star: "The Systems Architecture Monograph"**
 
-The visual language of an autonomous, product-minded engineer whose work speaks through verified software artifacts rather than commercial hyperbole. Grounded in the discipline of precision engineering component manifests and architectural specifications, the interface communicates total competence, high data density, and zero decorative noise.
+The portfolio is designed as an authoritative, dark-room systems engineering monograph. Rather than treating software projects as small e-commerce product tiles, every shipped platform is presented as a technical dossier with full-scale visual evidence, multi-screen workflow stages, and explicit architectural documentation. The interface recedes into a disciplined carbon-and-obsidian grid (`#09090b` to `#18181b`) so real product interfaces, system diagrams, and engineering prose command immediate trust.
 
-Surfaces exist on a deep charcoal ground with razor-thin hairline borders separating modular modules. Content is structured into scannable specifications: technical IDs, plain-English value propositions, delivered capabilities, and verified operational states. Every element serves an authentic function.
+We reject cramped 3-column thumbnail grids that crush mobile portrait screens into unreadable postage stamps, and we reject shallow two-line project blurbs that omit how a system was actually built.
 
 **Key Characteristics:**
-- Disciplined monochromatic dark palette punctuated only by functional status indicators (Emerald for Live, Amber for Closed Testing).
-- High-contrast, scannable typographic hierarchy pairing robust grotesque display with precision monospace metadata.
-- Modular component containers with hairline boundary definitions (1px solid borders) and subtle tonal lifts.
-- Sub-200ms functional micro-interactions; zero distracting floating blobs, parallax drags, or slow page transitions.
+- **Monumental Typographic Anchor:** High-contrast Geist Sans display headlines paired with measured 65ch narrative prose and Geist Mono technical telemetry.
+- **Aspect-Aware Media Theatres:** Wide browser stages for web/Web3 platforms and 3-up portrait device triptychs (or tall portrait stages with filmstrips) for native mobile apps.
+- **Architectural Transparency:** Every project pairs visual proof (with per-screen captions and fullscreen lightbox inspection) with Problem Solved, System Architecture, Key Capabilities, and Tech Stack.
+- **Zero Decorative Chrome:** 1px structural borders (`#27272a`), tonal surface elevation, and semantic status signals (`#34d399` live, `#fbbf24` testing).
 
 ## Colors
 
-A restrained monochromatic dark palette with solitary, high-signal operational status accents.
+A restrained monochrome obsidian-and-alabaster foundation where real product screenshots and functional status telemetry provide the only chromatic accents.
 
 ### Primary
-- **Signal Emerald** (`#10b981`): Reserved strictly for verified operational truth—live demo pills, active pulses, and primary project dispatch actions.
-- **Emerald Deep Hover** (`#059669`): Interactive hover state for primary action buttons.
+- **Alabaster Ink** (`#fafafa`): Primary display headlines, project titles, active controls, and high-emphasis primary CTA fills.
 
 ### Secondary
-- **Operational Amber** (`#f59e0b`): Reserved exclusively for in-progress or gated states (Closed Testing Beta).
+- **Live Signal Emerald** (`#34d399`): Used exclusively for verified live deployment indicators (`LIVE`) and active session telemetry.
+- **Testing Signal Amber** (`#fbbf24`): Used exclusively for closed-beta and Play Store testing indicators (`PLAYSTORE CLOSED TESTING`).
 
 ### Neutral
-- **Deep Carbon Ground** (`#09090b`): Primary canvas ground, providing an immersive, high-contrast backdrop.
-- **Datasheet Surface Card** (`#121215`): Modular container surface, slightly lifted from ground.
-- **Hover Surface** (`#151518`): Interactive card hover background.
-- **Hairline Border** (`#27272a`): Technical 1px boundary separating sections and modules.
-- **High-Contrast Text** (`#fafafa`): Headings, card titles, and primary readable labels.
-- **Muted Body Text** (`#a1a1aa`): Descriptive summaries and delivered feature points (≥7.5:1 contrast ratio).
-- **Subtle Monospace Text** (`#71717a`): Spec IDs, architectural notes, and secondary timestamps.
+- **Obsidian Canvas** (`#09090b`): Root page background, media stage backdrop, and form input wells.
+- **Carbon Surface** (`#121215`): Primary container surface for project dossiers, skill accordions, and inquiry panels.
+- **Hover Surface** (`#151518`): Subtle interactive surface shift for expandable rows and interactive cards.
+- **Lifted Slate** (`#18181b`): Elevated secondary controls, technology badges, and architecture callout blocks.
+- **Hairline Zinc** (`#27272a`): 1px structural dividers, card borders, and viewport frames.
+- **Active Border Zinc** (`#3f3f46`): Hover and focus border highlight state.
+- **Muted Pewter** (`#a1a1aa`): Primary narrative body copy, problem statements, and capability descriptions (≥7.5:1 contrast on `#09090b`).
+- **Subtle Ash** (`#8a8a93`): Secondary metadata, inactive tab labels, and input placeholders (≥5.2:1 contrast on `#09090b`).
 
 ### Named Rules
-**The Solitary Signal Rule.** Saturated color is never decorative. Emerald and Amber exist solely to communicate state (live vs testing) or direct conversion; no background gradients or decorative color floods are permitted.
+**The Earned Chroma Rule.** Never apply decorative brand colors, neon gradients, or colored borders to containers. Color appears only inside real product screenshots, technology logos, and 6px operational status dots.
 
 ## Typography
 
-**Display & Body Font:** Geist Sans (`var(--font-geist-sans)`, with modern grotesque system fallback `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`)
-**Metadata & Spec Font:** Geist Mono (`var(--font-geist-mono)`, with engineering monospace system fallback `ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace`)
+**Display Font:** Geist Sans (with `-apple-system, BlinkMacSystemFont, sans-serif` fallback)
+**Body Font:** Geist Sans
+**Label/Mono Font:** Geist Mono (with `ui-monospace, SFMono-Regular, monospace` fallback)
 
-**Character:** Modern typographic precision: clear, authoritative sans-serif body text paired with disciplined monospace data points for specifications, categories, and IDs.
+**Character:** Swiss-industrial clarity on a dark canvas—combining heavy, tightly tracked sans-serif titles with crisp monospace spec identifiers, screen counters, and stack tags.
 
 ### Hierarchy
-- **Display** (Bold 700, `clamp(2rem, 5vw, 3.25rem)`, line-height 1.15, tracking `-0.03em`): Hero positioning statement.
-- **Headline** (Bold 700, `1.5rem` to `1.875rem`, line-height 1.25, tracking `-0.02em`): Section titles.
-- **Title** (Bold 700, `1.25rem`, line-height 1.3): Project card titles.
-- **Body** (Regular 400, `0.875rem` / 14px, line-height 1.6, max line length `65–75ch`): Summaries, feature lists, and explanations.
-- **Label / Mono** (Medium 500, `0.6875rem` / 11px to `0.75rem` / 12px, tracking `0.05em`, uppercase where indicated): Spec IDs, status pills, category tabs, and tech tags.
+- **Display** (`900`, `clamp(3rem, 7vw, 6rem)`, `1.03` line-height, `-0.035em` tracking): Hero title only.
+- **Headline** (`700`, `clamp(1.875rem, 3.5vw, 2.5rem)`, `1.15` line-height, `-0.025em` tracking): Major section headings (`Selected Work`, `Skills & Technologies`, `Start a Project Conversation`).
+- **Title** (`700`, `clamp(1.25rem, 2vw, 1.625rem)`, `1.25` line-height, `-0.02em` tracking): Project dossier titles and sub-panel headers.
+- **Body** (`400`, `1rem` / `16px`, `1.65` line-height): Project summaries, problem statements, and architectural descriptions, constrained to `65ch` max measure.
+- **Label** (`500`, `0.75rem` / `12px`, `1.4` line-height, `0.04em` tracking): Spec IDs (`SPEC-01`), category filters, screen counters (`1/5`), and technology stack badges with `tabular-nums`.
 
 ### Named Rules
-**The Spec Alignment Rule.** Monospace type is reserved exclusively for structured data: version numbers, module IDs (`SPEC-01`), tech tags, and operational states. Prose and narrative text must always use the grotesque body face.
+**The No-Kicker Rule.** Never place a small uppercase eyebrow or kicker above a section heading or project title. Let the heading lead first; place spec IDs, categories, and status badges inline beside the title or in a trailing metadata rail.
 
 ## Layout
 
-- **Grid Architecture**: 12-column responsive fluid grid with max-width container capped at `72rem` (1152px) for optimal scannability.
-- **Project Grid**: 1-column stack on mobile viewports (<768px), transitioning cleanly into an egalitarian 2-column modular spec grid on desktop (≥768px).
-- **Rhythm & Separation**: Generous section separation (64px to 96px) bounded by continuous 1px hairline divider rules (`#27272a`).
+The page uses a centered `max-w-6xl` (`1152px`) container with `16px` (`px-4`) mobile and `24px` (`sm:px-6`) desktop horizontal padding, anchored by a sticky `64px` (`h-16`) top engineering masthead.
+
+In **Selected Work**, projects use an interactive 12-column **Split Workbench** master-detail architecture:
+- **Sticky System Directory (4 columns on desktop):** Filterable directory of all 9 specifications (`SPEC-01` to `SPEC-09`) with status telemetry, category labels, taglines, and top stack pills.
+- **Deep-Dive Inspection Theatre (8 columns on desktop):** Dedicated inspection stage pairing a hybrid media theatre (**Viewport + Visual Thumbnail Filmstrip** for Web & Blockchain specs; **3-Up Multi-Screen Triptych** for Mobile specs) with side-by-side Problem & System Architecture cards, a 2x2 Key Technical Capabilities grid, and Technology Stack badges.
 
 ## Elevation & Depth
 
-Surfaces rely on tonal contrast and hairline containment rather than decorative drop shadows.
+Depth is achieved primarily through **tonal layering** (`#09090b` canvas → `#121215` dossier surface → `#18181b` lifted callout/control) reinforced by crisp `1px solid #27272a` structural hairlines.
 
-- **Flat & Precise**: Surfaces are flat at rest with distinct background separation (`#09090b` canvas to `#121215` card).
-- **Interactive Shift**: Card hover states slightly shift background tone to `#151518` and brighten border to `#3f3f46`, without aggressive displacement.
-- **Modal Elevation**: High-focus dialogs use `backdrop-blur-sm` over `rgba(0,0,0,0.8)` with a 24px soft ambient shadow (`box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75)`).
+### Shadow Vocabulary
+- **Device Stage Drop** (`box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.7)`): Applied to portrait mobile device frames and floating lightbox viewports to separate screenshots from the dark stage backdrop.
+- **Floating Dock Elevation** (`box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.85)`): Applied to the floating Impeccable Live variant switcher bar and modal dialogs.
+
+### Named Rules
+**The No-Halo Rule.** Never use zero-offset colored glow shadows (`0 0 8px`). All shadows must use vertical offset and dark ambient blur.
 
 ## Shapes
 
-- **Corner Radii**: Tight, disciplined rounding: `rounded` (4px) for cards, tabs, and buttons; `rounded-full` reserved solely for circular pulse dots and modal close buttons.
-- **Borders**: Continuous 1px solid hairline borders across all interactive boundaries; zero zero-blur block drop shadows or colored accent strips.
+Crisp, architectural geometry with `4px` (`rounded`) to `6px` (`rounded-md`) corners on buttons, badges, and dossiers. Borders are strictly `1px` (`border-card-border`); never use thick colored left/right accent borders.
 
 ## Components
 
 ### Buttons
-- **Shape**: Tight corner radius (4px).
-- **Primary ("Start a Project")**: High-contrast emerald fill (`#10b981`), dark carbon text (`#09090b`), font-mono bold uppercase text, 150ms hover transition to `#34d399`.
-- **Secondary (Platforms / Badges)**: Deep charcoal background (`#121215`), 1px hairline border (`#27272a`), inline SVG platform brand mark, hover lift to `#18181b` and border `#3f3f46`.
+- **Shape:** Sharp architectural radius (`4px` / `rounded`).
+- **Primary:** Solid Alabaster fill (`#fafafa`) with Obsidian text (`#09090b`), `10px 20px` padding, bold weight.
+- **Secondary / Action:** Lifted Slate surface (`#18181b`) with `1px solid #27272a` border and Alabaster text (`#fafafa`), shifting to `#27272a` background and `#3f3f46` border on hover.
 
-### Spec Cards
-- **Structure**: Hairline bordered container (`#27272a`), 24px internal padding, top spec metadata line with status indicator, bold title, 1-line plain-English summary, delivered capability bullets, expandable architecture notes, and footer launch action.
+### Chips & Stack Badges
+- **Style:** Monospace `12px` labels inside `#18181b` (`bg-lift`) with `1px solid #27272a` border and `6px 10px` padding.
+- **State:** Interactive filter tabs highlight active selection with `#27272a` fill and `#fafafa` bold text.
 
-### Status Indicators
-- **Live Demo Pill**: Emerald border (`border-emerald-500/30`), subtle emerald tint background (`bg-emerald-950/20`), emerald text (`text-emerald-400`), solid 6px emerald circle.
-- **Closed Testing Pill**: Amber border (`border-amber-500/30`), amber tint background (`bg-amber-950/20`), amber text (`text-amber-400`), solid 6px amber circle.
+### Project Dossiers & Media Stages
+- **Corner Style:** `6px` (`rounded-md`) outer frame with `1px solid #27272a` border.
+- **Background:** `#121215` (`bg-card-bg`) for narrative panels; `#09090b` (`bg-background`) with subtle radial/linear tonal depth for media stages.
+- **Mobile Triptych Stage:** Displays up to 3 portrait screens side-by-side (`aspect-[9/19]`) with interactive selection so portrait mobile workflows fill horizontal stages naturally.
+- **Contextual Caption Bar:** Persistent footer strip beneath every media stage displaying screen index (`01 / 05`), screen title,full architectural caption, and a `Fullscreen ⤢` trigger.
 
-### Filter Tabs
-- **Structure**: Unified segmented bar with hairline border, active tab receives solid lifted background (`bg-[#27272a]` with text `#fafafa`), inactive tabs render in muted `#a1a1aa`.
+### Inputs / Fields
+- **Style:** `1px solid #27272a` stroke on `#09090b` background with `4px` radius and `12px 16px` padding.
+- **Focus:** Border shifts to `#3f3f46` with a `1px` ring.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** maintain strict hairline borders (1px `#27272a`) across all container elements.
-- **Do** verify contrast ratios exceed 4.5:1 for body copy and 3:1 for large display elements.
-- **Do** keep animations strictly functional (150ms ease transitions on interactive hover/focus).
-- **Do** explain technical achievements in terms of concrete delivered capabilities.
+- **Do** pair every project gallery with per-screen captions and deep engineering narrative (Problem Solved, Architecture Note, Capabilities, Tech Stack).
+- **Do** present mobile portrait screenshots in multi-screen triptych stages or dedicated portrait viewports with filmstrips so they are large and legible.
+- **Do** provide a 1-click Fullscreen Lightbox on every project image so evaluators can inspect fine UI details at full resolution.
+- **Do** keep the Hero section clean, bold, and authoritative.
 
 ### Don't:
-- **Don't** add decorative gradients to text or buttons.
-- **Don't** add kickers or small eyebrow labels above primary section headings.
-- **Don't** use emojis or unicode symbols in place of clean, consistent inline SVGs.
-- **Don't** add fake testimonials or unverified marketing metrics.
-- **Don't** use heavy blur or glassmorphism as surface decoration.
+- **Don't** use a 3-column equal-card grid for Selected Work that shrinks screenshots and truncates project context to two lines.
+- **Don't** place kickers or eyebrows above headings.
+- **Don't** use decorative section numbers (`01 / 02 / 03`) where sequence carries no meaning.
+- **Don't** use gradient text, thick colored side-borders, or zero-offset neon glow shadows.
