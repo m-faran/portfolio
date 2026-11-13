@@ -1,5 +1,3 @@
-import React from "react";
-
 export interface ProjectGalleryItem {
   url: string;
   label: string;
@@ -12,34 +10,21 @@ export interface ProjectGithubLink {
   url: string;
 }
 
-export interface ProjectCapability {
-  title: string;
-  desc: string;
-}
-
 export interface Project {
   id: string;
   specId: string;
   title: string;
-  tagline: string;
   category: "mobile" | "web";
   categoryLabel: string;
   status: "live" | "testing";
-  statusText: string;
-  isFlagship?: boolean;
-  image: string;
-  imageAlt: string;
   gallery: ProjectGalleryItem[];
   link: string;
   isExternalLink: boolean;
   githubUrl?: string;
   githubLinks?: ProjectGithubLink[];
   githubPrivate?: boolean;
-  problemSolved: string;
   summary: string;
-  capabilities: ProjectCapability[];
   techStack: string[];
-  architectureNote: string;
 }
 
 export const PROJECTS: Project[] = [
@@ -47,16 +32,9 @@ export const PROJECTS: Project[] = [
     id: "stormpkr",
     specId: "SPEC-01",
     title: "StormPKR Mobile Wallet",
-    tagline:
-      "Mobile crypto wallet for Pakistan's PKR-pegged stablecoin ($SPKR) featuring gasless Base transactions and seedless onboarding.",
     category: "mobile",
     categoryLabel: "Mobile",
     status: "testing",
-    statusText: "CLOSED TESTING",
-    isFlagship: true,
-    image: "/projects/stormpkr.png",
-    imageAlt:
-      "StormPKR mobile wallet dashboard displaying PKR balance, quick actions, and gasless Base network status",
     gallery: [
       {
         url: "/projects/stormpkr.png",
@@ -139,49 +117,21 @@ export const PROJECTS: Project[] = [
     link: "#",
     isExternalLink: false,
     githubPrivate: true,
-    problemSolved:
-      "Everyday users in Pakistan cannot adopt crypto wallets when forced to manage 12-word seed phrases and acquire ETH on L2 just to pay gas fees for a rupee transfer. StormPKR makes stablecoin payments feel like a native fintech app.",
     summary:
       "A simple and secure mobile wallet for sending and receiving digital rupees ($SPKR) instantly with zero transfer fees. Built to feel just like a familiar everyday payment app with quick sign-in, PIN protection, and effortless balance management.",
-    capabilities: [
-      {
-        title: "Zero Transfer Fees",
-        desc: "Send and receive digital rupees instantly without worrying about unexpected network fees or transaction costs.",
-      },
-      {
-        title: "Fast & Easy Sign-In",
-        desc: "Create and access your wallet in seconds with a simple social sign-in or traditional recovery options.",
-      },
-      {
-        title: "Instant Digital Rupee Transfers",
-        desc: "Send payments directly to contacts or addresses with real-time balance updates and receipt confirmations.",
-      },
-      {
-        title: "PIN & Device Security",
-        desc: "Protect your balance with a personalized 6-digit PIN lock and secure on-device encryption.",
-      },
-    ],
     techStack: [
       "React Native",
       "Expo",
       "TypeScript",
     ],
-    architectureNote:
-      "Integrated Thirdweb ERC-4337 smart wallet paymasters on Base to sponsor ERC-20 transfer gas costs transparently, paired with secure device enclave key storage and deterministic PIN verification.",
   },
 {
     id: "chundrigar-capital",
     specId: "SPEC-02",
     title: "Chundrigar Capital",
-    tagline:
-      "Modern web trading platform for Pakistan Stock Exchange (KSE-100) shares with real-time market data and interactive charts.",
     category: "web",
     categoryLabel: "Web",
     status: "live",
-    statusText: "LIVE",
-    isFlagship: true,
-    image: "/projects/chundrigar-capital.png",
-    imageAlt: "Chundrigar Capital Pakistan Stock Exchange trading platform screenshot",
     gallery: [
       {
         url: "/projects/chundrigar-capital.png",
@@ -222,28 +172,8 @@ export const PROJECTS: Project[] = [
     link: "https://chundrigar-capital.vercel.app/",
     isExternalLink: true,
     githubUrl: "https://github.com/m-faran/chundrigar-capital",
-    problemSolved:
-      "Traditional stock market brokerages are often cumbersome, requiring paperwork and complex desktop software. Chundrigar Capital provides a fast, browser-based trading experience with live PSX market data and instant order execution.",
     summary:
       "A modern web trading platform for Pakistan Stock Exchange (KSE-100) shares, featuring live market data, interactive price charts, and fast digital order settlement in a clean financial dashboard.",
-    capabilities: [
-      {
-        title: "Live Market Data & Telemetry",
-        desc: "Real-time market prices, index weights, and sector filtering for Pakistan Stock Exchange shares.",
-      },
-      {
-        title: "Interactive Candlestick Charts",
-        desc: "Professional charting with historical price feeds, volume tracking, and technical indicators.",
-      },
-      {
-        title: "Fast Digital Settlements",
-        desc: "Streamlined order processing with multi-currency options for domestic and international users.",
-      },
-      {
-        title: "Digital Identity Verification",
-        desc: "Fast and secure user onboarding with document validation and automated compliance checks.",
-      },
-    ],
     techStack: [
       "React",
       "Next.js",
@@ -252,22 +182,14 @@ export const PROJECTS: Project[] = [
       "HTML",
       "CSS",
     ],
-    architectureNote:
-      "Built with Next.js, React, and TypeScript featuring optimized state management, responsive chart rendering, and secure API integration for real-time market feeds.",
   },
 {
     id: "roaring-bulls",
     specId: "SPEC-03",
     title: "Roaring Bulls",
-    tagline:
-      "Swipe-based stock basket investing platform with 1-click checkout and real-time market quotes.",
     category: "web",
     categoryLabel: "Web",
     status: "live",
-    statusText: "LIVE",
-    isFlagship: true,
-    image: "/projects/roaring-bulls.png",
-    imageAlt: "Roaring Bulls stock basket trading platform screenshot",
     gallery: [
       {
         url: "/projects/roaring-bulls.png",
@@ -294,28 +216,8 @@ export const PROJECTS: Project[] = [
     link: "https://roaring-bulls.vercel.app/",
     isExternalLink: true,
     githubUrl: "https://github.com/m-faran/roaring-bulls",
-    problemSolved:
-      "Traditional stock investing can feel intimidating and slow with complicated order tickets. Roaring Bulls turns stock curation into an intuitive, swipe-based card deck with fixed budget limits and 1-click purchasing.",
     summary:
       "A fast and intuitive web trading application that lets users discover and buy popular stock baskets (like Apple, Tesla, and Nvidia) using a simple swipe-based interface and 1-click checkout.",
-    capabilities: [
-      {
-        title: "1-Click Basket Purchases",
-        desc: "Bundle multiple favorite stocks into a single investment with one click and automatic budget calculation.",
-      },
-      {
-        title: "Intuitive Swipe Interface",
-        desc: "Browse curated stock decks with an easy swipe-to-allocate card system and interactive animations.",
-      },
-      {
-        title: "Real-Time Stock Directory",
-        desc: "Search 135+ top public equities with live price quotes, metrics, and 24-hour performance indicators.",
-      },
-      {
-        title: "Pre-Set Budget Protection",
-        desc: "Set strict session spending limits to invest responsibly without accidental overspending.",
-      },
-    ],
     techStack: [
       "React",
       "Next.js",
@@ -324,21 +226,14 @@ export const PROJECTS: Project[] = [
       "HTML",
       "CSS",
     ],
-    architectureNote:
-      "Engineered with Next.js, React, and TypeScript featuring fluid gesture animations, real-time quote feeds, and client-side budget validation.",
   },
 {
     id: "ludo-elemental",
     specId: "SPEC-04",
     title: "Ludo Elemental",
-    tagline:
-      "Competitive multiplayer mobile board game augmenting classic Ludo with tactical elemental power-ups.",
     category: "mobile",
     categoryLabel: "Mobile",
     status: "live",
-    statusText: "LIVE ON PLAY STORE",
-    image: "/projects/ludo-elemental.png",
-    imageAlt: "Ludo Elemental mobile game splash screen with elemental dice and power tokens",
     gallery: [
       {
         url: "/projects/ludo-elemental.png",
@@ -386,40 +281,17 @@ export const PROJECTS: Project[] = [
     link: "https://play.google.com/store/apps/details?id=com.stymite.ludoelemental",
     isExternalLink: true,
     githubPrivate: true,
-    problemSolved:
-      "Traditional board games rely solely on dice luck. Ludo Elemental adds tactical excitement with special elemental abilities that players can activate to turn the tide of the match.",
     summary:
       "A fast-paced 4-player mobile board game for Android & iOS that revamps classic Ludo with elemental powers (Fire, Water, Earth, Wind), online matchmaking, and private lobbies to play with friends.",
-    capabilities: [
-      {
-        title: "Real-Time Game Engine",
-        desc: "Custom multiplayer game logic managing pawn movement, elemental powers, shields, and turns without lag.",
-      },
-      {
-        title: "Drop-Safe Multiplayer Reconnect",
-        desc: "Seamless session recovery that automatically restores active matches if connection drops.",
-      },
-      {
-        title: "Party Codes & Live Matchmaking",
-        desc: "Quick 4-player public matchmaking queues alongside private room codes for playing with friends.",
-      },
-    ],
     techStack: ["React Native", "Expo", "TypeScript", "Socket.io"],
-    architectureNote:
-      "Engineered with React Native and Socket.io with server-authoritative turn validation to keep all 4 mobile players synchronized smoothly.",
   },
 {
     id: "kenzoku",
     specId: "SPEC-05",
     title: "Kenzoku Mobile App",
-    tagline:
-      "Interests-driven non-romantic matchmaking mobile app connecting people through shared niche passions.",
     category: "mobile",
     categoryLabel: "Mobile",
     status: "testing",
-    statusText: "PLAYSTORE CLOSED TESTING",
-    image: "/projects/kenzoku.png",
-    imageAlt: "Kenzoku mobile app user discovery interface with passion matching tags",
     gallery: [
       {
         url: "/projects/kenzoku.png",
@@ -495,44 +367,17 @@ export const PROJECTS: Project[] = [
     link: "#",
     isExternalLink: false,
     githubUrl: "https://github.com/m-faran/kenzoku",
-    problemSolved:
-      "Most social apps focus on vanity follower metrics or dating algorithms, making it hard to find genuine friends with the same hobbies. Kenzoku connects people strictly through shared interests and creative pursuits.",
     summary:
       "A mobile social app for connecting people through shared hobbies and niche passions—from tech and gaming to anime and creative arts—featuring private direct messaging and zero vanity follower counts.",
-    capabilities: [
-      {
-        title: "Interest-Based Matching",
-        desc: "Find people who share your exact hobbies, skills, and creative interests with intuitive discovery cards.",
-      },
-      {
-        title: "Smooth Native Card Gestures",
-        desc: "Fluid swipe-to-connect interactions running smoothly on both iOS and Android.",
-      },
-      {
-        title: "Private 1-on-1 Chat",
-        desc: "Real-time messaging threads that open only when both users choose to connect.",
-      },
-      {
-        title: "No Vanity Metrics",
-        desc: "Clean personal profiles focused on genuine passions with zero public follower counts or like trackers.",
-      },
-    ],
     techStack: ["React Native", "Expo EAS", "TypeScript", "Reanimated", "Supabase", "NativeWind"],
-    architectureNote:
-      "Structured card gesture physics entirely on the native UI thread via Reanimated worklets while synchronizing real-time chat dispatches and presence over Supabase channels.",
   },
 {
     id: "devsafar",
     specId: "SPEC-06",
     title: "DevSafar",
-    tagline:
-      "Hackathon & coding competition discovery directory and team recruitment portal built for developers and students.",
     category: "web",
     categoryLabel: "Web",
     status: "live",
-    statusText: "LIVE",
-    image: "/projects/devsafar-hero.png",
-    imageAlt: "DevSafar hackathon discovery directory and team recruitment portal screenshot",
     gallery: [
       {
         url: "/projects/devsafar-hero.png",
@@ -559,45 +404,17 @@ export const PROJECTS: Project[] = [
     link: "https://www.devsafar.app/",
     isExternalLink: true,
     githubPrivate: true,
-    problemSolved:
-      "Student and indie developers frequently miss hackathons scattered across dozens of websites or drop out because they lack teammates with complementary skills. DevSafar unifies discovery and squad formation in one platform.",
     summary:
       "Full-stack developer competition hub aggregating 3,800+ hackathons, CTFs, and coding tournaments with live deadline tracking and skill-based teammate matchmaking.",
-    capabilities: [
-      {
-        title: "Real-Time Deadline Telemetry",
-        desc: "Live countdown engines tracking registration cutoffs, submission windows, and judging stages across time zones.",
-      },
-      {
-        title: "Complementary Squad Matchmaking",
-        desc: "Connects solo builders with frontend, backend, mobile, or UI/UX teammates before competition lock-in.",
-      },
-      {
-        title: "Organizer Submission Pipeline",
-        desc: "Self-serve event listing workflow with automated schema validation and instant community indexing.",
-      },
-      {
-        title: "Sub-100ms Filtered Search",
-        desc: "Indexed PostgreSQL queries filtering thousands of events by prize pool, modality, region, and tech stack.",
-      },
-    ],
     techStack: ["Next.js", "Supabase", "PostgreSQL", "TypeScript", "Tailwind CSS", "Puppeteer"],
-    architectureNote:
-      "Built automated scraping and ingestion pipelines feeding indexed Supabase PostgreSQL tables with optimistic client caching for sub-100ms directory filtering.",
   },
 {
     id: "stormpkr-web",
     specId: "SPEC-07",
     title: "StormPKR Website & KYC Hub",
-    tagline:
-      "Marketing landing portal, regulatory CNIC KYC onboarding flow, and customer support hub for the StormPKR ecosystem.",
     category: "web",
     categoryLabel: "Web",
     status: "live",
-    statusText: "LIVE",
-    image: "/projects/stormpkr-web.png",
-    imageAlt:
-      "StormPKR web landing page hero showcasing instant rupee transfers without banks and 3D coin visual",
     gallery: [
       {
         url: "/projects/stormpkr-web.png",
@@ -652,41 +469,17 @@ export const PROJECTS: Project[] = [
     link: "https://stormpkr.vercel.app/",
     isExternalLink: true,
     githubPrivate: true,
-    problemSolved:
-      "Launching a regional digital currency requires bridging consumer trust with clear onboarding. StormPKR Website unifies product education, identity verification, and live customer support in a modern web portal.",
     summary:
       "Product landing portal and verification hub for the StormPKR ecosystem, featuring an interactive product showcase, multi-step identity verification flow, and integrated customer support desk.",
-    capabilities: [
-      {
-        title: "Multi-Step Identity Verification",
-        desc: "Structured identity verification flow validating CNIC numbers and capturing document uploads.",
-      },
-      {
-        title: "Interactive Product Showcase",
-        desc: "High-contrast editorial landing experience explaining zero-fee rupee transfers and instant settlements.",
-      },
-      {
-        title: "Customer Support Desk",
-        desc: "Integrated support routing connecting users directly to WhatsApp helpdesk agents and contact channels.",
-      },
-    ],
     techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
-    architectureNote:
-      "Built a multi-step client-validated KYC document intake pipeline with strict CNIC format verification, progressive disclosure FAQs, and responsive conversion layouts.",
   },
 {
     id: "kenzoku-web",
     specId: "SPEC-08",
     title: "Kenzoku Narrative Portal",
-    tagline:
-      "Atmospheric narrative landing portal with six-stratum scrollytelling and anti-clout social philosophy for the Kenzoku ecosystem.",
     category: "web",
     categoryLabel: "Web",
     status: "live",
-    statusText: "LIVE",
-    image: "/projects/kenzoku-web.png",
-    imageAlt:
-      "Kenzoku landing page hero with twilight firefly visual and interest-based matchmaking value proposition",
     gallery: [
       {
         url: "/projects/kenzoku-web.png",
@@ -748,41 +541,17 @@ export const PROJECTS: Project[] = [
     link: "https://kenzoku.codekin.xyz/",
     isExternalLink: true,
     githubPrivate: true,
-    problemSolved:
-      "Conventional app landing pages rely on generic feature bullets that fail to communicate the emotional shift of an interest-based community. Kenzoku's web portal immerses visitors through an evocative chapter-by-chapter story.",
     summary:
       "An atmospheric narrative web portal presenting the philosophy, safety principles, and interest-based community design of the Kenzoku ecosystem through an immersive visual story.",
-    capabilities: [
-      {
-        title: "Atmospheric Visual Storytelling",
-        desc: "Choreographed chapter progression pacing typography, custom artwork, and smooth depth transitions.",
-      },
-      {
-        title: "Anti-Clout Design Manifesto",
-        desc: "Interactive visual breakdowns demonstrating how Kenzoku removes vanity counters and performative leaderboards.",
-      },
-      {
-        title: "Safety & Consent Architecture",
-        desc: "Clear documentation of age verification, mutual-consent chat unlocking, and community safety guidelines.",
-      },
-    ],
     techStack: ["Next.js", "React", "TypeScript", "GSAP", "Tailwind CSS"],
-    architectureNote:
-      "Engineered a six-stratum scroll progression combining GSAP viewport triggers, zero-CLS high-resolution visual plates, and accessible reduced-motion fallbacks.",
   },
 {
     id: "genie-markets",
     specId: "SPEC-09",
     title: "Genie Markets",
-    tagline:
-      "Interactive online prediction platform featuring real-time number draws, instant payouts, and dynamic multiplier tiers.",
     category: "web",
     categoryLabel: "Web",
     status: "live",
-    statusText: "LIVE",
-    isFlagship: true,
-    image: "/projects/genie-markets.png",
-    imageAlt: "Genie Markets interactive prediction web platform landing page",
     gallery: [
       {
         url: "/projects/genie-markets.png",
@@ -826,28 +595,8 @@ export const PROJECTS: Project[] = [
         url: "https://github.com/m-faran/genie-markets",
       },
     ],
-    problemSolved:
-      "Traditional online prediction games often suffer from slow interfaces, complex deposit steps, and cluttered user experiences. Genie Markets delivers an instant, responsive web experience with live animated draws and seamless 1-click payouts.",
     summary:
       "A fast-paced interactive prediction web application featuring real-time 3-digit number draws, instant digital prize payouts, dynamic multiplier boards, and a modern financial dashboard interface.",
-    capabilities: [
-      {
-        title: "Real-Time Draw Engine",
-        desc: "Sub-second animated 3-digit draw resolution with live visual telemetry and instant outcome reveals.",
-      },
-      {
-        title: "Interactive Prediction Terminal",
-        desc: "Responsive number selectors and wager calculators with real-time odds calculations.",
-      },
-      {
-        title: "Dynamic Multiplier Matrix",
-        desc: "Structured payout tiers supporting Single (9x), Exact Pair (90x), and Genie Trio (up to 600x) odds.",
-      },
-      {
-        title: "Secure Balance & Vault Telemetry",
-        desc: "Real-time user balance management, instant payout processing, and complete transaction history.",
-      },
-    ],
     techStack: [
       "React",
       "Next.js",
@@ -856,7 +605,5 @@ export const PROJECTS: Project[] = [
       "HTML",
       "CSS",
     ],
-    architectureNote:
-      "Engineered with Next.js, React, and TypeScript featuring client-side odds calculation, responsive animated draw sequences, and resilient API data fetching for live round telemetry.",
   },
 ];
