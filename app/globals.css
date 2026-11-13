@@ -5,18 +5,37 @@ html[data-theme="light"] {
   --background: #f8f8f8;
   --foreground: #09090b;
   --card-bg: #ffffff;
-  --card-border: #e4e4e7;
-  --card-hover-border: #a1a1aa;
+  --card-border: #d4d4d8;
+  --card-hover-border: #71717a;
   --text-muted: #4b4b53;
   --text-subtle: #63636b;
   --hover-surface: #f4f4f5;
   --lift: #f1f1f3;
   --signal-emerald: #10b981;
   --signal-amber: #f59e0b;
-  --signal-error: #dc2626;
+  --signal-error: #b91c1c;
+  --signal-error-border: rgba(220, 38, 38, 0.35);
+  --signal-error-bg: rgba(220, 38, 38, 0.08);
   --selection-bg: rgba(9, 9, 11, 0.14);
   --shadow-stage: 0 16px 36px -8px rgba(9, 9, 11, 0.14), 0 4px 12px -2px rgba(9, 9, 11, 0.08);
   --shadow-lightbox: 0 24px 60px -12px rgba(9, 9, 11, 0.24);
+  --icon-react: #0284c7;
+  --icon-tailwind: #0284c7;
+  --icon-vite-bolt: #b45309;
+  --icon-node: #15803d;
+  --icon-supabase: #047857;
+  --icon-mongodb: #15803d;
+  --icon-python-yellow: #b45309;
+  --icon-ethereum: #4338ca;
+  --icon-solana-start: #7c3aed;
+  --icon-solana-end: #059669;
+  --icon-wallet: #0f766e;
+  --icon-android: #15803d;
+  --icon-claude: #b45309;
+  --icon-gemini: #6d28d9;
+  --icon-huggingface: #b45309;
+  --icon-ffmpeg: #15803d;
+  --icon-puppeteer: #0f766e;
   color-scheme: light;
 }
 
@@ -34,9 +53,28 @@ html[data-theme="light"] {
     --signal-emerald: #34d399;
     --signal-amber: #fbbf24;
     --signal-error: #f87171;
+    --signal-error-border: rgba(239, 68, 68, 0.4);
+    --signal-error-bg: rgba(127, 29, 29, 0.2);
     --selection-bg: rgba(250, 250, 250, 0.2);
     --shadow-stage: 0 16px 36px -8px rgba(0, 0, 0, 0.85);
     --shadow-lightbox: 0 20px 50px rgba(0, 0, 0, 0.9);
+    --icon-react: #61dafb;
+    --icon-tailwind: #38bdf8;
+    --icon-vite-bolt: #ffd43b;
+    --icon-node: #68bc51;
+    --icon-supabase: #3ecf8e;
+    --icon-mongodb: #00ed64;
+    --icon-python-yellow: #ffd43b;
+    --icon-ethereum: #8a9df5;
+    --icon-solana-start: #9945ff;
+    --icon-solana-end: #14f195;
+    --icon-wallet: #14f195;
+    --icon-android: #3ddc84;
+    --icon-claude: #f59e0b;
+    --icon-gemini: #8e75ff;
+    --icon-huggingface: #ffd21e;
+    --icon-ffmpeg: #00c814;
+    --icon-puppeteer: #00d8a2;
     color-scheme: dark;
   }
 }
@@ -54,9 +92,28 @@ html[data-theme="dark"] {
   --signal-emerald: #34d399;
   --signal-amber: #fbbf24;
   --signal-error: #f87171;
+  --signal-error-border: rgba(239, 68, 68, 0.4);
+  --signal-error-bg: rgba(127, 29, 29, 0.2);
   --selection-bg: rgba(250, 250, 250, 0.2);
   --shadow-stage: 0 16px 36px -8px rgba(0, 0, 0, 0.85);
   --shadow-lightbox: 0 20px 50px rgba(0, 0, 0, 0.9);
+  --icon-react: #61dafb;
+  --icon-tailwind: #38bdf8;
+  --icon-vite-bolt: #ffd43b;
+  --icon-node: #68bc51;
+  --icon-supabase: #3ecf8e;
+  --icon-mongodb: #00ed64;
+  --icon-python-yellow: #ffd43b;
+  --icon-ethereum: #8a9df5;
+  --icon-solana-start: #9945ff;
+  --icon-solana-end: #14f195;
+  --icon-wallet: #14f195;
+  --icon-android: #3ddc84;
+  --icon-claude: #f59e0b;
+  --icon-gemini: #8e75ff;
+  --icon-huggingface: #ffd21e;
+  --icon-ffmpeg: #00c814;
+  --icon-puppeteer: #00d8a2;
   color-scheme: dark;
 }
 
@@ -117,7 +174,7 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Respect reduced-motion */
+/* Respect reduced-motion: suppress spatial movement while keeping color/opacity state feedback */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -128,6 +185,7 @@ body {
   }
   .transition-transform,
   .transition-all {
-    transition-duration: 0.01ms !important;
+    transition-property: opacity, background-color, border-color, color, box-shadow !important;
+    transform: none !important;
   }
 }

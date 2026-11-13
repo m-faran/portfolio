@@ -5,6 +5,15 @@ import Image from "next/image";
 import { PROJECTS, Project } from "./project-data";
 import { SKILL_CATEGORIES, GithubIcon } from "./skills-data";
 
+type FormErrorField =
+  | "name"
+  | "email"
+  | "customCategory"
+  | "customBudget"
+  | "message"
+  | "form"
+  | null;
+
 const CATEGORY_TABS: Array<{ id: "all" | "web" | "mobile"; label: string }> = [
   { id: "all", label: "ALL" },
   { id: "web", label: "WEB" },
@@ -26,7 +35,7 @@ function ProjectActionButtons({ project }: { project: Project }) {
             href={gh.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 border border-card-border bg-lift px-3 py-1.5 font-mono text-xs font-medium tracking-wide text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+            className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-card-border bg-lift px-3 py-2 sm:py-1.5 font-mono text-xs font-medium tracking-wide text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
             title={gh.label}
             aria-label={`${project.title} ${gh.label}`}
           >
@@ -39,7 +48,7 @@ function ProjectActionButtons({ project }: { project: Project }) {
           href={project.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 border border-card-border bg-lift px-3 py-1.5 font-mono text-xs font-medium tracking-wide text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+          className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-card-border bg-lift px-3 py-2 sm:py-1.5 font-mono text-xs font-medium tracking-wide text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
           title="View GitHub Repository"
           aria-label={`${project.title} GitHub repository`}
         >
@@ -70,7 +79,7 @@ function ProjectActionButtons({ project }: { project: Project }) {
           href={project.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 border border-foreground bg-foreground px-3.5 py-1.5 font-mono text-xs font-bold tracking-wide text-background hover:opacity-90 transition-opacity rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+          className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-foreground bg-foreground px-3.5 py-2 sm:py-1.5 font-mono text-xs font-bold tracking-wide text-background hover:opacity-90 transition-opacity rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
         >
           <span>
             {project.link.includes("play.google.com") ? "Google Play" : "Launch Live"}
@@ -173,7 +182,7 @@ function ProjectMediaStage({
           <button
             type="button"
             onClick={() => onOpenLightbox(safeIndex)}
-            className="inline-flex items-center gap-1.5 border border-card-border bg-card-bg hover:border-card-hover hover:bg-lift px-2.5 py-1 font-mono text-xs font-medium text-foreground rounded transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+            className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-card-border bg-card-bg hover:border-card-hover hover:bg-lift px-3 py-2 sm:px-2.5 sm:py-1 font-mono text-xs font-medium text-foreground rounded transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
             title="Inspect full-resolution screenshot"
           >
             <span>Inspect Fullscreen</span>
@@ -192,23 +201,12 @@ function ProjectMediaStage({
               const item = gallery[screenIdx];
               const isCenter = slotPosition === 1 || total < 3;
               return (
-                <div
+                <button
                   key={`${project.id}-triptych-${slotPosition}-${screenIdx}`}
+                  type="button"
                   onClick={() =>
                     isCenter ? onOpenLightbox(screenIdx) : onSelectIndex(screenIdx)
                   }
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      if (isCenter) {
-                        onOpenLightbox(screenIdx);
-                      } else {
-                        onSelectIndex(screenIdx);
-                      }
-                    }
-                  }}
                   aria-label={
                     isCenter
                       ? `Inspect ${item.label} in fullscreen`
@@ -236,13 +234,6 @@ function ProjectMediaStage({
                       sizes="(max-width: 640px) 33vw, 240px"
                       className="h-full w-full object-contain"
                     />
-                    {isCenter && (
-                      <div className="absolute inset-0 bg-background/0 group-hover/phone:bg-background/20 transition-colors flex items-end justify-center p-2.5">
-                        <span className="opacity-0 group-hover/phone:opacity-100 transition-opacity bg-background/95 border border-card-hover px-2.5 py-1 rounded font-mono text-[11px] font-medium text-foreground shadow-md">
-                          Click to Zoom ⤢
-                        </span>
-                      </div>
-                    )}
                   </div>
                   <div className="mt-2 text-center min-w-0 w-full px-1">
                     <p
@@ -253,7 +244,7 @@ function ProjectMediaStage({
                       {String(screenIdx + 1).padStart(2, "0")}. {item.label}
                     </p>
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -264,7 +255,7 @@ function ProjectMediaStage({
                 type="button"
                 onClick={handlePrev}
                 aria-label={`Previous screen for ${project.title}`}
-                className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 h-9 w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 sm:h-9 sm:w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M15 19l-7-7 7-7" />
@@ -274,7 +265,7 @@ function ProjectMediaStage({
                 type="button"
                 onClick={handleNext}
                 aria-label={`Next screen for ${project.title}`}
-                className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 h-9 w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 sm:h-9 sm:w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M9 5l7 7-7 7" />
@@ -285,18 +276,11 @@ function ProjectMediaStage({
         </div>
       ) : (
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-background group/web">
-          <div
+          <button
+            type="button"
             onClick={() => onOpenLightbox(safeIndex)}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onOpenLightbox(safeIndex);
-              }
-            }}
             aria-label={`Inspect ${current.label} screenshot in fullscreen`}
-            className="h-full w-full cursor-pointer"
+            className="block h-full w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground"
           >
             <Image
               src={current.url}
@@ -307,12 +291,7 @@ function ProjectMediaStage({
               sizes="(max-width: 1024px) 100vw, 760px"
               className="h-full w-full object-cover object-top"
             />
-            <div className="absolute inset-0 bg-background/0 group-hover/web:bg-background/15 transition-colors flex items-end justify-end p-3 pointer-events-none">
-              <span className="opacity-0 group-hover/web:opacity-100 transition-opacity bg-background/95 border border-card-hover px-3 py-1.5 rounded font-mono text-xs font-medium text-foreground shadow-md">
-                Click to Inspect Full Resolution ⤢
-              </span>
-            </div>
-          </div>
+          </button>
 
           {total > 1 && (
             <>
@@ -320,7 +299,7 @@ function ProjectMediaStage({
                 type="button"
                 onClick={handlePrev}
                 aria-label={`Previous screen for ${project.title}`}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 h-9 w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 sm:h-9 sm:w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M15 19l-7-7 7-7" />
@@ -330,7 +309,7 @@ function ProjectMediaStage({
                 type="button"
                 onClick={handleNext}
                 aria-label={`Next screen for ${project.title}`}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 h-9 w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 sm:h-9 sm:w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M9 5l7 7-7 7" />
@@ -410,7 +389,7 @@ function ProjectMediaStage({
                     data-active={isSelected ? "true" : undefined}
                     type="button"
                     onClick={() => onSelectIndex(idx)}
-                    className={`px-2.5 py-1 rounded font-mono text-xs whitespace-nowrap transition-colors cursor-pointer tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
+                    className={`inline-flex min-h-[44px] sm:min-h-0 items-center px-3 py-2 sm:px-2.5 sm:py-1 rounded font-mono text-xs whitespace-nowrap transition-colors cursor-pointer tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
                       isSelected
                         ? "bg-foreground text-background font-bold"
                         : "bg-card-bg border border-card-border text-text-muted hover:text-foreground hover:border-card-hover"
@@ -430,7 +409,7 @@ function ProjectMediaStage({
 
 function ProjectNarrativePanel({ project }: { project: Project }) {
   return (
-    <div className="space-y-6 pt-2">
+    <div id="project-narrative-panel" className="space-y-6 pt-2">
       {/* Executive Summary */}
       <p className="text-base sm:text-lg text-foreground/95 font-medium leading-relaxed">
         {project.summary}
@@ -508,10 +487,13 @@ export default function HomePage() {
     } catch {}
   };
 
-  // Fullscreen Lightbox State
+  // Fullscreen Lightbox State & Focus Management
   const [lightbox, setLightbox] = useState<LightboxState | null>(null);
   const lightboxRef = useRef<HTMLDivElement>(null);
+  const closeLightboxBtnRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
   const workbenchInspectionRef = useRef<HTMLDivElement>(null);
+  const [archiveOpen, setArchiveOpen] = useState(false);
 
   // Skills Accordion State
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
@@ -532,24 +514,48 @@ export default function HomePage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [formErrorField, setFormErrorField] = useState<FormErrorField>(null);
 
   const filteredProjects =
     activeCategory === "all"
       ? PROJECTS
       : PROJECTS.filter((p) => p.category === activeCategory);
 
+  const flagshipProjects = filteredProjects.slice(0, 4);
+  const archiveProjects = filteredProjects.slice(4);
+
   // Active project for Split Workbench
   const workbenchProject =
     filteredProjects.find((p) => p.id === selectedWorkbenchId) || filteredProjects[0];
   const workbenchIndex = filteredProjects.indexOf(workbenchProject);
+  const isArchivedSelected = archiveProjects.some((p) => p.id === workbenchProject?.id);
+  const isArchiveExpanded = archiveOpen || isArchivedSelected;
 
-  // Keyboard navigation for Fullscreen Lightbox
+  const openLightbox = (project: Project, index: number) => {
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    setLightbox({ project, index });
+  };
+
+  const closeLightbox = () => {
+    setLightbox(null);
+    requestAnimationFrame(() => {
+      previousFocusRef.current?.focus();
+    });
+  };
+
+  // Focus trap, initial focus & keyboard navigation for Fullscreen Lightbox
   useEffect(() => {
+    if (!lightbox) return;
+
+    const focusTimer = requestAnimationFrame(() => {
+      closeLightboxBtnRef.current?.focus();
+    });
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!lightbox) return;
       const total = lightbox.project.gallery.length;
       if (e.key === "Escape") {
-        setLightbox(null);
+        e.preventDefault();
+        closeLightbox();
       } else if (e.key === "ArrowRight") {
         setLightbox((prev) => {
           if (!prev) return null;
@@ -564,11 +570,34 @@ export default function HomePage() {
           setCardImageIndexes((ci) => ({ ...ci, [prev.project.id]: nextIdx }));
           return { ...prev, index: nextIdx };
         });
+      } else if (e.key === "Tab") {
+        const container = lightboxRef.current;
+        if (!container) return;
+        const focusables = Array.from(
+          container.querySelectorAll<HTMLElement>(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first || !container.contains(document.activeElement)) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else if (document.activeElement === last || !container.contains(document.activeElement)) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      cancelAnimationFrame(focusTimer);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [lightbox]);
 
   const setProjectImageIndex = (projectId: string, idx: number) => {
@@ -625,19 +654,39 @@ export default function HomePage() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formState.name.trim() || !formState.email.trim() || !formState.message.trim()) {
+    if (!formState.name.trim()) {
+      setFormErrorField("name");
+      setFormError("Please enter your name.");
+      document.getElementById("client-name")?.focus();
+      return;
+    }
+    if (!formState.email.trim()) {
+      setFormErrorField("email");
+      setFormError("Please enter your email address.");
+      document.getElementById("client-email")?.focus();
+      return;
+    }
+    if (!formState.message.trim()) {
+      setFormErrorField("message");
+      setFormError("Please add a short project intro.");
+      document.getElementById("project-message")?.focus();
       return;
     }
     if (formState.category === "Other" && !formState.customCategory.trim()) {
+      setFormErrorField("customCategory");
       setFormError("Please specify your custom project scope.");
+      document.getElementById("custom-category")?.focus();
       return;
     }
     if (formState.budget === "Custom" && !formState.customBudget.trim()) {
+      setFormErrorField("customBudget");
       setFormError("Please enter your target budget amount.");
+      document.getElementById("custom-budget")?.focus();
       return;
     }
     setFormSubmitting(true);
     setFormError(null);
+    setFormErrorField(null);
 
     try {
       const payload = {
@@ -671,9 +720,11 @@ export default function HomePage() {
           data?.errors?.map((err: { message: string }) => err.message).join(", ") ||
           data?.error ||
           "There was an issue sending your message. Please try again.";
+        setFormErrorField("form");
         setFormError(errorMsg);
       }
     } catch {
+      setFormErrorField("form");
       setFormError("Network error. Please check your internet connection and try again.");
     } finally {
       setFormSubmitting(false);
@@ -684,32 +735,32 @@ export default function HomePage() {
     <div className="relative min-h-screen bg-background text-foreground flex flex-col">
       {/* Top Engineering Masthead */}
       <header className="sticky top-0 z-30 border-b border-card-border bg-background/90 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <div className="flex items-center gap-3">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-3 sm:px-6">
+          <div className="flex items-center shrink-0">
             <a
               href="#top"
-              className="font-mono text-sm font-semibold tracking-widest text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
+              className="inline-flex min-h-[44px] sm:min-h-0 items-center whitespace-nowrap font-mono text-xs sm:text-sm font-semibold tracking-wider sm:tracking-widest text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
             >
               MUHAMMAD FARAN
             </a>
           </div>
 
-          <nav aria-label="Main Navigation" className="flex items-center gap-1 sm:gap-6">
+          <nav aria-label="Main Navigation" className="flex items-center gap-0.5 sm:gap-5 shrink-0">
             <a
               href="#projects"
-              className="px-2.5 py-1.5 text-sm font-medium text-text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
+              className="inline-flex min-h-[44px] sm:min-h-0 items-center whitespace-nowrap px-2 sm:px-2.5 sm:py-1.5 text-xs sm:text-sm font-medium text-text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
             >
               Projects
             </a>
             <a
               href="#skills"
-              className="px-2.5 py-1.5 text-sm font-medium text-text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
+              className="inline-flex min-h-[44px] sm:min-h-0 items-center whitespace-nowrap px-2 sm:px-2.5 sm:py-1.5 text-xs sm:text-sm font-medium text-text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
             >
               Skills
             </a>
             <a
               href="#contact"
-              className="ml-2 inline-flex items-center justify-center rounded border border-card-border bg-lift px-3.5 py-1.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+              className="ml-1 sm:ml-2 inline-flex min-h-[44px] sm:min-h-0 items-center justify-center whitespace-nowrap rounded border border-card-border bg-lift px-2.5 sm:px-3.5 sm:py-1.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
             >
               Hire Me
             </a>
@@ -718,7 +769,7 @@ export default function HomePage() {
               onClick={handleToggleTheme}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
               title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="ml-1 inline-flex h-8 w-8 items-center justify-center rounded border border-card-border bg-lift text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
+              className="ml-1 shrink-0 inline-flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded border border-card-border bg-lift text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
             >
               {theme === "dark" ? (
                 <svg
@@ -782,7 +833,7 @@ export default function HomePage() {
               <div className="flex flex-wrap items-center gap-3">
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 rounded bg-foreground px-5 py-2.5 text-xs sm:text-sm font-bold text-background transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded border border-foreground bg-foreground px-5 py-2.5 text-xs sm:text-sm font-bold text-background transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
                   <span>Let&apos;s talk</span>
                   <span aria-hidden="true" className="text-sm font-semibold">
@@ -792,7 +843,7 @@ export default function HomePage() {
 
                 <a
                   href="#projects"
-                  className="inline-flex items-center gap-2 rounded bg-foreground px-5 py-2.5 text-xs sm:text-sm font-bold text-background transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded border border-card-border bg-lift px-5 py-2.5 text-xs sm:text-sm font-bold text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
                   <span>Explore my work</span>
                   <span aria-hidden="true" className="text-sm font-semibold">
@@ -808,7 +859,7 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   title="Hire on Upwork"
                   aria-label="Hire on Upwork"
-                  className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
                   <span>Upwork</span>
                   <span className="text-text-muted">↗</span>
@@ -820,7 +871,7 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   title="GitHub Profile"
                   aria-label="GitHub Profile"
-                  className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded border border-card-border bg-card-bg px-4 py-2.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-lift focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
                   <span>GitHub</span>
                   <span className="text-text-muted">↗</span>
@@ -869,7 +920,7 @@ export default function HomePage() {
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => setActiveCategory(tab.id)}
                     onKeyDown={(e) => handleTabKeyDown(e, idx)}
-                    className={`flex-1 px-3.5 py-2 text-center font-mono text-xs font-medium tracking-wide transition-colors rounded lg:flex-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer tabular-nums ${
+                    className={`flex-1 min-h-[44px] sm:min-h-0 px-3.5 py-2.5 sm:py-2 text-center font-mono text-xs font-medium tracking-wide transition-colors rounded lg:flex-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer tabular-nums ${
                       isActive
                         ? "bg-foreground text-background font-bold"
                         : "text-text-muted hover:text-foreground hover:bg-lift"
@@ -889,63 +940,115 @@ export default function HomePage() {
             aria-labelledby={`tab-${activeCategory}`}
             className="pt-8"
           >
-            {workbenchProject && (
+            {workbenchProject && (() => {
+              const renderDirectoryItem = (proj: Project) => {
+                const isSelected = proj.id === workbenchProject.id;
+                return (
+                  <button
+                    key={proj.id}
+                    type="button"
+                    onClick={() => handleSelectProject(proj.id)}
+                    aria-current={isSelected ? "true" : undefined}
+                    className={`w-full text-left p-3.5 sm:p-4 transition-colors cursor-pointer flex flex-col gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground ${
+                      isSelected
+                        ? "bg-lift text-foreground"
+                        : "bg-card-bg text-text-muted hover:bg-hover-surface hover:text-foreground"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span
+                        className={`font-mono text-xs font-bold tabular-nums ${
+                          isSelected ? "text-foreground" : "text-text-subtle"
+                        }`}
+                      >
+                        {proj.specId} · {proj.categoryLabel}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[11px]">
+                        <span
+                          className={`h-1.5 w-1.5 rounded-full ${
+                            proj.status === "live"
+                              ? "bg-[var(--signal-emerald)]"
+                              : "bg-[var(--signal-amber)]"
+                          }`}
+                        />
+                        <span>{proj.status === "live" ? "LIVE" : "TESTING"}</span>
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm sm:text-base font-bold text-foreground">
+                        {proj.title}
+                      </span>
+                      {isSelected && (
+                        <span className="font-mono text-[10px] font-bold uppercase tracking-wider bg-foreground text-background px-2 py-0.5 rounded">
+                          Active
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                );
+              };
+
+              return (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 {/* Left Sticky Project Spec Index (4 Cols) */}
-                <div className="lg:col-span-4 lg:sticky lg:top-20 border border-card-border bg-card-bg rounded-md overflow-hidden">
+                <div
+                  id="system-directory-panel"
+                  className="lg:col-span-4 lg:sticky lg:top-20 border border-card-border bg-card-bg rounded-md overflow-hidden"
+                >
                   <div className="border-b border-card-border bg-lift/60 px-4 py-3 flex items-center justify-between">
                     <span className="font-mono text-xs font-bold uppercase tracking-wider text-foreground">
                       System Directory ({filteredProjects.length})
                     </span>
                     <span className="font-mono text-[11px] text-text-muted">Select to inspect</span>
                   </div>
-                  <div className="divide-y divide-card-border max-h-[420px] lg:max-h-[720px] overflow-y-auto">
-                    {filteredProjects.map((proj) => {
-                      const isSelected = proj.id === workbenchProject.id;
-                      return (
+                  <div className="max-h-[460px] lg:max-h-[720px] overflow-y-auto divide-y divide-card-border">
+                    {archiveProjects.length > 0 && (
+                      <div className="bg-lift/30 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-text-subtle">
+                        Flagship Projects ({flagshipProjects.length})
+                      </div>
+                    )}
+                    {flagshipProjects.map(renderDirectoryItem)}
+
+                    {archiveProjects.length > 0 && (
+                      <>
                         <button
-                          key={proj.id}
                           type="button"
-                          onClick={() => handleSelectProject(proj.id)}
-                          aria-current={isSelected ? "true" : undefined}
-                          className={`w-full text-left p-3.5 sm:p-4 transition-colors cursor-pointer flex flex-col gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground ${
-                            isSelected
-                              ? "bg-lift text-foreground"
-                              : "bg-card-bg text-text-muted hover:bg-hover-surface hover:text-foreground"
-                          }`}
+                          onClick={() => setArchiveOpen((prev) => !prev)}
+                          aria-expanded={isArchiveExpanded}
+                          aria-controls="directory-archive-list"
+                          className="w-full min-h-[44px] bg-lift/40 hover:bg-hover-surface px-4 py-2.5 flex items-center justify-between font-mono text-[11px] font-semibold uppercase tracking-wider text-text-muted hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground"
                         >
-                          <div className="flex items-center justify-between gap-2">
-                            <span
-                              className={`font-mono text-xs font-bold tabular-nums ${
-                                isSelected ? "text-foreground" : "text-text-subtle"
+                          <span>Archive ({archiveProjects.length})</span>
+                          <span className="flex items-center gap-1.5 tabular-nums">
+                            <span>{isArchiveExpanded ? "Hide" : "Show"}</span>
+                            <svg
+                              className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                                isArchiveExpanded ? "rotate-180" : ""
                               }`}
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              aria-hidden="true"
                             >
-                              {proj.specId} · {proj.categoryLabel}
-                            </span>
-                            <span className="inline-flex items-center gap-1.5 font-mono text-[11px]">
-                              <span
-                                className={`h-1.5 w-1.5 rounded-full ${
-                                  proj.status === "live"
-                                    ? "bg-[var(--signal-emerald)]"
-                                    : "bg-[var(--signal-amber)]"
-                                }`}
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M19 9l-7 7-7-7"
                               />
-                              <span>{proj.status === "live" ? "LIVE" : "TESTING"}</span>
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="text-sm sm:text-base font-bold text-foreground">
-                              {proj.title}
-                            </span>
-                            {isSelected && (
-                              <span className="font-mono text-[10px] font-bold uppercase tracking-wider bg-foreground text-background px-2 py-0.5 rounded">
-                                Active
-                              </span>
-                            )}
-                          </div>
+                            </svg>
+                          </span>
                         </button>
-                      );
-                    })}
+                        {isArchiveExpanded && (
+                          <div
+                            id="directory-archive-list"
+                            className="divide-y divide-card-border"
+                          >
+                            {archiveProjects.map(renderDirectoryItem)}
+                          </div>
+                        )}
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -973,7 +1076,7 @@ export default function HomePage() {
                             ];
                           setSelectedWorkbenchId(prev.id);
                         }}
-                        className="border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3 py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                        className="min-h-[44px] sm:min-h-0 border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                         title="Previous project"
                       >
                         ← Prev
@@ -985,7 +1088,7 @@ export default function HomePage() {
                             filteredProjects[(workbenchIndex + 1) % filteredProjects.length];
                           setSelectedWorkbenchId(next.id);
                         }}
-                        className="border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3 py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                        className="min-h-[44px] sm:min-h-0 border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                         title="Next project"
                       >
                         Next →
@@ -1010,9 +1113,7 @@ export default function HomePage() {
                       project={workbenchProject}
                       activeIndex={cardImageIndexes[workbenchProject.id] ?? 0}
                       onSelectIndex={(idx) => setProjectImageIndex(workbenchProject.id, idx)}
-                      onOpenLightbox={(idx) =>
-                        setLightbox({ project: workbenchProject, index: idx })
-                      }
+                      onOpenLightbox={(idx) => openLightbox(workbenchProject, idx)}
                       isLcpCandidate
                     />
 
@@ -1021,7 +1122,8 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-            )}
+              );
+            })()}
           </div>
         </section>
 
@@ -1048,7 +1150,7 @@ export default function HomePage() {
               <button
                 type="button"
                 onClick={isAllSkillsExpanded ? handleCollapseAllSkills : handleExpandAllSkills}
-                className="inline-flex items-center gap-2 rounded border border-card-border bg-card-bg px-3.5 py-2 font-mono text-xs sm:text-sm font-medium tracking-wide text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
+                className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-2 rounded border border-card-border bg-card-bg px-3.5 py-2.5 sm:py-2 font-mono text-xs sm:text-sm font-medium tracking-wide text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
               >
                 <svg
                   className={`h-3.5 w-3.5 transition-transform duration-200 ${
@@ -1187,7 +1289,7 @@ export default function HomePage() {
                   href="https://www.upwork.com/freelancers/~01958faf0bb3c23d8a"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded border border-card-border bg-lift px-4 py-2.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-card-border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                  className="inline-flex min-h-[44px] items-center gap-2 rounded border border-card-border bg-lift px-4 py-2.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-card-border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
                   <span>Hire via Upwork</span>
                   <span className="text-text-muted">↗</span>
@@ -1240,6 +1342,7 @@ export default function HomePage() {
                 <form
                   action="https://formspree.io/f/xaeqgenr"
                   method="POST"
+                  noValidate
                   onSubmit={handleFormSubmit}
                   className="space-y-5"
                 >
@@ -1258,10 +1361,16 @@ export default function HomePage() {
                         name="name"
                         type="text"
                         required
-                        aria-invalid={formError ? "true" : undefined}
-                        aria-describedby={formError ? "form-error" : undefined}
+                        aria-invalid={formErrorField === "name" ? "true" : undefined}
+                        aria-describedby={formErrorField === "name" ? "form-error" : undefined}
                         value={formState.name}
-                        onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+                        onChange={(e) => {
+                          setFormState({ ...formState, name: e.target.value });
+                          if (formErrorField === "name") {
+                            setFormError(null);
+                            setFormErrorField(null);
+                          }
+                        }}
                         placeholder="e.g. Alex Miller"
                         className="w-full border border-card-border bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
                       />
@@ -1279,10 +1388,16 @@ export default function HomePage() {
                         name="email"
                         type="email"
                         required
-                        aria-invalid={formError ? "true" : undefined}
-                        aria-describedby={formError ? "form-error" : undefined}
+                        aria-invalid={formErrorField === "email" ? "true" : undefined}
+                        aria-describedby={formErrorField === "email" ? "form-error" : undefined}
                         value={formState.email}
-                        onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+                        onChange={(e) => {
+                          setFormState({ ...formState, email: e.target.value });
+                          if (formErrorField === "email") {
+                            setFormError(null);
+                            setFormErrorField(null);
+                          }
+                        }}
                         placeholder="name@company.com"
                         className="w-full border border-card-border bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
                       />
@@ -1314,10 +1429,18 @@ export default function HomePage() {
                           id="custom-category"
                           name="category"
                           required
-                          value={formState.customCategory}
-                          onChange={(e) =>
-                            setFormState({ ...formState, customCategory: e.target.value })
+                          aria-invalid={formErrorField === "customCategory" ? "true" : undefined}
+                          aria-describedby={
+                            formErrorField === "customCategory" ? "form-error" : undefined
                           }
+                          value={formState.customCategory}
+                          onChange={(e) => {
+                            setFormState({ ...formState, customCategory: e.target.value });
+                            if (formErrorField === "customCategory") {
+                              setFormError(null);
+                              setFormErrorField(null);
+                            }
+                          }}
                           placeholder="Specify project scope (e.g. AI platform, API)..."
                           aria-label="Custom project scope"
                           className="mt-2 w-full border border-card-border bg-background px-4 py-2.5 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
@@ -1352,10 +1475,18 @@ export default function HomePage() {
                           id="custom-budget"
                           name="budget"
                           required
-                          value={formState.customBudget}
-                          onChange={(e) =>
-                            setFormState({ ...formState, customBudget: e.target.value })
+                          aria-invalid={formErrorField === "customBudget" ? "true" : undefined}
+                          aria-describedby={
+                            formErrorField === "customBudget" ? "form-error" : undefined
                           }
+                          value={formState.customBudget}
+                          onChange={(e) => {
+                            setFormState({ ...formState, customBudget: e.target.value });
+                            if (formErrorField === "customBudget") {
+                              setFormError(null);
+                              setFormErrorField(null);
+                            }
+                          }}
                           placeholder="e.g. $3,500 or $15k - $25k"
                           aria-label="Custom budget amount"
                           className="mt-2 w-full border border-card-border bg-background px-4 py-2.5 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
@@ -1376,10 +1507,16 @@ export default function HomePage() {
                       name="message"
                       required
                       rows={3}
-                      aria-invalid={formError ? "true" : undefined}
-                      aria-describedby={formError ? "form-error" : undefined}
+                      aria-invalid={formErrorField === "message" ? "true" : undefined}
+                      aria-describedby={formErrorField === "message" ? "form-error" : undefined}
                       value={formState.message}
-                      onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+                      onChange={(e) => {
+                        setFormState({ ...formState, message: e.target.value });
+                        if (formErrorField === "message") {
+                          setFormError(null);
+                          setFormErrorField(null);
+                        }
+                      }}
                       placeholder="Briefly describe what you're looking to build..."
                       className="w-full border border-card-border bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle leading-relaxed focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
                     />
@@ -1390,7 +1527,7 @@ export default function HomePage() {
                       id="form-error"
                       role="alert"
                       aria-live="polite"
-                      className="border border-red-500/40 bg-red-500/10 text-[var(--signal-error)] p-3 rounded font-mono text-xs"
+                      className="border border-[var(--signal-error-border)] bg-[var(--signal-error-bg)] text-[var(--signal-error)] p-3 rounded font-mono text-xs"
                     >
                       {formError}
                     </div>
@@ -1399,7 +1536,7 @@ export default function HomePage() {
                   <button
                     type="submit"
                     disabled={formSubmitting}
-                    className="w-full border border-foreground bg-foreground text-background px-5 py-3 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded disabled:opacity-50 cursor-pointer"
+                    className="w-full min-h-[44px] border border-foreground bg-foreground text-background px-5 py-3 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded disabled:opacity-50 cursor-pointer"
                   >
                     {formSubmitting ? "Sending..." : "Send Inquiry →"}
                   </button>
@@ -1415,12 +1552,12 @@ export default function HomePage() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 sm:flex-row sm:px-6">
           <p className="text-sm text-text-muted">&copy; 2026 Muhammad Faran</p>
 
-          <div className="flex flex-wrap items-center gap-6 sm:gap-8 text-sm text-text-muted">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-8 text-sm text-text-muted">
             <a
               href="https://www.upwork.com/freelancers/~01958faf0bb3c23d8a"
               target="_blank"
               rel="noopener noreferrer"
-              className="py-1.5 px-1 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
+              className="inline-flex min-h-[44px] sm:min-h-0 items-center px-2 py-2 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
               Upwork
             </a>
@@ -1429,14 +1566,14 @@ export default function HomePage() {
               href="https://github.com/m-faran"
               target="_blank"
               rel="noopener noreferrer"
-              className="py-1.5 px-1 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
+              className="inline-flex min-h-[44px] sm:min-h-0 items-center px-2 py-2 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
               GitHub
             </a>
 
             <a
               href="#contact"
-              className="py-1.5 px-1 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
+              className="inline-flex min-h-[44px] sm:min-h-0 items-center px-2 py-2 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
               Contact
             </a>
@@ -1451,7 +1588,7 @@ export default function HomePage() {
           role="dialog"
           aria-modal="true"
           aria-label={`${lightbox.project.title} screenshot inspector`}
-          onClick={() => setLightbox(null)}
+          onClick={closeLightbox}
           className="fixed inset-0 z-50 bg-background/95 backdrop-blur-md flex flex-col justify-between p-3 sm:p-6"
         >
           {/* Lightbox Top Bar */}
@@ -1478,9 +1615,10 @@ export default function HomePage() {
                 {lightbox.index + 1} / {lightbox.project.gallery.length}
               </span>
               <button
+                ref={closeLightboxBtnRef}
                 type="button"
-                onClick={() => setLightbox(null)}
-                className="border border-card-border bg-lift hover:border-card-hover px-3 py-1.5 rounded font-mono text-xs font-bold text-foreground cursor-pointer"
+                onClick={closeLightbox}
+                className="min-h-[44px] sm:min-h-0 border border-card-border bg-lift hover:border-card-hover px-3 py-2 sm:py-1.5 rounded font-mono text-xs font-bold text-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
               >
                 Close (Esc) ✕
               </button>
@@ -1516,7 +1654,7 @@ export default function HomePage() {
                     });
                   }}
                   aria-label="Previous image"
-                  className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 h-11 w-11 flex items-center justify-center rounded-full border border-card-border bg-card-bg/90 hover:border-card-hover text-foreground shadow-lg cursor-pointer"
+                  className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 h-11 w-11 flex items-center justify-center rounded-full border border-card-border bg-card-bg/90 hover:border-card-hover text-foreground shadow-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
                   ←
                 </button>
@@ -1531,7 +1669,7 @@ export default function HomePage() {
                     });
                   }}
                   aria-label="Next image"
-                  className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 h-11 w-11 flex items-center justify-center rounded-full border border-card-border bg-card-bg/90 hover:border-card-hover text-foreground shadow-lg cursor-pointer"
+                  className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 h-11 w-11 flex items-center justify-center rounded-full border border-card-border bg-card-bg/90 hover:border-card-hover text-foreground shadow-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                 >
                   →
                 </button>
@@ -1556,7 +1694,7 @@ export default function HomePage() {
                   key={g.url}
                   type="button"
                   onClick={() => setLightbox({ ...lightbox, index: i })}
-                  className={`px-2.5 py-1 rounded font-mono text-xs cursor-pointer transition-colors tabular-nums ${
+                  className={`min-h-[44px] sm:min-h-0 px-3 py-2 sm:px-2.5 sm:py-1 rounded font-mono text-xs cursor-pointer transition-colors tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
                     i === lightbox.index
                       ? "bg-foreground text-background font-bold"
                       : "bg-lift border border-card-border text-text-muted hover:text-foreground"
