@@ -439,7 +439,7 @@ export default function HomePage() {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [activeCategory, setActiveCategory] = useState<"all" | "web" | "mobile">("all");
   const [cardImageIndexes, setCardImageIndexes] = useState<Record<string, number>>({});
-  const [selectedWorkbenchId, setSelectedWorkbenchId] = useState<string>(PROJECTS[0].id);
+  const [selectedWorkbenchId, setSelectedWorkbenchId] = useState<string | null>(null);
 
   // Synchronize theme with OS preference and localStorage
   useEffect(() => {
@@ -493,7 +493,7 @@ export default function HomePage() {
   const closeLightboxBtnRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const workbenchInspectionRef = useRef<HTMLDivElement>(null);
-  const [archiveOpen, setArchiveOpen] = useState(false);
+  const [isCarouselPaused, setIsCarouselPaused] = useState(false);
 
   // Skills Accordion State
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
@@ -521,15 +521,11 @@ export default function HomePage() {
       ? PROJECTS
       : PROJECTS.filter((p) => p.category === activeCategory);
 
-  const flagshipProjects = filteredProjects.slice(0, 4);
-  const archiveProjects = filteredProjects.slice(4);
-
-  // Active project for Split Workbench
-  const workbenchProject =
-    filteredProjects.find((p) => p.id === selectedWorkbenchId) || filteredProjects[0];
-  const workbenchIndex = filteredProjects.indexOf(workbenchProject);
-  const isArchivedSelected = archiveProjects.some((p) => p.id === workbenchProject?.id);
-  const isArchiveExpanded = archiveOpen || isArchivedSelected;
+  // Selected project for on-demand inspection drawer (closed by default)
+  const workbenchProject = selectedWorkbenchId
+    ? filteredProjects.find((p) => p.id === selectedWorkbenchId) ?? null
+    : null;
+  const workbenchIndex = workbenchProject ? filteredProjects.indexOf(workbenchProject) : -1;
 
   const openLightbox = (project: Project, index: number) => {
     previousFocusRef.current = document.activeElement as HTMLElement | null;
@@ -606,9 +602,24 @@ export default function HomePage() {
 
   const handleSelectProject = (projectId: string) => {
     setSelectedWorkbenchId(projectId);
-    if (typeof window !== "undefined" && window.innerWidth < 1024) {
-      workbenchInspectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        workbenchInspectionRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 60);
+    });
+  };
+
+  const handleCloseProject = () => {
+    setSelectedWorkbenchId(null);
+    requestAnimationFrame(() => {
+      document.getElementById("projects")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
   };
 
   const toggleCategory = (id: string) => {
@@ -881,7 +892,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* SELECTED WORK SECTION (Split Workbench Architecture) */}
+        {/* SELECTED WORK SECTION (Left-to-Right Moving Project Carousel + On-Demand Inspection Drawer) */}
         <section id="projects" aria-labelledby="projects-title" className="pt-14 sm:pt-20">
           {/* Section Header + Category Filters */}
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between pb-8 border-b border-card-border">
@@ -893,8 +904,9 @@ export default function HomePage() {
                 Selected Work
               </h2>
               <p className="text-sm sm:text-base text-text-muted leading-relaxed">
-                Select any system from the directory to inspect its interactive screen flows,
-                problem context, system architecture, and source repositories.
+                Browse the live project stream below—click any system to scroll down and inspect
+                its full interactive screen flows, executive summary, architecture stack, and source
+                repositories.
               </p>
             </div>
 
@@ -933,37 +945,53 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* SPLIT WORKBENCH STAGE (4-Col Sticky System Directory + 8-Col Deep-Dive Inspection Theatre) */}
+          {/* CAROUSEL + EXPANDABLE INSPECTION PANEL */}
           <div
             id="projects-stage"
             role="tabpanel"
             aria-labelledby={`tab-${activeCategory}`}
             className="pt-8"
           >
-            {workbenchProject && (() => {
-              const renderDirectoryItem = (proj: Project) => {
-                const isSelected = proj.id === workbenchProject.id;
+            {(() => {
+              const renderCarouselCard = (proj: Project, isDuplicate: boolean) => {
+                const isSelected = workbenchProject?.id === proj.id;
+                const gallery = proj.gallery;
+                const total = gallery.length;
+                const safeIndex = (cardImageIndexes[proj.id] ?? 0) % total;
+                const currentScreen = gallery[safeIndex];
+                const isMobile = proj.category === "mobile";
+                const prevIdx = (safeIndex - 1 + total) % total;
+                const nextIdx = (safeIndex + 1) % total;
+                const triptychIndices =
+                  total >= 3 ? [prevIdx, safeIndex, nextIdx] : gallery.map((_, i) => i);
+
                 return (
                   <button
-                    key={proj.id}
+                    key={`${proj.id}-${isDuplicate ? "dup" : "main"}`}
                     type="button"
-                    onClick={() => handleSelectProject(proj.id)}
-                    aria-current={isSelected ? "true" : undefined}
-                    className={`w-full text-left p-3.5 sm:p-4 transition-colors cursor-pointer flex flex-col gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground ${
+                    tabIndex={isDuplicate ? -1 : 0}
+                    onClick={(e) => {
+                      e.currentTarget.blur();
+                      handleSelectProject(proj.id);
+                    }}
+                    aria-expanded={!isDuplicate ? isSelected : undefined}
+                    aria-label={
+                      isDuplicate
+                        ? undefined
+                        : `Inspect ${proj.title} (${proj.specId})`
+                    }
+                    className={`group/card w-[300px] sm:w-[390px] lg:w-[440px] shrink-0 text-left rounded-md border transition-colors flex flex-col overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
                       isSelected
-                        ? "bg-lift text-foreground"
-                        : "bg-card-bg text-text-muted hover:bg-hover-surface hover:text-foreground"
+                        ? "border-foreground bg-lift shadow-[var(--shadow-stage)]"
+                        : "border-card-border bg-card-bg hover:border-card-hover hover:bg-hover-surface"
                     }`}
                   >
-                    <div className="flex items-center justify-between gap-2">
-                      <span
-                        className={`font-mono text-xs font-bold tabular-nums ${
-                          isSelected ? "text-foreground" : "text-text-subtle"
-                        }`}
-                      >
+                    {/* Card Top Spec Chrome */}
+                    <div className="flex items-center justify-between gap-2 px-3.5 py-2.5 bg-lift/50">
+                      <span className="font-mono text-xs font-bold text-text-subtle truncate tabular-nums">
                         {proj.specId} · {proj.categoryLabel}
                       </span>
-                      <span className="inline-flex items-center gap-1.5 font-mono text-[11px]">
+                      <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-medium text-foreground shrink-0">
                         <span
                           className={`h-1.5 w-1.5 rounded-full ${
                             proj.status === "live"
@@ -974,154 +1002,300 @@ export default function HomePage() {
                         <span>{proj.status === "live" ? "LIVE" : "TESTING"}</span>
                       </span>
                     </div>
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-sm sm:text-base font-bold text-foreground">
-                        {proj.title}
-                      </span>
-                      {isSelected && (
-                        <span className="font-mono text-[10px] font-bold uppercase tracking-wider bg-foreground text-background px-2 py-0.5 rounded">
-                          Active
-                        </span>
+
+                    {/* Visual Frame:
+                        - Mobile projects: 3 portrait screens in center-hero triptych
+                        - Web projects: single 16:10 high-res interface frame */}
+                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-background border-y border-card-border">
+                      {isMobile ? (
+                        <div className="h-full w-full flex items-center justify-center gap-2 sm:gap-3 px-3 py-3 sm:px-5 sm:py-3.5 bg-gradient-to-b from-lift/40 via-background to-background">
+                          {triptychIndices.map((screenIdx, slotPosition) => {
+                            const item = gallery[screenIdx];
+                            const isCenter = slotPosition === 1 || total < 3;
+                            return (
+                              <div
+                                key={`${proj.id}-card-phone-${slotPosition}-${screenIdx}`}
+                                className={`relative h-full aspect-[9/19] rounded-md overflow-hidden border bg-card-bg flex items-center justify-center transition-transform duration-300 ${
+                                  isCenter
+                                    ? "scale-100 opacity-100 z-10 border-foreground/40 shadow-[var(--shadow-stage)]"
+                                    : "scale-[0.9] opacity-60 border-card-border"
+                                }`}
+                              >
+                                <Image
+                                  src={item.url}
+                                  alt={isDuplicate ? "" : item.alt}
+                                  width={457}
+                                  height={914}
+                                  sizes="(max-width: 640px) 100px, 140px"
+                                  className="h-full w-full object-contain"
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      ) : (
+                        <Image
+                          src={currentScreen.url}
+                          alt={isDuplicate ? "" : currentScreen.alt}
+                          width={960}
+                          height={600}
+                          sizes="(max-width: 640px) 300px, (max-width: 1024px) 390px, 440px"
+                          className="h-full w-full object-cover object-top transition-transform duration-300 group-hover/card:scale-[1.02]"
+                        />
                       )}
+                    </div>
+
+                    {/* Card Footer Metadata */}
+                    <div className="p-3.5 sm:p-4 flex flex-col gap-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-base sm:text-lg font-bold tracking-tight text-foreground truncate">
+                          {proj.title}
+                        </span>
+                        <span
+                          className={`shrink-0 font-mono text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${
+                            isSelected
+                              ? "border-foreground bg-foreground text-background"
+                              : "border-card-border bg-lift text-foreground group-hover/card:border-card-hover"
+                          }`}
+                        >
+                          {isSelected ? "Inspecting ↓" : "Inspect ↓"}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between gap-2 font-mono text-[11px] text-text-muted tabular-nums">
+                        <span className="truncate">
+                          {proj.techStack.slice(0, 3).join(" · ")}
+                        </span>
+                        <span className="shrink-0">{total} screens</span>
+                      </div>
                     </div>
                   </button>
                 );
               };
 
               return (
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                {/* Left Sticky Project Spec Index (4 Cols) */}
-                <div
-                  id="system-directory-panel"
-                  className="lg:col-span-4 lg:sticky lg:top-20 border border-card-border bg-card-bg rounded-md overflow-hidden"
-                >
-                  <div className="border-b border-card-border bg-lift/60 px-4 py-3 flex items-center justify-between">
-                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-foreground">
-                      System Directory ({filteredProjects.length})
-                    </span>
-                    <span className="font-mono text-[11px] text-text-muted">Select to inspect</span>
-                  </div>
-                  <div className="max-h-[460px] lg:max-h-[720px] overflow-y-auto divide-y divide-card-border">
-                    {archiveProjects.length > 0 && (
-                      <div className="bg-lift/30 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-wider text-text-subtle">
-                        Flagship Projects ({flagshipProjects.length})
-                      </div>
-                    )}
-                    {flagshipProjects.map(renderDirectoryItem)}
+                <>
+                  {/* Stream Control Strip */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-2 font-mono text-xs text-text-muted tabular-nums">
+                      <span
+                        className={`h-2 w-2 rounded-full ${
+                          isCarouselPaused
+                            ? "bg-[var(--signal-amber)]"
+                            : "bg-[var(--signal-emerald)]"
+                        }`}
+                        aria-hidden="true"
+                      />
+                      <span>
+                        {filteredProjects.length} Systems · Flowing left → right · Hover or click any
+                        project to inspect
+                      </span>
+                    </div>
 
-                    {archiveProjects.length > 0 && (
-                      <>
-                        <button
-                          type="button"
-                          onClick={() => setArchiveOpen((prev) => !prev)}
-                          aria-expanded={isArchiveExpanded}
-                          aria-controls="directory-archive-list"
-                          className="w-full min-h-[44px] bg-lift/40 hover:bg-hover-surface px-4 py-2.5 flex items-center justify-between font-mono text-[11px] font-semibold uppercase tracking-wider text-text-muted hover:text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground"
+                    <button
+                      type="button"
+                      onClick={() => setIsCarouselPaused((prev) => !prev)}
+                      aria-pressed={isCarouselPaused}
+                      className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-2 rounded border border-card-border bg-card-bg px-3.5 py-2 sm:px-3 sm:py-1.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-lift transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                    >
+                      {isCarouselPaused ? (
+                        <svg
+                          className="h-3.5 w-3.5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
                         >
-                          <span>Archive ({archiveProjects.length})</span>
-                          <span className="flex items-center gap-1.5 tabular-nums">
-                            <span>{isArchiveExpanded ? "Hide" : "Show"}</span>
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      ) : (
+                        <svg
+                          className="h-3.5 w-3.5"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path d="M6 5h4v14H6zm8 0h4v14h-4z" />
+                        </svg>
+                      )}
+                      <span>{isCarouselPaused ? "Resume Motion" : "Pause Motion"}</span>
+                    </button>
+                  </div>
+
+                  {/* Continuous Left-to-Right Carousel Stage */}
+                  <div
+                    id="projects-carousel"
+                    className="relative overflow-hidden rounded-md border border-card-border bg-card-bg/40 py-5 sm:py-6"
+                  >
+                    <style>{`
+                      @keyframes marquee-ltr {
+                        0% { transform: translate3d(-50%, 0, 0); }
+                        100% { transform: translate3d(0%, 0, 0); }
+                      }
+                      .animate-marquee-ltr {
+                        animation: marquee-ltr var(--marquee-duration, 36s) linear infinite;
+                        will-change: transform;
+                      }
+                      .animate-marquee-ltr:hover,
+                      .animate-marquee-ltr:has(:focus-visible),
+                      .animate-marquee-ltr[data-paused="true"] {
+                        animation-play-state: paused;
+                      }
+                      @media (prefers-reduced-motion: reduce) {
+                        .animate-marquee-ltr {
+                          animation: none !important;
+                          transform: none !important;
+                        }
+                      }
+                    `}</style>
+                    <div
+                      className="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-14 bg-gradient-to-r from-background to-transparent z-10"
+                      aria-hidden="true"
+                    />
+                    <div
+                      className="pointer-events-none absolute inset-y-0 right-0 w-8 sm:w-14 bg-gradient-to-l from-background to-transparent z-10"
+                      aria-hidden="true"
+                    />
+
+                    <div
+                      className="flex w-max items-stretch animate-marquee-ltr"
+                      data-paused={isCarouselPaused ? "true" : undefined}
+                      style={
+                        {
+                          "--marquee-duration": `${Math.max(20, filteredProjects.length * 4)}s`,
+                        } as React.CSSProperties
+                      }
+                    >
+                      <div className="flex items-stretch gap-5 sm:gap-6 pr-5 sm:pr-6">
+                        {filteredProjects.map((proj) => renderCarouselCard(proj, false))}
+                      </div>
+                      <div
+                        className="flex items-stretch gap-5 sm:gap-6 pr-5 sm:pr-6"
+                        aria-hidden="true"
+                      >
+                        {filteredProjects.map((proj) => renderCarouselCard(proj, true))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* On-Demand Expanded Project Inspection Drawer (Rendered Only After Selection) */}
+                  {workbenchProject && (
+                    <div
+                      id="project-inspection-drawer"
+                      ref={workbenchInspectionRef}
+                      className="mt-8 border border-card-border bg-card-bg rounded-md overflow-hidden scroll-mt-24 shadow-[var(--shadow-stage)]"
+                    >
+                      {/* Drawer Top Bar with Navigation + Prominent Close */}
+                      <div className="border-b border-card-border bg-lift/50 px-5 py-4 sm:px-6 sm:py-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="space-y-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-text-muted tabular-nums">
+                            <span>
+                              {workbenchProject.specId} · {workbenchProject.categoryLabel}
+                            </span>
+                            <span className="inline-flex items-center gap-1.5 text-foreground font-medium">
+                              <span
+                                className={`h-1.5 w-1.5 rounded-full ${
+                                  workbenchProject.status === "live"
+                                    ? "bg-[var(--signal-emerald)]"
+                                    : "bg-[var(--signal-amber)]"
+                                }`}
+                              />
+                              <span>{workbenchProject.status === "live" ? "LIVE" : "TESTING"}</span>
+                            </span>
+                          </div>
+                          <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
+                            {workbenchProject.title}
+                          </h3>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-2 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const prev =
+                                filteredProjects[
+                                  (workbenchIndex - 1 + filteredProjects.length) %
+                                    filteredProjects.length
+                                ];
+                              setSelectedWorkbenchId(prev.id);
+                            }}
+                            className="min-h-[44px] sm:min-h-0 border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                            title="Previous project"
+                          >
+                            ← Prev
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const next =
+                                filteredProjects[(workbenchIndex + 1) % filteredProjects.length];
+                              setSelectedWorkbenchId(next.id);
+                            }}
+                            className="min-h-[44px] sm:min-h-0 border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                            title="Next project"
+                          >
+                            Next →
+                          </button>
+                          <button
+                            type="button"
+                            onClick={handleCloseProject}
+                            aria-label={`Close ${workbenchProject.title} details`}
+                            className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-foreground bg-foreground text-background hover:opacity-90 px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-bold tracking-wide transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                          >
+                            <span>Close</span>
                             <svg
-                              className={`h-3.5 w-3.5 transition-transform duration-200 ${
-                                isArchiveExpanded ? "rotate-180" : ""
-                              }`}
+                              className="h-3.5 w-3.5"
                               fill="none"
                               stroke="currentColor"
+                              strokeWidth="2.2"
                               viewBox="0 0 24 24"
                               aria-hidden="true"
                             >
                               <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M19 9l-7 7-7-7"
+                                d="M6 18L18 6M6 6l12 12"
                               />
                             </svg>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Drawer Body */}
+                      <div className="p-5 sm:p-6 space-y-6">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                          <span className="font-mono text-xs text-text-muted tabular-nums">
+                            {workbenchProject.specId} ({workbenchIndex + 1} of{" "}
+                            {filteredProjects.length})
                           </span>
-                        </button>
-                        {isArchiveExpanded && (
-                          <div
-                            id="directory-archive-list"
-                            className="divide-y divide-card-border"
+                          <ProjectActionButtons project={workbenchProject} />
+                        </div>
+
+                        <ProjectMediaStage
+                          project={workbenchProject}
+                          activeIndex={cardImageIndexes[workbenchProject.id] ?? 0}
+                          onSelectIndex={(idx) => setProjectImageIndex(workbenchProject.id, idx)}
+                          onOpenLightbox={(idx) => openLightbox(workbenchProject, idx)}
+                          isLcpCandidate
+                        />
+
+                        <ProjectNarrativePanel project={workbenchProject} />
+
+                        {/* Drawer Footer Close Option */}
+                        <div className="pt-4 border-t border-card-border flex flex-wrap items-center justify-between gap-3">
+                          <span className="font-mono text-xs text-text-muted">
+                            Finished inspecting {workbenchProject.title}?
+                          </span>
+                          <button
+                            type="button"
+                            onClick={handleCloseProject}
+                            className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-card-border bg-lift hover:border-card-hover hover:bg-card-border px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                           >
-                            {archiveProjects.map(renderDirectoryItem)}
-                          </div>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                {/* Right 8-Column Deep-Dive Inspection Theatre */}
-                <div
-                  ref={workbenchInspectionRef}
-                  className="lg:col-span-8 border border-card-border bg-card-bg rounded-md overflow-hidden scroll-mt-20"
-                >
-                  {/* Workbench Top Bar */}
-                  <div className="border-b border-card-border bg-lift/50 px-5 py-4 sm:px-6 sm:py-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div>
-                      <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-                        {workbenchProject.title}
-                      </h3>
+                            <span>Close Project ↑</span>
+                          </button>
+                        </div>
+                      </div>
                     </div>
-
-                    <div className="flex items-center gap-2 shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const prev =
-                            filteredProjects[
-                              (workbenchIndex - 1 + filteredProjects.length) %
-                                filteredProjects.length
-                            ];
-                          setSelectedWorkbenchId(prev.id);
-                        }}
-                        className="min-h-[44px] sm:min-h-0 border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
-                        title="Previous project"
-                      >
-                        ← Prev
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const next =
-                            filteredProjects[(workbenchIndex + 1) % filteredProjects.length];
-                          setSelectedWorkbenchId(next.id);
-                        }}
-                        className="min-h-[44px] sm:min-h-0 border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
-                        title="Next project"
-                      >
-                        Next →
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Workbench Body */}
-                  <div className="p-5 sm:p-6 space-y-6">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <span className="font-mono text-xs text-text-muted tabular-nums">
-                        {workbenchProject.specId} ({workbenchIndex + 1} of{" "}
-                        {filteredProjects.length})
-                      </span>
-                      <ProjectActionButtons project={workbenchProject} />
-                    </div>
-
-                    {/* Hybrid Media Stage:
-                        - Mobile projects -> 3-Up Multi-Screen Triptych
-                        - Web projects -> High-Res Viewport + Thumbnail Filmstrip */}
-                    <ProjectMediaStage
-                      project={workbenchProject}
-                      activeIndex={cardImageIndexes[workbenchProject.id] ?? 0}
-                      onSelectIndex={(idx) => setProjectImageIndex(workbenchProject.id, idx)}
-                      onOpenLightbox={(idx) => openLightbox(workbenchProject, idx)}
-                      isLcpCandidate
-                    />
-
-                    {/* Deep Engineering Narrative */}
-                    <ProjectNarrativePanel project={workbenchProject} />
-                  </div>
-                </div>
-              </div>
+                  )}
+                </>
               );
             })()}
           </div>

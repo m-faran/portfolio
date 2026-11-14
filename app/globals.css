@@ -174,14 +174,37 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Continuous left-to-right project showcase stream */
+@keyframes marquee-ltr {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+.animate-marquee-ltr {
+  animation: marquee-ltr var(--marquee-duration, 36s) linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-ltr:hover,
+.animate-marquee-ltr:has(:focus-visible),
+.animate-marquee-ltr[data-paused="true"] {
+  animation-play-state: paused;
+}
+
 /* Respect reduced-motion: suppress spatial movement while keeping color/opacity state feedback */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
   .animate-ping,
-  .animate-pulse {
+  .animate-pulse,
+  .animate-marquee-ltr {
     animation: none !important;
+    transform: none !important;
   }
   .transition-transform,
   .transition-all {

@@ -126,17 +126,17 @@ A restrained dual-mode monochrome foundation (**Obsidian Monograph** in Dark Mod
 ### Neutral (Dark Mode — Obsidian Monograph)
 - **Obsidian Canvas (`--background`, `#09090b`)**: Root page background, media stage backdrop, and form input wells.
 - **Carbon Surface (`--card-bg`, `#121215`)**: Primary container surface for project dossiers, skill accordions, and inquiry panels.
-- **Hover Surface (`--hover-surface`, `#151518`)**: Interactive surface shift for expandable rows and directory items.
+- **Hover Surface (`--hover-surface`, `#151518`)**: Interactive surface shift for expandable skill rows and carousel cards.
 - **Lifted Slate (`--lift`, `#18181b`)**: Elevated secondary controls, technology badges, and header rails.
 - **Hairline Zinc (`--card-border`, `#27272a`)**: `1px` structural dividers, card borders, and viewport frames.
 - **Active Border Zinc (`--card-hover-border`, `#3f3f46`)**: Hover border highlight state.
 - **Muted Pewter (`--text-muted`, `#a1a1aa`)**: Primary narrative body copy and navigation links.
-- **Subtle Ash (`--text-subtle`, `#8a8a93`)**: Secondary metadata, inactive directory headers, and field sub-labels.
+- **Subtle Ash (`--text-subtle`, `#8a8a93`)**: Secondary metadata, carousel card headers, and field sub-labels.
 
 ### Neutral (Light Mode — Architectural Paper Monograph)
 - **Architectural Paper Canvas (`--background`, `#f8f8f8`)**: Root page background, media stage backdrop, and form input wells.
 - **Pure White Dossier Surface (`--card-bg`, `#ffffff`)**: Primary container surface for project dossiers, skill accordions, and inquiry panels.
-- **Hover Surface (`--hover-surface`, `#f4f4f5`)**: Interactive surface shift for expandable rows and directory items.
+- **Hover Surface (`--hover-surface`, `#f4f4f5`)**: Interactive surface shift for expandable skill rows and carousel cards.
 - **Lifted Stone (`--lift`, `#f1f1f3`)**: Elevated secondary controls, technology badges, and header rails.
 - **Hairline Zinc (`--card-border`, `#d4d4d8`)**: `1px` structural dividers, card borders, and viewport frames (deepened for crisp Light Mode edge separation).
 - **Active Border Zinc (`--card-hover-border`, `#71717a`)**: High-clarity hover border highlight state.
@@ -162,25 +162,25 @@ A restrained dual-mode monochrome foundation (**Obsidian Monograph** in Dark Mod
 - **Headline** (`700`, `text-3xl sm:text-4xl`, `tracking-tight`): Major section headings (`Selected Work`, `Skills & Technologies`, `Start a Project Conversation`).
 - **Title** (`700`, `text-2xl sm:text-3xl`, `tracking-tight`): Active project dossier title; sub-panel headings (`text-xl`, `text-base sm:text-lg`).
 - **Body** (`400`/`500`, `16px`–`18px`, `leading-relaxed`): Hero intro, executive project summaries, and form copy (`max-w-2xl` measure).
-- **Label & Micro-Telemetry** (`500`–`700`, `10px`–`12px` Geist Mono with `tabular-nums`): Spec IDs (`SPEC-01`), category filters, directory `Active` / `LIVE` / `TESTING` indicators (`10px`/`11px`), screen counters (`01 / 11`), and technology stack badges.
+- **Label & Micro-Telemetry** (`500`–`700`, `10px`–`12px` Geist Mono with `tabular-nums`): Spec IDs (`SPEC-01`), category filters, stream motion toggle, card `LIVE` / `TESTING` & `Inspect ↓` / `Inspecting ↓` badges (`11px`), screen counters (`01 / 11`), and technology stack badges.
 
 ### Named Rules
-**The No-Kicker Rule.** Never place a small uppercase eyebrow or kicker above a section heading or project title. Let the heading lead first; place spec IDs, categories, and status badges inline beside the title or in the top workbench metadata bar.
+**The No-Kicker Rule.** Never place a small uppercase eyebrow or kicker above section headings (`Selected Work`, `Skills & Technologies`, `Start a Project Conversation`). Let major headings lead cleanly.
 
 ## Layout
 
 The page uses a centered `max-w-6xl` (`1152px`) container with `16px` (`px-4`) mobile and `24px` (`sm:px-6`) desktop horizontal padding, anchored by a sticky `64px` (`h-16`) top engineering masthead (`px-3 sm:px-6`, `whitespace-nowrap` links/buttons to guarantee single-line fit down to `375px` mobile viewports).
 
-In **Selected Work**, projects use an interactive 12-column **Split Workbench** master-detail architecture:
-- **Sticky System Directory (4 columns on desktop):** Displays filtered specs partitioned into **Flagship Projects** (first 4 specs: `SPEC-01`–`SPEC-04`) immediately visible and a collapsible **Archive** section (remaining specs `SPEC-05`–`SPEC-09`, auto-expanding when an archived spec is selected). Each row exposes spec ID, category, live/testing telemetry, `Active` pill, and title.
-- **Deep-Dive Inspection Theatre (8 columns on desktop):** Pairs a category-aware media theatre (**`16:10` Browser Frame + Thumbnail Filmstrip** for Web specs; **3-Up `9:19` Portrait Device Triptych** for Mobile specs) with a narrative panel (`Executive Summary` + `Technology Stack` badges) and top workbench controls (`Prev` / `Next`, spec counter, repository link, and deployment CTA).
+In **Selected Work**, projects use a **Left-to-Right Moving Carousel + On-Demand Inspection Drawer** architecture:
+- **Stream Control Strip & Continuous Carousel (`#projects-carousel`):** Pairs category filter tabs (`ALL (9)`, `WEB (6)`, `MOBILE (3)`) with a live motion telemetry indicator and `Pause Motion` / `Resume Motion` control. The horizontal track animates seamlessly left-to-right (`marquee-ltr`, `Math.max(20, count * 4)s`, `36s` across 9 specs) with edge fades, pausing automatically on `:hover`, keyboard `:focus-visible`, or manual toggle. Web cards render a single `16:10` screenshot; Mobile cards render a 3-up `9:19` phone triptych.
+- **On-Demand Inspection Drawer (`#project-inspection-drawer`):** Closed by default (`selectedWorkbenchId: null`). Clicking any carousel card mounts the full-width dossier beneath the carousel and scrolls smoothly into view—combining top header controls (`← Prev`, `Next →`, solid `Close` button), deployment/source `ProjectActionButtons`, interactive `ProjectMediaStage` (`16:10` Browser Viewport + Filmstrip for Web; 3-Up `9:19` Triptych + pills for Mobile; fullscreen Lightbox trigger), `ProjectNarrativePanel` (`Executive Summary` + `Technology Stack`), and a footer `Close Project ↑` return button.
 
 ## Elevation & Depth
 
 Depth is achieved primarily through **tonal layering** (`var(--background)` canvas → `var(--card-bg)` dossier surface → `var(--lift)` lifted control) reinforced by crisp `1px solid var(--card-border)` structural hairlines.
 
 ### Shadow Vocabulary
-- **Device Stage Drop (`--shadow-stage`)**: `0 16px 36px -8px rgba(0, 0, 0, 0.85)` (Dark) / `0 16px 36px -8px rgba(9, 9, 11, 0.14), 0 4px 12px -2px rgba(9, 9, 11, 0.08)` (Light) on portrait mobile device frames.
+- **Device Stage Drop (`--shadow-stage`)**: `0 16px 36px -8px rgba(0, 0, 0, 0.85)` (Dark) / `0 16px 36px -8px rgba(9, 9, 11, 0.14), 0 4px 12px -2px rgba(9, 9, 11, 0.08)` (Light) on portrait mobile device frames, active carousel cards, and the expanded inspection drawer.
 - **Lightbox Viewport Drop (`--shadow-lightbox`)**: `0 20px 50px rgba(0, 0, 0, 0.9)` (Dark) / `0 24px 60px -12px rgba(9, 9, 11, 0.24)` (Light) on fullscreen media dialogs.
 
 ### Named Rules
@@ -188,15 +188,15 @@ Depth is achieved primarily through **tonal layering** (`var(--background)` canv
 
 ## Shapes, Touch Targets & Motion
 
-- **Radius & Borders:** `4px` (`rounded`) on buttons/chips/inputs, `6px` (`rounded-md`) on outer workbench/dossier panels, `8px` (`rounded-lg`) on portrait device viewports. Borders are strictly `1px` (`border-card-border`); never use thick colored side borders.
-- **Mobile Touch Targets:** All interactive mobile controls (header links, theme toggle, hero CTAs, filter tabs, archive toggle, directory buttons, carousel arrows/pills, prev/next workbench buttons, `Inspect Fullscreen`, `Expand All`, `Hire via Upwork`, form submit, footer links, lightbox controls) enforce `min-h-[44px]` (`h-11 w-11` for square icon triggers) below the `sm` breakpoint.
-- **Reduced Motion (`prefers-reduced-motion: reduce`):** Disables smooth scrolling (`scroll-behavior: auto`), ping/pulse animations, and spatial movement (`transform: none !important`) while preserving `opacity`, `background-color`, `border-color`, `color`, and `box-shadow` transitions for crisp focus/hover feedback.
+- **Radius & Borders:** `4px` (`rounded`) on buttons/chips/inputs, `6px` (`rounded-md`) on carousel cards, marquee stage, and inspection drawer panels, `8px` (`rounded-lg`) on portrait device viewports. Borders are strictly `1px` (`border-card-border`); never use thick colored side borders.
+- **Mobile Touch Targets:** All interactive mobile controls (header links, theme toggle, hero CTAs, filter tabs, `Pause Motion` / `Resume Motion` toggle, prev/next/close drawer buttons, `Inspect Fullscreen`, `Expand All`, `Hire via Upwork`, form submit, footer links, lightbox controls) enforce `min-h-[44px]` (`h-11 w-11` for square icon triggers) below the `sm` breakpoint.
+- **Reduced Motion (`prefers-reduced-motion: reduce`):** Disables smooth scrolling (`scroll-behavior: auto`), ping/pulse/marquee animations (`.animate-marquee-ltr`), and spatial movement (`transform: none !important`) while preserving `opacity`, `background-color`, `border-color`, `color`, and `box-shadow` transitions for crisp focus/hover feedback.
 
 ## Components
 
 ### Buttons
-- **Primary CTA:** Solid `bg-foreground text-background border-foreground`, `px-5 py-2.5` (`Let's talk ↓` hero anchor, full-width form submit, primary deployment demo CTA).
-- **Secondary / Outline CTA:** `bg-lift border-card-border text-foreground` shifting on hover (`Explore my work ↓` hero CTA, masthead `Hire Me`, external social/repo links, `Archive` toggle, and directory switches).
+- **Primary CTA:** Solid `bg-foreground text-background border-foreground`, `px-5 py-2.5` (`Let's talk ↓` hero anchor, inspection drawer header `Close` button, full-width form submit, primary deployment demo CTA).
+- **Secondary / Outline CTA:** `bg-lift border-card-border text-foreground` shifting on hover (`Explore my work ↓` hero CTA, masthead `Hire Me`, external social/repo links, `Pause Motion` / `Resume Motion` toggle, `← Prev` / `Next →`, and footer `Close Project ↑`).
 
 ### Project Media Stages & Accessible Lightbox
 - **Semantic Stage Triggers:** Both Web `16:10` viewport stages and Mobile `9:19` triptych stages use native `<button type="button">` wrappers for keyboard and screen-reader accessibility, paired with a persistent `Inspect Fullscreen ⤢` button in the stage header (no hover-only zoom badges).

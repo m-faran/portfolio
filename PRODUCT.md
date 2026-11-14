@@ -16,22 +16,23 @@ Demonstrate complete zero-to-deployment technical ownership through concrete, ve
 
 ## Positioning
 
-Unlike template portfolios that show either shallow screenshot thumbnails or unverified text claims, this portfolio presents each shipped system as an interactive engineering dossier inside a Split Workbench: pairing multi-screen product workflows (with per-screen captions and fullscreen lightbox inspection) and live deployment/GitHub links with an executive summary and full technology stack.
+Unlike template portfolios that show either shallow screenshot thumbnails or unverified text claims, this portfolio showcases each shipped system inside a continuous left-to-right project carousel—displaying single `16:10` web screenshots and 3-up `9:19` mobile app triptychs—that expands on click into a full interactive engineering dossier with multi-screen workflows, per-screen captions, fullscreen lightbox inspection, live deployment/GitHub links, executive summary, and technology stack.
 
 ## Operating Context
 
-Visitors typically review the portfolio on desktop or mobile while vetting candidates for MVP builds, full-stack web platforms, Web3/fintech apps, or React Native mobile contracts. They scan the hero to confirm domain fit, inspect 2–4 flagship systems in depth (and optionally expand the Archive for additional builds), check skill coverage, and initiate contact via the direct inquiry form or Upwork.
+Visitors typically review the portfolio on desktop or mobile while vetting candidates for MVP builds, full-stack web platforms, Web3/fintech apps, or React Native mobile contracts. They scan the hero to confirm domain fit, browse the continuous left-to-right project stream filtered by category (`ALL`, `WEB`, `MOBILE`), click any system to scroll down and inspect its screens, stack, and links (or close the inspection drawer to return to the stream), check skill coverage, and initiate contact via the direct inquiry form or Upwork.
 
 ## Capabilities and Constraints
 
 - **Hero Section:** Preserves the authoritative high-contrast editorial headline ("Full Stack Software Engineer"), ownership statement, differentiated CTA pair ("Let's talk ↓" solid primary CTA and "Explore my work ↓" bordered secondary CTA), and direct platform links (Upwork, GitHub).
-- **Selected Work — Split Workbench (`Flagship Projects` + Collapsible `Archive`):**
-  - **Flagship Projects (`SPEC-01` – `SPEC-04`):** Surfaced upfront in the System Directory:
+- **Selected Work — Moving Project Carousel + On-Demand Inspection Drawer (`SPEC-01` – `SPEC-09`):**
+  - **Left-to-Right Moving Stream (`#projects-carousel`):** Continuously glides all filtered systems left-to-right (`36s` full loop for 9 cards), pauses on hover, keyboard `:focus-visible`, or the `Pause Motion` / `Resume Motion` toggle, and renders single `16:10` screenshots on `WEB` cards and 3-up `9:19` phone triptychs on `MOBILE` cards.
+  - **Click-to-Inspect Drawer (`#project-inspection-drawer`):** Collapsed by default on page load. Clicking any card mounts the full dossier below the carousel, scrolls smoothly down into view, and provides `← Prev`, `Next →`, header `Close`, and footer `Close Project ↑` controls alongside interactive multi-screen stages and fullscreen lightbox inspection.
+  - **Shipped Systems (`SPEC-01` – `SPEC-09`):**
     - `SPEC-01` StormPKR Mobile Wallet (`TESTING` / Mobile — Digital Rupee Mobile Wallet)
     - `SPEC-02` Chundrigar Capital (`LIVE` / Web — KSE-100 Stock Exchange Platform)
     - `SPEC-03` Roaring Bulls (`LIVE` / Web — Swipe-Based Stock Basket Platform)
     - `SPEC-04` Ludo Elemental (`LIVE` / Mobile — Google Play Store Turn-Based Multiplayer Game)
-  - **Archive (`SPEC-05` – `SPEC-09`):** Collapsed by default behind a `Show` / `Hide` accordion toggle (auto-expanding if an archived spec is selected or when category filters move selection into the archive):
     - `SPEC-05` Kenzoku Mobile App (`TESTING` / Mobile — Passion & Hobbies Friend Discovery App)
     - `SPEC-06` DevSafar (`LIVE` / Web — Hackathon Discovery & Matchmaking Platform)
     - `SPEC-07` StormPKR Website & KYC Hub (`LIVE` / Web — Landing Portal, CNIC KYC Flow & Support Hub)
@@ -60,5 +61,5 @@ Visitors typically review the portfolio on desktop or mobile while vetting candi
 
 1. **Visual Proof Needs Screen-Level Context:** Pair every screenshot with an explicit screen title, architectural caption, screen index telemetry, and concise executive + stack dossier framing.
 2. **Respect Native Aspect Ratios:** Web platforms belong in wide `16:10` browser stages with thumbnail filmstrips; portrait mobile apps belong in 3-up `9:19` triptych stages—never shrunk into tiny landscape thumbnails.
-3. **Curated Depth Without Clutter:** Highlight the top 4 Flagship specs immediately while tucking the remaining 5 specs neatly into a collapsible Archive, rewarding deeper evaluators with full multi-screen navigation and fullscreen lightbox inspection.
+3. **Progressive Disclosure Without Clutter:** Lead with a motion-controllable left-to-right visual project stream and keep full project dossiers collapsed until clicked, scrolling evaluators into interactive multi-screen inspection and fullscreen lightbox views with one-click close and return.
 4. **Honest Operational Telemetry:** Clearly distinguish publicly live deployments (`LIVE`) from closed-testing builds (`TESTING` / `Closed Testing Build`) and private commercial repositories (`Private Repo`).
