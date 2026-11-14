@@ -20,14 +20,14 @@ Unlike template portfolios that show either shallow screenshot thumbnails or unv
 
 ## Operating Context
 
-Visitors typically review the portfolio on desktop or mobile while vetting candidates for MVP builds, full-stack web platforms, Web3/fintech apps, or React Native mobile contracts. They scan the hero to confirm domain fit, browse the continuous left-to-right project stream filtered by category (`ALL`, `WEB`, `MOBILE`), click any system to scroll down and inspect its screens, stack, and links (or close the inspection drawer to return to the stream), check skill coverage, and initiate contact via the direct inquiry form or Upwork.
+Visitors typically review the portfolio on desktop or mobile while vetting candidates for MVP builds, full-stack web platforms, Web3/fintech apps, or React Native mobile contracts. They scan the hero to confirm domain fit, browse the continuous left-to-right project stream filtered by category (`ALL`, `WEB`, `MOBILE`), click any system to scroll down and inspect its screens, technology stack, and links (or close the inspection drawer to return to the stream), and initiate contact via the direct inquiry form or Upwork.
 
 ## Capabilities and Constraints
 
 - **Hero Section:** Preserves the authoritative high-contrast editorial headline ("Full Stack Software Engineer"), ownership statement, differentiated CTA pair ("Let's talk ↓" solid primary CTA and "Explore my work ↓" bordered secondary CTA), and direct platform links (Upwork, GitHub).
 - **Selected Work — Moving Project Carousel + On-Demand Inspection Drawer (`SPEC-01` – `SPEC-09`):**
   - **Left-to-Right Moving Stream (`#projects-carousel`):** Continuously glides all filtered systems left-to-right (`36s` full loop for 9 cards), pauses on hover, keyboard `:focus-visible`, or the `Pause Motion` / `Resume Motion` toggle, and renders single `16:10` screenshots on `WEB` cards and 3-up `9:19` phone triptychs on `MOBILE` cards.
-  - **Click-to-Inspect Drawer (`#project-inspection-drawer`):** Collapsed by default on page load. Clicking any card mounts the full dossier below the carousel, scrolls smoothly down into view, and provides `← Prev`, `Next →`, header `Close`, and footer `Close Project ↑` controls alongside interactive multi-screen stages and fullscreen lightbox inspection.
+  - **Click-to-Inspect Drawer (`#project-inspection-drawer`):** Collapsed by default on page load. Clicking any card mounts the full dossier below the carousel, scrolls smoothly down into view, and provides `← Prev`, `Next →`, header `Close`, and footer `Close Project ↑` controls alongside interactive multi-screen stages, fullscreen lightbox inspection, executive summary, and per-project technology stack badges.
   - **Shipped Systems (`SPEC-01` – `SPEC-09`):**
     - `SPEC-01` StormPKR Mobile Wallet (`TESTING` / Mobile — Digital Rupee Mobile Wallet)
     - `SPEC-02` Chundrigar Capital (`LIVE` / Web — KSE-100 Stock Exchange Platform)
@@ -38,18 +38,11 @@ Visitors typically review the portfolio on desktop or mobile while vetting candi
     - `SPEC-07` StormPKR Website & KYC Hub (`LIVE` / Web — Landing Portal, CNIC KYC Flow & Support Hub)
     - `SPEC-08` Kenzoku Narrative Portal (`LIVE` / Web — Live Narrative Web Portal)
     - `SPEC-09` Genie Markets (`LIVE` / Web — Interactive Online Prediction Web Platform)
-- **Skills & Technologies:** 50 tools organized across 6 expandable engineering domains (defaulting to the first domain open with an `Expand All (50)` / `Collapse All` toggle):
-  1. `Frontend Engineering` (11 tools)
-  2. `Backend & Data Systems` (10 tools)
-  3. `Web3 & Blockchain Protocols` (11 tools)
-  4. `Cross-Platform Mobile` (4 tools)
-  5. `AI, Media & Automation` (7 tools)
-  6. `Shipping, Cloud & Tooling` (7 tools)
 - **Direct Inquiry Form:** Formspree-backed project scope and budget intake (`noValidate` client-side handler with field-specific `aria-invalid`, `aria-describedby`, auto-focus on failing field, and tokenized `#form-error` feedback).
 
 ## Brand Commitments
 
-- **Dual-Mode Architectural Aesthetic:** Supports **Obsidian Monograph** Dark Mode (`#09090b` canvas, `#fafafa` ink, `#121215` surface, `#27272a` borders) and **Architectural Paper Monograph** Light Mode (`#f8f8f8` canvas, `#09090b` ink, `#ffffff` surface, `#d4d4d8` borders) with OS `prefers-color-scheme` defaults, an accessible masthead toggle persisted in `localStorage`, and WCAG-calibrated `--icon-*` SVG shades across both themes.
+- **Dual-Mode Architectural Aesthetic:** Supports **Obsidian Monograph** Dark Mode (`#09090b` canvas, `#fafafa` ink, `#121215` surface, `#27272a` borders) and **Architectural Paper Monograph** Light Mode (`#f8f8f8` canvas, `#09090b` ink, `#ffffff` surface, `#d4d4d8` borders) with OS `prefers-color-scheme` defaults and an accessible masthead toggle persisted in `localStorage`.
 - **Hero & Mobile Craft:** Single-line sticky navigation at `375px` mobile widths, `min-h-[44px]` mobile interactive touch targets, differentiated Hero primary vs. secondary CTAs, and modal focus-trap + focus-restoration accessibility in the Lightbox.
 
 ## Evidence on Hand

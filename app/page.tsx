@@ -3,7 +3,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { PROJECTS, Project } from "./project-data";
-import { SKILL_CATEGORIES, GithubIcon } from "./skills-data";
+
+function GithubIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+      />
+    </svg>
+  );
+}
 
 type FormErrorField =
   | "name"
@@ -495,12 +506,6 @@ export default function HomePage() {
   const workbenchInspectionRef = useRef<HTMLDivElement>(null);
   const [isCarouselPaused, setIsCarouselPaused] = useState(false);
 
-  // Skills Accordion State
-  const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
-    frontend: true,
-    web3: true,
-  });
-
   // Contact Form State
   const [formState, setFormState] = useState({
     name: "",
@@ -622,27 +627,6 @@ export default function HomePage() {
     });
   };
 
-  const toggleCategory = (id: string) => {
-    setOpenCategories((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
-  };
-
-  const handleExpandAllSkills = () => {
-    const allOpen: Record<string, boolean> = {};
-    SKILL_CATEGORIES.forEach((cat) => {
-      allOpen[cat.id] = true;
-    });
-    setOpenCategories(allOpen);
-  };
-
-  const handleCollapseAllSkills = () => {
-    setOpenCategories({});
-  };
-
-  const isAllSkillsExpanded = SKILL_CATEGORIES.every((cat) => openCategories[cat.id]);
-
   const handleTabKeyDown = (e: React.KeyboardEvent, index: number) => {
     let nextIndex = index;
     if (e.key === "ArrowRight") {
@@ -762,12 +746,6 @@ export default function HomePage() {
               className="inline-flex min-h-[44px] sm:min-h-0 items-center whitespace-nowrap px-2 sm:px-2.5 sm:py-1.5 text-xs sm:text-sm font-medium text-text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
             >
               Projects
-            </a>
-            <a
-              href="#skills"
-              className="inline-flex min-h-[44px] sm:min-h-0 items-center whitespace-nowrap px-2 sm:px-2.5 sm:py-1.5 text-xs sm:text-sm font-medium text-text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
-            >
-              Skills
             </a>
             <a
               href="#contact"
@@ -1298,141 +1276,6 @@ export default function HomePage() {
                 </>
               );
             })()}
-          </div>
-        </section>
-
-        {/* SKILLS & TECHNOLOGIES SECTION */}
-        <section
-          id="skills"
-          aria-labelledby="skills-title"
-          className="mt-20 sm:mt-28 border-t border-card-border pt-14 sm:pt-16"
-        >
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between pb-8">
-            <div className="space-y-2">
-              <h2
-                id="skills-title"
-                className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
-              >
-                Skills &amp; Technologies
-              </h2>
-              <p className="text-sm sm:text-base text-text-muted max-w-2xl">
-                Production stack across frontend interfaces, backend data infrastructure, and cross-platform mobile runtimes.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={isAllSkillsExpanded ? handleCollapseAllSkills : handleExpandAllSkills}
-                className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-2 rounded border border-card-border bg-card-bg px-3.5 py-2.5 sm:py-2 font-mono text-xs sm:text-sm font-medium tracking-wide text-text-muted transition-colors hover:border-card-hover hover:bg-lift hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
-              >
-                <svg
-                  className={`h-3.5 w-3.5 transition-transform duration-200 ${
-                    isAllSkillsExpanded ? "rotate-180" : ""
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-                <span>{isAllSkillsExpanded ? "Collapse All" : "Expand All (50)"}</span>
-              </button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {SKILL_CATEGORIES.map((cat) => {
-              const isOpen = !!openCategories[cat.id];
-              const displayedPreviewSkills = cat.skills
-                .slice(0, 4)
-                .map((s) => s.name)
-                .join(", ");
-              const remainingCount = cat.skills.length - 4;
-
-              return (
-                <div
-                  key={cat.id}
-                  className="border border-card-border bg-card-bg rounded-md overflow-hidden transition-colors hover:border-card-hover self-start"
-                >
-                  <button
-                    type="button"
-                    onClick={() => toggleCategory(cat.id)}
-                    aria-expanded={isOpen}
-                    aria-controls={`skills-content-${cat.id}`}
-                    className="w-full flex items-center justify-between gap-4 p-5 text-left transition-colors hover:bg-hover-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground cursor-pointer"
-                  >
-                    <div className="min-w-0 space-y-1">
-                      <h3 className="text-base sm:text-lg font-bold text-foreground">
-                        {cat.title}
-                      </h3>
-                      <p className="text-xs text-text-subtle">{cat.scope}</p>
-                      {!isOpen && (
-                        <div className="pt-1 flex items-center gap-1.5 text-xs text-text-muted font-mono min-w-0">
-                          <span className="truncate">{displayedPreviewSkills}</span>
-                          {remainingCount > 0 && (
-                            <span className="shrink-0 text-text-subtle">
-                              +{remainingCount} more
-                            </span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-2.5 shrink-0">
-                      <span className="border border-card-border bg-lift px-2.5 py-1 rounded font-mono text-xs font-medium tracking-wide text-text-muted tabular-nums">
-                        {cat.skills.length} tools
-                      </span>
-                      <svg
-                        className={`h-4 w-4 text-text-muted transition-transform duration-200 ${
-                          isOpen ? "rotate-180" : ""
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
-                    </div>
-                  </button>
-
-                  {isOpen && (
-                    <div
-                      id={`skills-content-${cat.id}`}
-                      role="region"
-                      aria-label={`${cat.title} skills`}
-                      className="px-5 pb-5 pt-2 border-t border-card-border/60"
-                    >
-                      <div className="flex flex-wrap gap-2.5 pt-2">
-                        {cat.skills.map((skill) => (
-                          <div
-                            key={skill.name}
-                            className="flex-1 min-w-[calc(50%-0.625rem)] sm:min-w-[130px] inline-flex items-center justify-center gap-2.5 border border-card-border bg-lift px-3.5 py-2.5 rounded text-xs sm:text-sm font-medium text-foreground hover:border-card-hover hover:bg-hover-surface transition-colors"
-                          >
-                            <span className="shrink-0 flex items-center justify-center w-5 h-5">
-                              {skill.icon}
-                            </span>
-                            <span className="truncate">{skill.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
           </div>
         </section>
 

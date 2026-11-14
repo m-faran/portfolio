@@ -125,8 +125,8 @@ A restrained dual-mode monochrome foundation (**Obsidian Monograph** in Dark Mod
 
 ### Neutral (Dark Mode — Obsidian Monograph)
 - **Obsidian Canvas (`--background`, `#09090b`)**: Root page background, media stage backdrop, and form input wells.
-- **Carbon Surface (`--card-bg`, `#121215`)**: Primary container surface for project dossiers, skill accordions, and inquiry panels.
-- **Hover Surface (`--hover-surface`, `#151518`)**: Interactive surface shift for expandable skill rows and carousel cards.
+- **Carbon Surface (`--card-bg`, `#121215`)**: Primary container surface for project dossiers and inquiry panels.
+- **Hover Surface (`--hover-surface`, `#151518`)**: Interactive surface shift for carousel cards.
 - **Lifted Slate (`--lift`, `#18181b`)**: Elevated secondary controls, technology badges, and header rails.
 - **Hairline Zinc (`--card-border`, `#27272a`)**: `1px` structural dividers, card borders, and viewport frames.
 - **Active Border Zinc (`--card-hover-border`, `#3f3f46`)**: Hover border highlight state.
@@ -135,19 +135,16 @@ A restrained dual-mode monochrome foundation (**Obsidian Monograph** in Dark Mod
 
 ### Neutral (Light Mode — Architectural Paper Monograph)
 - **Architectural Paper Canvas (`--background`, `#f8f8f8`)**: Root page background, media stage backdrop, and form input wells.
-- **Pure White Dossier Surface (`--card-bg`, `#ffffff`)**: Primary container surface for project dossiers, skill accordions, and inquiry panels.
-- **Hover Surface (`--hover-surface`, `#f4f4f5`)**: Interactive surface shift for expandable skill rows and carousel cards.
+- **Pure White Dossier Surface (`--card-bg`, `#ffffff`)**: Primary container surface for project dossiers and inquiry panels.
+- **Hover Surface (`--hover-surface`, `#f4f4f5`)**: Interactive surface shift for carousel cards.
 - **Lifted Stone (`--lift`, `#f1f1f3`)**: Elevated secondary controls, technology badges, and header rails.
 - **Hairline Zinc (`--card-border`, `#d4d4d8`)**: `1px` structural dividers, card borders, and viewport frames (deepened for crisp Light Mode edge separation).
 - **Active Border Zinc (`--card-hover-border`, `#71717a`)**: High-clarity hover border highlight state.
 - **Muted Charcoal (`--text-muted`, `#4b4b53`)**: Primary narrative body copy and descriptions.
 - **Subtle Slate (`--text-subtle`, `#63636b`)**: Secondary metadata, spec prefixes, and form sub-labels.
 
-### Theme-Adaptive Icon Tokens (`--icon-*`)
-- Brand SVG icons inside skill badges consume dual-theme `--icon-*` custom properties (17 calibrated variables covering React, Tailwind, Vite, Node.js, Supabase, MongoDB, Python, Ethereum, Solana gradient stops, Wallet Adapter, Android, Claude, Gemini, Hugging Face, FFmpeg, and Puppeteer) that darken automatically in Light Mode on `#f1f1f3` surfaces to preserve legibility and WCAG contrast.
-
 ### Named Rules
-**The Earned Chroma Rule.** Never apply decorative brand colors, neon gradients, or colored borders to containers. Color appears only inside real product screenshots, theme-calibrated technology logos (`--icon-*`), operational status dots (`6px`), and semantic validation feedback (`--signal-error*`).
+**The Earned Chroma Rule.** Never apply decorative brand colors, neon gradients, or colored borders to containers. Color appears only inside real product screenshots, operational status dots (`6px`), and semantic validation feedback (`--signal-error*`).
 
 ## Typography
 
@@ -159,13 +156,13 @@ A restrained dual-mode monochrome foundation (**Obsidian Monograph** in Dark Mod
 
 ### Hierarchy
 - **Display** (`900`, `text-5xl sm:text-7xl lg:text-8xl`, `leading-[1.03]`, `tracking-tight`): Hero title only (`Full Stack Software Engineer`).
-- **Headline** (`700`, `text-3xl sm:text-4xl`, `tracking-tight`): Major section headings (`Selected Work`, `Skills & Technologies`, `Start a Project Conversation`).
+- **Headline** (`700`, `text-3xl sm:text-4xl`, `tracking-tight`): Major section headings (`Selected Work`, `Start a Project Conversation`).
 - **Title** (`700`, `text-2xl sm:text-3xl`, `tracking-tight`): Active project dossier title; sub-panel headings (`text-xl`, `text-base sm:text-lg`).
 - **Body** (`400`/`500`, `16px`–`18px`, `leading-relaxed`): Hero intro, executive project summaries, and form copy (`max-w-2xl` measure).
 - **Label & Micro-Telemetry** (`500`–`700`, `10px`–`12px` Geist Mono with `tabular-nums`): Spec IDs (`SPEC-01`), category filters, stream motion toggle, card `LIVE` / `TESTING` & `Inspect ↓` / `Inspecting ↓` badges (`11px`), screen counters (`01 / 11`), and technology stack badges.
 
 ### Named Rules
-**The No-Kicker Rule.** Never place a small uppercase eyebrow or kicker above section headings (`Selected Work`, `Skills & Technologies`, `Start a Project Conversation`). Let major headings lead cleanly.
+**The No-Kicker Rule.** Never place a small uppercase eyebrow or kicker above section headings (`Selected Work`, `Start a Project Conversation`). Let major headings lead cleanly.
 
 ## Layout
 
@@ -189,7 +186,7 @@ Depth is achieved primarily through **tonal layering** (`var(--background)` canv
 ## Shapes, Touch Targets & Motion
 
 - **Radius & Borders:** `4px` (`rounded`) on buttons/chips/inputs, `6px` (`rounded-md`) on carousel cards, marquee stage, and inspection drawer panels, `8px` (`rounded-lg`) on portrait device viewports. Borders are strictly `1px` (`border-card-border`); never use thick colored side borders.
-- **Mobile Touch Targets:** All interactive mobile controls (header links, theme toggle, hero CTAs, filter tabs, `Pause Motion` / `Resume Motion` toggle, prev/next/close drawer buttons, `Inspect Fullscreen`, `Expand All`, `Hire via Upwork`, form submit, footer links, lightbox controls) enforce `min-h-[44px]` (`h-11 w-11` for square icon triggers) below the `sm` breakpoint.
+- **Mobile Touch Targets:** All interactive mobile controls (header links, theme toggle, hero CTAs, filter tabs, `Pause Motion` / `Resume Motion` toggle, prev/next/close drawer buttons, `Inspect Fullscreen`, `Hire via Upwork`, form submit, footer links, lightbox controls) enforce `min-h-[44px]` (`h-11 w-11` for square icon triggers) below the `sm` breakpoint.
 - **Reduced Motion (`prefers-reduced-motion: reduce`):** Disables smooth scrolling (`scroll-behavior: auto`), ping/pulse/marquee animations (`.animate-marquee-ltr`), and spatial movement (`transform: none !important`) while preserving `opacity`, `background-color`, `border-color`, `color`, and `box-shadow` transitions for crisp focus/hover feedback.
 
 ## Components
@@ -213,7 +210,7 @@ Depth is achieved primarily through **tonal layering** (`var(--background)` canv
 - **Do** pair every project gallery with per-screen captions, executive summary, technology stack badges, and accurate deployment/repository links.
 - **Do** present mobile portrait screenshots in 3-up `9:19` triptych stages and web apps in `16:10` viewports with thumbnail filmstrips.
 - **Do** keep the Hero CTA hierarchy clear (`Let's talk ↓` primary solid vs. `Explore my work ↓` bordered secondary) and preserve full keyboard/focus-trap accessibility in dialogs.
-- **Do** keep Dual-Mode parity crisp across Obsidian Dark and Architectural Paper Light themes using CSS variables (`--card-border`, `--icon-*`, `--signal-*`).
+- **Do** keep Dual-Mode parity crisp across Obsidian Dark and Architectural Paper Light themes using CSS variables (`--card-border`, `--signal-*`).
 
 ### Don't:
 - **Don't** use a 3-column equal-card grid for Selected Work that shrinks screenshots.
