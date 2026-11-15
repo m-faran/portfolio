@@ -8,6 +8,7 @@ colors:
     surface-hover: "#151518"
     surface-lift: "#18181b"
     border-hairline: "#27272a"
+    border-input: "#63636b"
     border-active: "#3f3f46"
     ink-alabaster: "#fafafa"
     ink-muted: "#a1a1aa"
@@ -23,12 +24,13 @@ colors:
     surface-hover: "#f4f4f5"
     surface-lift: "#f1f1f3"
     border-hairline: "#d4d4d8"
+    border-input: "#8a8a93"
     border-active: "#71717a"
     ink-obsidian: "#09090b"
     ink-muted: "#4b4b53"
     ink-subtle: "#63636b"
-    signal-emerald: "#10b981"
-    signal-amber: "#f59e0b"
+    signal-emerald: "#047857"
+    signal-amber: "#b45309"
     signal-error: "#b91c1c"
     signal-error-border: "rgba(220, 38, 38, 0.35)"
     signal-error-bg: "rgba(220, 38, 38, 0.08)"
@@ -63,6 +65,18 @@ typography:
     fontWeight: 500
     lineHeight: 1.4
     letterSpacing: "0.04em"
+  microLabel:
+    fontFamily: "var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace"
+    fontSize: "0.6875rem"
+    fontWeight: 500
+    lineHeight: 1.35
+    letterSpacing: "0.02em"
+  captionMicro:
+    fontFamily: "var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace"
+    fontSize: "0.625rem"
+    fontWeight: 400
+    lineHeight: 1.35
+    letterSpacing: "0.02em"
 rounded:
   sm: "4px"
   md: "6px"
@@ -169,7 +183,7 @@ A restrained dual-mode monochrome foundation (**Obsidian Monograph** in Dark Mod
 The page uses a centered `max-w-6xl` (`1152px`) container with `16px` (`px-4`) mobile and `24px` (`sm:px-6`) desktop horizontal padding, anchored by a sticky `64px` (`h-16`) top engineering masthead (`px-3 sm:px-6`, `whitespace-nowrap` links/buttons to guarantee single-line fit down to `375px` mobile viewports).
 
 In **Selected Work**, projects use a **Left-to-Right Moving Carousel + On-Demand Inspection Drawer** architecture:
-- **Stream Control Strip & Continuous Carousel (`#projects-carousel`):** Pairs category filter tabs (`ALL (9)`, `WEB (6)`, `MOBILE (3)`) with a live motion telemetry indicator and `Pause Motion` / `Resume Motion` control. The horizontal track animates seamlessly left-to-right (`marquee-ltr`, `Math.max(20, count * 4)s`, `36s` across 9 specs) with edge fades, pausing automatically on `:hover`, keyboard `:focus-visible`, or manual toggle. Web cards render a single `16:10` screenshot; Mobile cards render a 3-up `9:19` phone triptych.
+- **Stream Control Strip & Continuous Carousel (`#projects-carousel`):** Pairs category filter tabs (`ALL (9)`, `WEB (6)`, `MOBILE (3)`) with a live motion telemetry indicator, manual **`Left` / `Right` step buttons** (`stepCarousel`), and **`Pause Motion` / `Resume Motion`** toggle. An `IntersectionObserver` + `visibilitychange`-gated `requestAnimationFrame` loop scrolls a native horizontal viewport (`overflow-x-auto touch-pan-x`) seamlessly left-to-right (`Math.max(20, count * 4)s`, `36s` across 9 specs) with edge fades—pausing automatically when offscreen, on pointer hover, touch drag, keyboard focus inside the stage, or manual toggle, keeping keyboard focus scrolled cleanly into view on the primary copy while marking the seamless wrap buffer `aria-hidden="true"`. Web cards render a single `16:10` screenshot; Mobile cards render a 3-up `9:19` phone triptych.
 - **On-Demand Inspection Drawer (`#project-inspection-drawer`):** Closed by default (`selectedWorkbenchId: null`). Clicking any carousel card mounts the full-width dossier beneath the carousel and scrolls smoothly into view—combining top header controls (`← Prev`, `Next →`, solid `Close` button), deployment/source `ProjectActionButtons`, interactive `ProjectMediaStage` (`16:10` Browser Viewport + Filmstrip for Web; 3-Up `9:19` Triptych + pills for Mobile; fullscreen Lightbox trigger), `ProjectNarrativePanel` (`Executive Summary` + `Technology Stack`), and a footer `Close Project ↑` return button.
 
 ## Elevation & Depth
@@ -186,14 +200,14 @@ Depth is achieved primarily through **tonal layering** (`var(--background)` canv
 ## Shapes, Touch Targets & Motion
 
 - **Radius & Borders:** `4px` (`rounded`) on buttons/chips/inputs, `6px` (`rounded-md`) on carousel cards, marquee stage, and inspection drawer panels, `8px` (`rounded-lg`) on portrait device viewports. Borders are strictly `1px` (`border-card-border`); never use thick colored side borders.
-- **Mobile Touch Targets:** All interactive mobile controls (header links, theme toggle, hero CTAs, filter tabs, `Pause Motion` / `Resume Motion` toggle, prev/next/close drawer buttons, `Inspect Fullscreen`, `Hire via Upwork`, form submit, footer links, lightbox controls) enforce `min-h-[44px]` (`h-11 w-11` for square icon triggers) below the `sm` breakpoint.
-- **Reduced Motion (`prefers-reduced-motion: reduce`):** Disables smooth scrolling (`scroll-behavior: auto`), ping/pulse/marquee animations (`.animate-marquee-ltr`), and spatial movement (`transform: none !important`) while preserving `opacity`, `background-color`, `border-color`, `color`, and `box-shadow` transitions for crisp focus/hover feedback.
+- **Touch Targets:** All interactive controls (header links, theme toggle, hero CTAs, filter tabs, `Left`/`Right` carousel step buttons, `Pause Motion` / `Resume Motion` toggle, prev/next/close drawer buttons, `Fullscreen` trigger, `Hire via Upwork`, form submit, footer links, lightbox controls) enforce `min-h-[44px]` (`h-11 w-11` for square icon triggers) across mobile and tablet viewports below `lg` (`1024px`), with `>= 28px` height on desktop nav/footer links.
+- **Reduced Motion (`prefers-reduced-motion: reduce`):** Disables smooth scrolling (`scroll-behavior: auto`), ping/pulse animations, continuous auto-drift in the carousel (keeping direct `0ms` stepping on `Left`/`Right` clicks), and spatial movement (`transform: none !important` on transitions) while preserving `opacity`, `background-color`, `border-color`, `color`, and `box-shadow` transitions for crisp focus/hover feedback.
 
 ## Components
 
 ### Buttons
 - **Primary CTA:** Solid `bg-foreground text-background border-foreground`, `px-5 py-2.5` (`Let's talk ↓` hero anchor, inspection drawer header `Close` button, full-width form submit, primary deployment demo CTA).
-- **Secondary / Outline CTA:** `bg-lift border-card-border text-foreground` shifting on hover (`Explore my work ↓` hero CTA, masthead `Hire Me`, external social/repo links, `Pause Motion` / `Resume Motion` toggle, `← Prev` / `Next →`, and footer `Close Project ↑`).
+- **Secondary / Outline CTA:** `bg-lift border-card-border text-foreground` shifting on hover (`Explore my work ↓` hero CTA, masthead `Hire Me`, external social/repo links, `Left`/`Right` carousel controls, `Pause Motion` / `Resume Motion` toggle, `← Prev` / `Next →`, and footer `Close Project ↑`).
 
 ### Project Media Stages & Accessible Lightbox
 - **Semantic Stage Triggers:** Both Web `16:10` viewport stages and Mobile `9:19` triptych stages use native `<button type="button">` wrappers for keyboard and screen-reader accessibility, paired with a persistent `Inspect Fullscreen ⤢` button in the stage header (no hover-only zoom badges).
@@ -201,8 +215,8 @@ Depth is achieved primarily through **tonal layering** (`var(--background)` canv
 - **Modal Lightbox:** Manages focus end-to-end—auto-focuses the Close button upon opening, traps `Tab` / `Shift+Tab` inside modal controls, supports `Escape` and `ArrowLeft`/`ArrowRight` navigation, and restores focus to the triggering element on close.
 
 ### Inputs & Accessible Form Validation
-- **Style:** `1px solid var(--card-border)` stroke on `var(--background)` canvas with `4px` radius and `12px 16px` padding.
-- **Field-Level Validation:** `<form noValidate>` routes validation through `handleFormSubmit`, setting `formErrorField` (`name` | `email` | `customScope` | `customBudget` | `message`) so only the failing input receives `aria-invalid="true"` and `aria-describedby="form-error"`, auto-focuses the field, and clears upon input change. Error messages render in the tokenized `--signal-error*` alert container (`#form-error`).
+- **Style:** `1px solid var(--input-border)` stroke (`#8a8a93` Light / `#63636b` Dark) on `var(--background)` canvas with `4px` radius, `12px 16px` padding, and `focus-visible:ring-2 focus-visible:ring-foreground` focus rings.
+- **Field-Level Validation:** `<form noValidate>` routes validation cleanly top-to-bottom (`name` → `email` presence & regex → `customCategory` → `customBudget` → `message`) through `handleFormSubmit`, setting `formErrorField` so only the failing input receives `aria-invalid="true"` and `aria-describedby="form-error"`, auto-focuses the field, and clears upon input change. Error messages render in the tokenized `--signal-error*` alert container (`#form-error`).
 
 ## Do's and Don'ts
 

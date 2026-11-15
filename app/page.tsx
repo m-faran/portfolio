@@ -1,8 +1,14 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { PROJECTS, Project } from "./project-data";
+
+const AuditOverlay =
+  process.env.NODE_ENV !== "production"
+    ? dynamic(() => import("./audit-overlay"), { ssr: false })
+    : null;
 
 function GithubIcon({ className = "h-3.5 w-3.5" }: { className?: string }) {
   return (
@@ -46,7 +52,7 @@ function ProjectActionButtons({ project }: { project: Project }) {
             href={gh.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-card-border bg-lift px-3 py-2 sm:py-1.5 font-mono text-xs font-medium tracking-wide text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+            className="inline-flex min-h-[44px] lg:min-h-0 items-center gap-1.5 border border-card-border bg-lift px-3 py-2 lg:py-1.5 font-mono text-xs font-medium tracking-wide text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
             title={gh.label}
             aria-label={`${project.title} ${gh.label}`}
           >
@@ -59,7 +65,7 @@ function ProjectActionButtons({ project }: { project: Project }) {
           href={project.githubUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-card-border bg-lift px-3 py-2 sm:py-1.5 font-mono text-xs font-medium tracking-wide text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+          className="inline-flex min-h-[44px] lg:min-h-0 items-center gap-1.5 border border-card-border bg-lift px-3 py-2 lg:py-1.5 font-mono text-xs font-medium tracking-wide text-foreground hover:border-card-hover hover:bg-card-border rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
           title="View GitHub Repository"
           aria-label={`${project.title} GitHub repository`}
         >
@@ -90,7 +96,7 @@ function ProjectActionButtons({ project }: { project: Project }) {
           href={project.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-foreground bg-foreground px-3.5 py-2 sm:py-1.5 font-mono text-xs font-bold tracking-wide text-background hover:opacity-90 transition-opacity rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+          className="inline-flex min-h-[44px] lg:min-h-0 items-center gap-1.5 border border-foreground bg-foreground px-3.5 py-2 lg:py-1.5 font-mono text-xs font-bold tracking-wide text-background hover:opacity-90 transition-opacity rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
         >
           <span>
             {project.link.includes("play.google.com") ? "Google Play" : "Launch Live"}
@@ -104,6 +110,44 @@ function ProjectActionButtons({ project }: { project: Project }) {
         </span>
       )}
     </div>
+  );
+}
+
+function StageNavArrows({
+  projectTitle,
+  onPrev,
+  onNext,
+  edgeClass = "left-3 right-3",
+}: {
+  projectTitle: string;
+  onPrev: (e: React.MouseEvent) => void;
+  onNext: (e: React.MouseEvent) => void;
+  edgeClass?: string;
+}) {
+  const [leftEdge, rightEdge] = edgeClass.split(" ");
+  return (
+    <>
+      <button
+        type="button"
+        onClick={onPrev}
+        aria-label={`Previous screen for ${projectTitle}`}
+        className={`absolute ${leftEdge} top-1/2 -translate-y-1/2 z-20 h-11 w-11 lg:h-9 lg:w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground`}
+      >
+        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        onClick={onNext}
+        aria-label={`Next screen for ${projectTitle}`}
+        className={`absolute ${rightEdge} top-1/2 -translate-y-1/2 z-20 h-11 w-11 lg:h-9 lg:w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground`}
+      >
+        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </>
   );
 }
 
@@ -173,30 +217,36 @@ function ProjectMediaStage({
   return (
     <div className="flex flex-col border border-card-border bg-background rounded-md overflow-hidden">
       {/* Top Viewport Chrome Bar */}
-      <div className="flex items-center justify-between gap-2 border-b border-card-border bg-lift/70 px-3.5 py-2">
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
+      <div
+        data-audit-id="stage-header"
+        className="flex flex-wrap items-center justify-between gap-2 border-b border-card-border bg-lift/70 px-3 sm:px-3.5 py-2"
+      >
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <div className="hidden sm:flex items-center gap-1.5 shrink-0" aria-hidden="true">
             <span className="h-2 w-2 rounded-full bg-card-hover" />
             <span className="h-2 w-2 rounded-full bg-card-border" />
             <span className="h-2 w-2 rounded-full bg-card-border" />
           </div>
-          <span className="ml-1 font-mono text-xs text-text-muted truncate tabular-nums">
+          <span className="sm:ml-1 font-mono text-xs text-text-muted truncate tabular-nums">
             {project.specId} ·{" "}
             <strong className="text-foreground font-semibold">{current.label}</strong>
           </span>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 shrink-0 max-w-full">
           <span className="font-mono text-xs text-text-muted tabular-nums">
             {String(safeIndex + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </span>
           <button
             type="button"
+            data-audit-id="fullscreen-trigger"
             onClick={() => onOpenLightbox(safeIndex)}
-            className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-card-border bg-card-bg hover:border-card-hover hover:bg-lift px-3 py-2 sm:px-2.5 sm:py-1 font-mono text-xs font-medium text-foreground rounded transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+            aria-label="Inspect full-resolution screenshot"
+            className="inline-flex min-h-[44px] lg:min-h-0 items-center gap-1.5 border border-card-border bg-card-bg hover:border-card-hover hover:bg-lift px-2.5 py-2 lg:py-1 font-mono text-xs font-medium text-foreground rounded transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
             title="Inspect full-resolution screenshot"
           >
-            <span>Inspect Fullscreen</span>
+            <span className="hidden sm:inline">Inspect </span>
+            <span>Fullscreen</span>
             <span aria-hidden="true">⤢</span>
           </button>
         </div>
@@ -215,6 +265,7 @@ function ProjectMediaStage({
                 <button
                   key={`${project.id}-triptych-${slotPosition}-${screenIdx}`}
                   type="button"
+                  data-audit-id={!isCenter && slotPosition === 0 ? "triptych-side-btn" : undefined}
                   onClick={() =>
                     isCenter ? onOpenLightbox(screenIdx) : onSelectIndex(screenIdx)
                   }
@@ -223,17 +274,17 @@ function ProjectMediaStage({
                       ? `Inspect ${item.label} in fullscreen`
                       : `Switch to ${item.label} screen`
                   }
-                  className={`group/phone flex flex-col items-center transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-lg ${
+                  className={`group/phone flex flex-col items-center transition-transform duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-lg ${
                     isCenter
-                      ? "scale-100 opacity-100 z-10"
-                      : "scale-[0.91] opacity-55 hover:opacity-90 hover:scale-[0.94]"
+                      ? "scale-100 z-10"
+                      : "scale-[0.91] hover:scale-[0.94]"
                   }`}
                 >
                   <div
-                    className={`relative w-full aspect-[9/19] rounded-lg overflow-hidden border bg-card-bg flex items-center justify-center ${
+                    className={`relative w-full aspect-[9/19] rounded-lg overflow-hidden border bg-card-bg flex items-center justify-center transition-opacity ${
                       isCenter
-                        ? "border-foreground/40 shadow-[var(--shadow-stage)]"
-                        : "border-card-border"
+                        ? "opacity-100 border-foreground/40 shadow-[var(--shadow-stage)]"
+                        : "opacity-60 group-hover/phone:opacity-90 border-card-border"
                     }`}
                   >
                     <Image
@@ -261,34 +312,19 @@ function ProjectMediaStage({
           </div>
 
           {total > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={handlePrev}
-                aria-label={`Previous screen for ${project.title}`}
-                className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 sm:h-9 sm:w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
-              >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                aria-label={`Next screen for ${project.title}`}
-                className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 sm:h-9 sm:w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
-              >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </>
+            <StageNavArrows
+              projectTitle={project.title}
+              onPrev={handlePrev}
+              onNext={handleNext}
+              edgeClass="left-2 right-2"
+            />
           )}
         </div>
       ) : (
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-background group/web">
           <button
             type="button"
+            data-audit-id="fullscreen-trigger"
             onClick={() => onOpenLightbox(safeIndex)}
             aria-label={`Inspect ${current.label} screenshot in fullscreen`}
             className="block h-full w-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground"
@@ -305,28 +341,12 @@ function ProjectMediaStage({
           </button>
 
           {total > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={handlePrev}
-                aria-label={`Previous screen for ${project.title}`}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 sm:h-9 sm:w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
-              >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                aria-label={`Next screen for ${project.title}`}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-20 h-11 w-11 sm:h-9 sm:w-9 flex items-center justify-center rounded-full bg-background/90 hover:bg-lift border border-card-border hover:border-card-hover text-foreground shadow-md transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
-              >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </>
+            <StageNavArrows
+              projectTitle={project.title}
+              onPrev={handlePrev}
+              onNext={handleNext}
+              edgeClass="left-3 right-3"
+            />
           )}
         </div>
       )}
@@ -400,7 +420,7 @@ function ProjectMediaStage({
                     data-active={isSelected ? "true" : undefined}
                     type="button"
                     onClick={() => onSelectIndex(idx)}
-                    className={`inline-flex min-h-[44px] sm:min-h-0 items-center px-3 py-2 sm:px-2.5 sm:py-1 rounded font-mono text-xs whitespace-nowrap transition-colors cursor-pointer tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
+                    className={`inline-flex min-h-[44px] lg:min-h-0 items-center px-3 py-2 lg:px-2.5 lg:py-1 rounded font-mono text-xs whitespace-nowrap transition-colors cursor-pointer tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
                       isSelected
                         ? "bg-foreground text-background font-bold"
                         : "bg-card-bg border border-card-border text-text-muted hover:text-foreground hover:border-card-hover"
@@ -505,6 +525,37 @@ export default function HomePage() {
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const workbenchInspectionRef = useRef<HTMLDivElement>(null);
   const [isCarouselPaused, setIsCarouselPaused] = useState(false);
+  const carouselViewportRef = useRef<HTMLDivElement>(null);
+  const carouselFirstCopyRef = useRef<HTMLDivElement>(null);
+  const carouselScrollPosRef = useRef(0);
+  const carouselPausedRef = useRef(false);
+  const carouselHoverRef = useRef(false);
+  const carouselFocusRef = useRef(false);
+  const carouselPointerDownRef = useRef(false);
+  const carouselVisibleRef = useRef(true);
+  const isProgrammaticScrollRef = useRef(false);
+  const scheduleCarouselLoopRef = useRef<() => void>(() => {});
+  const carouselTweenRef = useRef<{
+    startPos: number;
+    targetPos: number;
+    startTime: number;
+    durationMs: number;
+  } | null>(null);
+
+  useEffect(() => {
+    carouselPausedRef.current = isCarouselPaused;
+    if (!isCarouselPaused) {
+      scheduleCarouselLoopRef.current();
+    }
+  }, [isCarouselPaused]);
+
+  const [showAuditOverlay, setShowAuditOverlay] = useState(false);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      setShowAuditOverlay(new URLSearchParams(window.location.search).has("audit"));
+    }
+  }, []);
 
   // Contact Form State
   const [formState, setFormState] = useState({
@@ -525,6 +576,180 @@ export default function HomePage() {
     activeCategory === "all"
       ? PROJECTS
       : PROJECTS.filter((p) => p.category === activeCategory);
+
+  const wrapCarouselScroll = (value: number, halfWidth: number) => {
+    if (halfWidth <= 0) return 0;
+    return ((value % halfWidth) + halfWidth) % halfWidth;
+  };
+
+  useEffect(() => {
+    const viewport = carouselViewportRef.current;
+    carouselScrollPosRef.current = 0;
+    carouselTweenRef.current = null;
+    if (viewport) {
+      isProgrammaticScrollRef.current = true;
+      viewport.scrollLeft = 0;
+      viewport.style.willChange = "auto";
+      window.requestAnimationFrame(() => {
+        isProgrammaticScrollRef.current = false;
+      });
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let rafId = 0;
+    let lastTime = performance.now();
+
+    const tick = (now: number) => {
+      const vp = carouselViewportRef.current;
+      const firstCopy = carouselFirstCopyRef.current;
+      const halfWidth = firstCopy ? firstCopy.offsetWidth : 0;
+
+      if (!vp || halfWidth <= 0) {
+        rafId = 0;
+        return;
+      }
+
+      if (!carouselVisibleRef.current || document.visibilityState !== "visible") {
+        vp.style.willChange = "auto";
+        rafId = 0;
+        return;
+      }
+
+      const tween = carouselTweenRef.current;
+      const shouldDrift =
+        !tween &&
+        !mediaQuery.matches &&
+        !carouselPausedRef.current &&
+        !carouselHoverRef.current &&
+        !carouselFocusRef.current &&
+        !carouselPointerDownRef.current;
+
+      if (!tween && !shouldDrift) {
+        vp.style.willChange = "auto";
+        rafId = 0;
+        return;
+      }
+
+      vp.style.willChange = "scroll-position";
+      const dtSec = Math.min(0.05, Math.max(0, (now - lastTime) / 1000));
+      lastTime = now;
+
+      if (tween) {
+        const progress =
+          tween.durationMs <= 0 ? 1 : Math.min(1, (now - tween.startTime) / tween.durationMs);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const nextPos = tween.startPos + (tween.targetPos - tween.startPos) * eased;
+
+        carouselScrollPosRef.current = wrapCarouselScroll(
+          progress >= 1 ? tween.targetPos : nextPos,
+          halfWidth
+        );
+        if (progress >= 1) {
+          carouselTweenRef.current = null;
+        }
+      } else {
+        const durationSec = Math.max(20, filteredProjects.length * 4);
+        const speedPxPerSec = halfWidth / durationSec;
+        carouselScrollPosRef.current = wrapCarouselScroll(
+          carouselScrollPosRef.current - speedPxPerSec * dtSec,
+          halfWidth
+        );
+      }
+
+      isProgrammaticScrollRef.current = true;
+      vp.scrollLeft = carouselScrollPosRef.current;
+      window.requestAnimationFrame(() => {
+        isProgrammaticScrollRef.current = false;
+      });
+
+      rafId = window.requestAnimationFrame(tick);
+    };
+
+    const startLoop = () => {
+      if (rafId !== 0) return;
+      lastTime = performance.now();
+      rafId = window.requestAnimationFrame(tick);
+    };
+
+    scheduleCarouselLoopRef.current = startLoop;
+
+    let observer: IntersectionObserver | null = null;
+    if (viewport && typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        (entries) => {
+          const entry = entries[0];
+          carouselVisibleRef.current = entry ? entry.isIntersecting : true;
+          if (carouselVisibleRef.current) {
+            startLoop();
+          }
+        },
+        { threshold: 0.01 }
+      );
+      observer.observe(viewport);
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        startLoop();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    startLoop();
+    return () => {
+      if (rafId !== 0) {
+        window.cancelAnimationFrame(rafId);
+      }
+      if (viewport) {
+        viewport.style.willChange = "auto";
+      }
+      observer?.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [activeCategory, filteredProjects.length]);
+
+  const stepCarousel = (direction: -1 | 1) => {
+    const firstCopy = carouselFirstCopyRef.current;
+    const count = filteredProjects.length;
+    if (!firstCopy || count === 0) return;
+
+    const halfWidth = firstCopy.offsetWidth;
+    if (halfWidth <= 0) return;
+
+    const stepPx = halfWidth / count;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const activeTween = carouselTweenRef.current;
+    const now = performance.now();
+
+    if (activeTween) {
+      const progress =
+        activeTween.durationMs <= 0
+          ? 1
+          : Math.min(1, (now - activeTween.startTime) / activeTween.durationMs);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const currentUnwrapped =
+        activeTween.startPos + (activeTween.targetPos - activeTween.startPos) * eased;
+      const nextStart = wrapCarouselScroll(currentUnwrapped, halfWidth);
+      const remaining = activeTween.targetPos - currentUnwrapped;
+
+      carouselTweenRef.current = {
+        startPos: nextStart,
+        targetPos: nextStart + remaining + direction * stepPx,
+        startTime: now,
+        durationMs: prefersReduced ? 0 : 380,
+      };
+      scheduleCarouselLoopRef.current();
+      return;
+    }
+
+    carouselTweenRef.current = {
+      startPos: carouselScrollPosRef.current,
+      targetPos: carouselScrollPosRef.current + direction * stepPx,
+      startTime: now,
+      durationMs: prefersReduced ? 0 : 380,
+    };
+    scheduleCarouselLoopRef.current();
+  };
 
   // Selected project for on-demand inspection drawer (closed by default)
   const workbenchProject = selectedWorkbenchId
@@ -661,10 +886,10 @@ export default function HomePage() {
       document.getElementById("client-email")?.focus();
       return;
     }
-    if (!formState.message.trim()) {
-      setFormErrorField("message");
-      setFormError("Please add a short project intro.");
-      document.getElementById("project-message")?.focus();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formState.email.trim())) {
+      setFormErrorField("email");
+      setFormError("Please enter a valid email address (e.g. name@company.com).");
+      document.getElementById("client-email")?.focus();
       return;
     }
     if (formState.category === "Other" && !formState.customCategory.trim()) {
@@ -677,6 +902,12 @@ export default function HomePage() {
       setFormErrorField("customBudget");
       setFormError("Please enter your target budget amount.");
       document.getElementById("custom-budget")?.focus();
+      return;
+    }
+    if (!formState.message.trim()) {
+      setFormErrorField("message");
+      setFormError("Please add a short project intro.");
+      document.getElementById("project-message")?.focus();
       return;
     }
     setFormSubmitting(true);
@@ -730,26 +961,29 @@ export default function HomePage() {
     <div className="relative min-h-screen bg-background text-foreground flex flex-col">
       {/* Top Engineering Masthead */}
       <header className="sticky top-0 z-30 border-b border-card-border bg-background/90 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-3 sm:px-6">
-          <div className="flex items-center shrink-0">
+        <div className="mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-x-2 gap-y-1 px-3 py-1 sm:px-6">
+          <div className="flex items-center">
             <a
               href="#top"
-              className="inline-flex min-h-[44px] sm:min-h-0 items-center whitespace-nowrap font-mono text-xs sm:text-sm font-semibold tracking-wider sm:tracking-widest text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
+              className="inline-flex min-h-[44px] lg:min-h-[28px] lg:py-1 items-center whitespace-nowrap font-mono text-xs sm:text-sm font-semibold tracking-wider sm:tracking-widest text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
             >
               MUHAMMAD FARAN
             </a>
           </div>
 
-          <nav aria-label="Main Navigation" className="flex items-center gap-0.5 sm:gap-5 shrink-0">
+          <nav
+            aria-label="Main Navigation"
+            className="flex flex-wrap items-center justify-end gap-0.5 sm:gap-5"
+          >
             <a
               href="#projects"
-              className="inline-flex min-h-[44px] sm:min-h-0 items-center whitespace-nowrap px-2 sm:px-2.5 sm:py-1.5 text-xs sm:text-sm font-medium text-text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
+              className="inline-flex min-h-[44px] lg:min-h-[28px] items-center whitespace-nowrap px-2 sm:px-2.5 lg:py-1.5 text-xs sm:text-sm font-medium text-text-muted transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded"
             >
               Projects
             </a>
             <a
               href="#contact"
-              className="ml-1 sm:ml-2 inline-flex min-h-[44px] sm:min-h-0 items-center justify-center whitespace-nowrap rounded border border-card-border bg-lift px-2.5 sm:px-3.5 sm:py-1.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+              className="ml-1 sm:ml-2 inline-flex min-h-[44px] lg:min-h-0 items-center justify-center whitespace-nowrap rounded border border-card-border bg-lift px-2.5 sm:px-3.5 lg:py-1.5 font-mono text-xs font-medium tracking-wide text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
             >
               Hire Me
             </a>
@@ -758,7 +992,7 @@ export default function HomePage() {
               onClick={handleToggleTheme}
               aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
               title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-              className="ml-1 shrink-0 inline-flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded border border-card-border bg-lift text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
+              className="ml-1 shrink-0 inline-flex h-11 w-11 lg:h-9 lg:w-9 items-center justify-center rounded border border-card-border bg-lift text-foreground transition-colors hover:border-card-hover hover:bg-card-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer"
             >
               {theme === "dark" ? (
                 <svg
@@ -800,13 +1034,14 @@ export default function HomePage() {
       <main id="top" className="flex-1 mx-auto w-full max-w-6xl px-4 pb-12 sm:px-6 sm:pb-16">
         {/* HERO SECTION */}
         <section
+          data-audit-id="hero-stage"
           aria-labelledby="hero-title"
           className="min-h-[calc(100vh-4rem)] flex flex-col justify-center pt-8 pb-16 sm:pt-12 sm:pb-24 border-b border-card-border"
         >
           <div className="space-y-8 max-w-4xl">
             <h1
               id="hero-title"
-              className="text-5xl font-black tracking-tight text-foreground sm:text-7xl lg:text-8xl sm:leading-[1.03]"
+              className="text-[2.25rem] leading-[1.08] font-black tracking-tight text-foreground sm:text-7xl lg:text-8xl sm:leading-[1.03] [overflow-wrap:anywhere]"
             >
               Full Stack <br className="hidden sm:inline" />
               Software Engineer
@@ -877,7 +1112,7 @@ export default function HomePage() {
             <div className="space-y-2 max-w-2xl">
               <h2
                 id="projects-title"
-                className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+                className="text-2xl font-bold tracking-tight text-foreground sm:text-4xl [overflow-wrap:anywhere]"
               >
                 Selected Work
               </h2>
@@ -910,7 +1145,7 @@ export default function HomePage() {
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => setActiveCategory(tab.id)}
                     onKeyDown={(e) => handleTabKeyDown(e, idx)}
-                    className={`flex-1 min-h-[44px] sm:min-h-0 px-3.5 py-2.5 sm:py-2 text-center font-mono text-xs font-medium tracking-wide transition-colors rounded lg:flex-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer tabular-nums ${
+                    className={`flex-1 min-h-[44px] lg:min-h-0 px-3.5 py-2.5 lg:py-2 text-center font-mono text-xs font-medium tracking-wide transition-colors rounded lg:flex-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground cursor-pointer tabular-nums ${
                       isActive
                         ? "bg-foreground text-background font-bold"
                         : "text-text-muted hover:text-foreground hover:bg-lift"
@@ -943,27 +1178,14 @@ export default function HomePage() {
                 const triptychIndices =
                   total >= 3 ? [prevIdx, safeIndex, nextIdx] : gallery.map((_, i) => i);
 
-                return (
-                  <button
-                    key={`${proj.id}-${isDuplicate ? "dup" : "main"}`}
-                    type="button"
-                    tabIndex={isDuplicate ? -1 : 0}
-                    onClick={(e) => {
-                      e.currentTarget.blur();
-                      handleSelectProject(proj.id);
-                    }}
-                    aria-expanded={!isDuplicate ? isSelected : undefined}
-                    aria-label={
-                      isDuplicate
-                        ? undefined
-                        : `Inspect ${proj.title} (${proj.specId})`
-                    }
-                    className={`group/card w-[300px] sm:w-[390px] lg:w-[440px] shrink-0 text-left rounded-md border transition-colors flex flex-col overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
-                      isSelected
-                        ? "border-foreground bg-lift shadow-[var(--shadow-stage)]"
-                        : "border-card-border bg-card-bg hover:border-card-hover hover:bg-hover-surface"
-                    }`}
-                  >
+                const cardClassName = `group/card w-[300px] sm:w-[390px] lg:w-[440px] shrink-0 text-left rounded-md border transition-colors flex flex-col overflow-hidden cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
+                  isSelected
+                    ? "border-foreground bg-lift shadow-[var(--shadow-stage)]"
+                    : "border-card-border bg-card-bg hover:border-card-hover hover:bg-hover-surface"
+                }`;
+
+                const cardContent = (
+                  <>
                     {/* Card Top Spec Chrome */}
                     <div className="flex items-center justify-between gap-2 px-3.5 py-2.5 bg-lift/50">
                       <span className="font-mono text-xs font-bold text-text-subtle truncate tabular-nums">
@@ -1046,6 +1268,51 @@ export default function HomePage() {
                         <span className="shrink-0">{total} screens</span>
                       </div>
                     </div>
+                  </>
+                );
+
+                if (isDuplicate) {
+                  return (
+                    <div
+                      key={`${proj.id}-dup`}
+                      onClick={() => handleSelectProject(proj.id)}
+                      className={cardClassName}
+                    >
+                      {cardContent}
+                    </div>
+                  );
+                }
+
+                return (
+                  <button
+                    key={`${proj.id}-main`}
+                    type="button"
+                    tabIndex={0}
+                    onFocus={(e) => {
+                      carouselFocusRef.current = true;
+                      const vp = carouselViewportRef.current;
+                      if (!vp) return;
+                      const vpRect = vp.getBoundingClientRect();
+                      const btnRect = e.currentTarget.getBoundingClientRect();
+                      if (btnRect.left < vpRect.left || btnRect.right > vpRect.right) {
+                        const targetScroll = Math.max(0, e.currentTarget.offsetLeft - 24);
+                        isProgrammaticScrollRef.current = true;
+                        vp.scrollLeft = targetScroll;
+                        carouselScrollPosRef.current = targetScroll;
+                        window.requestAnimationFrame(() => {
+                          isProgrammaticScrollRef.current = false;
+                        });
+                      }
+                    }}
+                    onClick={(e) => {
+                      e.currentTarget.blur();
+                      handleSelectProject(proj.id);
+                    }}
+                    aria-expanded={isSelected}
+                    aria-label={`Inspect ${proj.title} (${proj.specId})`}
+                    className={cardClassName}
+                  >
+                    {cardContent}
                   </button>
                 );
               };
@@ -1054,9 +1321,12 @@ export default function HomePage() {
                 <>
                   {/* Stream Control Strip */}
                   <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-                    <div className="flex items-center gap-2 font-mono text-xs text-text-muted tabular-nums">
+                    <div
+                      data-audit-id="stream-telemetry"
+                      className="flex items-center gap-2 font-mono text-xs text-text-muted tabular-nums"
+                    >
                       <span
-                        className={`h-2 w-2 rounded-full ${
+                        className={`h-2 w-2 shrink-0 rounded-full ${
                           isCarouselPaused
                             ? "bg-[var(--signal-amber)]"
                             : "bg-[var(--signal-emerald)]"
@@ -1064,66 +1334,120 @@ export default function HomePage() {
                         aria-hidden="true"
                       />
                       <span>
-                        {filteredProjects.length} Systems · Flowing left → right · Hover or click any
-                        project to inspect
+                        {filteredProjects.length} Systems · Flowing left → right · Step with Left/Right
+                        or click any project to inspect
                       </span>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => setIsCarouselPaused((prev) => !prev)}
-                      aria-pressed={isCarouselPaused}
-                      className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-2 rounded border border-card-border bg-card-bg px-3.5 py-2 sm:px-3 sm:py-1.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-lift transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                    <div
+                      className="flex flex-wrap items-center gap-2"
+                      role="group"
+                      aria-label="Carousel controls"
                     >
-                      {isCarouselPaused ? (
+                      <button
+                        type="button"
+                        onClick={() => stepCarousel(-1)}
+                        aria-label="Move projects left"
+                        title="Move projects left"
+                        className="inline-flex min-h-[44px] lg:min-h-0 items-center justify-center gap-1.5 rounded border border-card-border bg-card-bg px-3 py-2 lg:px-2.5 lg:py-1.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-lift transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                      >
                         <svg
                           className="h-3.5 w-3.5"
-                          fill="currentColor"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           viewBox="0 0 24 24"
                           aria-hidden="true"
                         >
-                          <path d="M8 5v14l11-7z" />
+                          <path d="m15 18-6-6 6-6" />
                         </svg>
-                      ) : (
+                        <span>Left</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => stepCarousel(1)}
+                        aria-label="Move projects right"
+                        title="Move projects right"
+                        className="inline-flex min-h-[44px] lg:min-h-0 items-center justify-center gap-1.5 rounded border border-card-border bg-card-bg px-3 py-2 lg:px-2.5 lg:py-1.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-lift transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                      >
+                        <span>Right</span>
                         <svg
                           className="h-3.5 w-3.5"
-                          fill="currentColor"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           viewBox="0 0 24 24"
                           aria-hidden="true"
                         >
-                          <path d="M6 5h4v14H6zm8 0h4v14h-4z" />
+                          <path d="m9 18 6-6-6-6" />
                         </svg>
-                      )}
-                      <span>{isCarouselPaused ? "Resume Motion" : "Pause Motion"}</span>
-                    </button>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setIsCarouselPaused((prev) => !prev)}
+                        aria-pressed={isCarouselPaused}
+                        className="inline-flex min-h-[44px] lg:min-h-0 items-center gap-2 rounded border border-card-border bg-card-bg px-3.5 py-2 lg:px-3 lg:py-1.5 font-mono text-xs font-medium text-foreground hover:border-card-hover hover:bg-lift transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                      >
+                        {isCarouselPaused ? (
+                          <svg
+                            className="h-3.5 w-3.5"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        ) : (
+                          <svg
+                            className="h-3.5 w-3.5"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            aria-hidden="true"
+                          >
+                            <path d="M6 5h4v14H6zm8 0h4v14h-4z" />
+                          </svg>
+                        )}
+                        <span>{isCarouselPaused ? "Resume Motion" : "Pause Motion"}</span>
+                      </button>
+                    </div>
                   </div>
 
                   {/* Continuous Left-to-Right Carousel Stage */}
                   <div
                     id="projects-carousel"
+                    onMouseEnter={() => {
+                      carouselHoverRef.current = true;
+                    }}
+                    onMouseLeave={() => {
+                      carouselHoverRef.current = false;
+                      scheduleCarouselLoopRef.current();
+                    }}
+                    onFocusCapture={() => {
+                      carouselFocusRef.current = true;
+                    }}
+                    onBlurCapture={(e) => {
+                      if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+                        carouselFocusRef.current = false;
+                        scheduleCarouselLoopRef.current();
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "ArrowLeft") {
+                        e.preventDefault();
+                        stepCarousel(-1);
+                      } else if (e.key === "ArrowRight") {
+                        e.preventDefault();
+                        stepCarousel(1);
+                      }
+                    }}
                     className="relative overflow-hidden rounded-md border border-card-border bg-card-bg/40 py-5 sm:py-6"
                   >
-                    <style>{`
-                      @keyframes marquee-ltr {
-                        0% { transform: translate3d(-50%, 0, 0); }
-                        100% { transform: translate3d(0%, 0, 0); }
-                      }
-                      .animate-marquee-ltr {
-                        animation: marquee-ltr var(--marquee-duration, 36s) linear infinite;
-                        will-change: transform;
-                      }
-                      .animate-marquee-ltr:hover,
-                      .animate-marquee-ltr:has(:focus-visible),
-                      .animate-marquee-ltr[data-paused="true"] {
-                        animation-play-state: paused;
-                      }
-                      @media (prefers-reduced-motion: reduce) {
-                        .animate-marquee-ltr {
-                          animation: none !important;
-                          transform: none !important;
-                        }
-                      }
-                    `}</style>
                     <div
                       className="pointer-events-none absolute inset-y-0 left-0 w-8 sm:w-14 bg-gradient-to-r from-background to-transparent z-10"
                       aria-hidden="true"
@@ -1134,22 +1458,51 @@ export default function HomePage() {
                     />
 
                     <div
-                      className="flex w-max items-stretch animate-marquee-ltr"
-                      data-paused={isCarouselPaused ? "true" : undefined}
-                      style={
-                        {
-                          "--marquee-duration": `${Math.max(20, filteredProjects.length * 4)}s`,
-                        } as React.CSSProperties
-                      }
+                      ref={carouselViewportRef}
+                      onPointerDown={() => {
+                        carouselPointerDownRef.current = true;
+                      }}
+                      onPointerUp={() => {
+                        carouselPointerDownRef.current = false;
+                        scheduleCarouselLoopRef.current();
+                      }}
+                      onPointerCancel={() => {
+                        carouselPointerDownRef.current = false;
+                        scheduleCarouselLoopRef.current();
+                      }}
+                      onScroll={(e) => {
+                        if (isProgrammaticScrollRef.current) return;
+                        const vp = e.currentTarget;
+                        const firstCopy = carouselFirstCopyRef.current;
+                        const halfWidth = firstCopy ? firstCopy.offsetWidth : 0;
+                        if (halfWidth <= 0) return;
+                        let pos = vp.scrollLeft;
+                        if (pos >= halfWidth) {
+                          pos = wrapCarouselScroll(pos, halfWidth);
+                          isProgrammaticScrollRef.current = true;
+                          vp.scrollLeft = pos;
+                          window.requestAnimationFrame(() => {
+                            isProgrammaticScrollRef.current = false;
+                          });
+                        }
+                        carouselScrollPosRef.current = pos;
+                      }}
+                      className="overflow-x-auto touch-pan-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     >
-                      <div className="flex items-stretch gap-5 sm:gap-6 pr-5 sm:pr-6">
-                        {filteredProjects.map((proj) => renderCarouselCard(proj, false))}
-                      </div>
-                      <div
-                        className="flex items-stretch gap-5 sm:gap-6 pr-5 sm:pr-6"
-                        aria-hidden="true"
-                      >
-                        {filteredProjects.map((proj) => renderCarouselCard(proj, true))}
+                      <div className="flex w-max items-stretch">
+                        <div
+                          ref={carouselFirstCopyRef}
+                          data-audit-id="carousel-primary-copy"
+                          className="flex items-stretch gap-5 sm:gap-6 pr-5 sm:pr-6"
+                        >
+                          {filteredProjects.map((proj) => renderCarouselCard(proj, false))}
+                        </div>
+                        <div
+                          className="flex items-stretch gap-5 sm:gap-6 pr-5 sm:pr-6"
+                          aria-hidden="true"
+                        >
+                          {filteredProjects.map((proj) => renderCarouselCard(proj, true))}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1195,7 +1548,7 @@ export default function HomePage() {
                                 ];
                               setSelectedWorkbenchId(prev.id);
                             }}
-                            className="min-h-[44px] sm:min-h-0 border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                            className="min-h-[44px] lg:min-h-0 border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3.5 py-2 lg:px-3 lg:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                             title="Previous project"
                           >
                             ← Prev
@@ -1207,7 +1560,7 @@ export default function HomePage() {
                                 filteredProjects[(workbenchIndex + 1) % filteredProjects.length];
                               setSelectedWorkbenchId(next.id);
                             }}
-                            className="min-h-[44px] sm:min-h-0 border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                            className="min-h-[44px] lg:min-h-0 border border-card-border bg-background hover:border-card-hover hover:bg-lift px-3.5 py-2 lg:px-3 lg:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                             title="Next project"
                           >
                             Next →
@@ -1216,7 +1569,7 @@ export default function HomePage() {
                             type="button"
                             onClick={handleCloseProject}
                             aria-label={`Close ${workbenchProject.title} details`}
-                            className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-foreground bg-foreground text-background hover:opacity-90 px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-bold tracking-wide transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                            className="inline-flex min-h-[44px] lg:min-h-0 items-center gap-1.5 border border-foreground bg-foreground text-background hover:opacity-90 px-3.5 py-2 lg:px-3 lg:py-1.5 rounded font-mono text-xs font-bold tracking-wide transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                           >
                             <span>Close</span>
                             <svg
@@ -1265,7 +1618,7 @@ export default function HomePage() {
                           <button
                             type="button"
                             onClick={handleCloseProject}
-                            className="inline-flex min-h-[44px] sm:min-h-0 items-center gap-1.5 border border-card-border bg-lift hover:border-card-hover hover:bg-card-border px-3.5 py-2 sm:px-3 sm:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                            className="inline-flex min-h-[44px] lg:min-h-0 items-center gap-1.5 border border-card-border bg-lift hover:border-card-hover hover:bg-card-border px-3.5 py-2 lg:px-3 lg:py-1.5 rounded font-mono text-xs font-medium text-foreground transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                           >
                             <span>Close Project ↑</span>
                           </button>
@@ -1287,17 +1640,20 @@ export default function HomePage() {
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left 5 Columns: Engagement Specs & Direct Channels */}
-            <div className="lg:col-span-5 space-y-6">
+            <div data-audit-id="contact-pitch" className="lg:col-span-5 space-y-6">
               <div className="space-y-3">
                 <h2
                   id="contact-title"
-                  className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
+                  className="text-2xl font-bold tracking-tight text-foreground sm:text-4xl [overflow-wrap:anywhere]"
                 >
                   Start a Project Conversation
                 </h2>
                 <p className="text-base text-text-muted leading-relaxed">
                   Available for zero-to-launch web platforms and cross-platform mobile apps.
                   Send a brief note about what you&apos;d like to build.
+                </p>
+                <p className="font-mono text-xs text-text-subtle">
+                  Replies within 24 hours · UTC+5 · MVP builds
                 </p>
               </div>
 
@@ -1349,7 +1705,7 @@ export default function HomePage() {
                           message: "",
                         });
                       }}
-                      className="font-mono text-xs text-foreground underline underline-offset-4 hover:text-text-muted cursor-pointer"
+                      className="inline-flex min-h-[44px] lg:min-h-[28px] items-center rounded px-2 py-1 font-mono text-xs text-foreground underline underline-offset-4 hover:text-text-muted cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
                     >
                       Send another note
                     </button>
@@ -1378,6 +1734,7 @@ export default function HomePage() {
                         name="name"
                         type="text"
                         required
+                        aria-required="true"
                         aria-invalid={formErrorField === "name" ? "true" : undefined}
                         aria-describedby={formErrorField === "name" ? "form-error" : undefined}
                         value={formState.name}
@@ -1389,7 +1746,7 @@ export default function HomePage() {
                           }
                         }}
                         placeholder="e.g. Alex Miller"
-                        className="w-full border border-card-border bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
+                        className="w-full border border-[var(--input-border)] bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus-visible:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded transition-colors"
                       />
                     </div>
 
@@ -1405,6 +1762,7 @@ export default function HomePage() {
                         name="email"
                         type="email"
                         required
+                        aria-required="true"
                         aria-invalid={formErrorField === "email" ? "true" : undefined}
                         aria-describedby={formErrorField === "email" ? "form-error" : undefined}
                         value={formState.email}
@@ -1416,7 +1774,7 @@ export default function HomePage() {
                           }
                         }}
                         placeholder="name@company.com"
-                        className="w-full border border-card-border bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
+                        className="w-full border border-[var(--input-border)] bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus-visible:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded transition-colors"
                       />
                     </div>
                   </div>
@@ -1434,11 +1792,11 @@ export default function HomePage() {
                         name={formState.category === "Other" ? undefined : "category"}
                         value={formState.category}
                         onChange={(e) => setFormState({ ...formState, category: e.target.value })}
-                        className="w-full border border-card-border bg-background px-3.5 py-3 text-sm sm:text-base text-foreground focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors cursor-pointer"
+                        className="w-full border border-[var(--input-border)] bg-background px-3.5 py-3 text-sm sm:text-base text-foreground focus-visible:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded transition-colors cursor-pointer"
                       >
                         <option value="Web app development">Web app development</option>
                         <option value="Mobile app development">Mobile app development</option>
-                        <option value="Other">Other (write your own)</option>
+                        <option value="Other">Other (specify scope)</option>
                       </select>
                       {formState.category === "Other" && (
                         <input
@@ -1446,6 +1804,7 @@ export default function HomePage() {
                           id="custom-category"
                           name="category"
                           required
+                          aria-required="true"
                           aria-invalid={formErrorField === "customCategory" ? "true" : undefined}
                           aria-describedby={
                             formErrorField === "customCategory" ? "form-error" : undefined
@@ -1460,7 +1819,7 @@ export default function HomePage() {
                           }}
                           placeholder="Specify project scope (e.g. AI platform, API)..."
                           aria-label="Custom project scope"
-                          className="mt-2 w-full border border-card-border bg-background px-4 py-2.5 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
+                          className="mt-2 w-full border border-[var(--input-border)] bg-background px-4 py-2.5 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus-visible:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded transition-colors"
                         />
                       )}
                     </div>
@@ -1477,14 +1836,14 @@ export default function HomePage() {
                         name={formState.budget === "Custom" ? undefined : "budget"}
                         value={formState.budget}
                         onChange={(e) => setFormState({ ...formState, budget: e.target.value })}
-                        className="w-full border border-card-border bg-background px-3.5 py-3 text-sm sm:text-base text-foreground focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors cursor-pointer"
+                        className="w-full border border-[var(--input-border)] bg-background px-3.5 py-3 text-sm sm:text-base text-foreground focus-visible:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded transition-colors cursor-pointer"
                       >
                         <option value="Still deciding">Still deciding</option>
                         <option value="$1,000 - $2,500">$1,000 - $2,500</option>
                         <option value="$2,500 - $5,000">$2,500 - $5,000</option>
                         <option value="$5,000 - $10,000">$5,000 - $10,000</option>
                         <option value="$10,000+">$10,000+</option>
-                        <option value="Custom">Custom amount (enter your own)</option>
+                        <option value="Custom">Custom amount...</option>
                       </select>
                       {formState.budget === "Custom" && (
                         <input
@@ -1492,6 +1851,7 @@ export default function HomePage() {
                           id="custom-budget"
                           name="budget"
                           required
+                          aria-required="true"
                           aria-invalid={formErrorField === "customBudget" ? "true" : undefined}
                           aria-describedby={
                             formErrorField === "customBudget" ? "form-error" : undefined
@@ -1506,7 +1866,7 @@ export default function HomePage() {
                           }}
                           placeholder="e.g. $3,500 or $15k - $25k"
                           aria-label="Custom budget amount"
-                          className="mt-2 w-full border border-card-border bg-background px-4 py-2.5 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
+                          className="mt-2 w-full border border-[var(--input-border)] bg-background px-4 py-2.5 text-sm sm:text-base text-foreground placeholder:text-text-subtle focus-visible:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded transition-colors"
                         />
                       )}
                     </div>
@@ -1523,6 +1883,7 @@ export default function HomePage() {
                       id="project-message"
                       name="message"
                       required
+                      aria-required="true"
                       rows={3}
                       aria-invalid={formErrorField === "message" ? "true" : undefined}
                       aria-describedby={formErrorField === "message" ? "form-error" : undefined}
@@ -1535,7 +1896,7 @@ export default function HomePage() {
                         }
                       }}
                       placeholder="Briefly describe what you're looking to build..."
-                      className="w-full border border-card-border bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle leading-relaxed focus:border-card-hover focus:outline-none focus:ring-1 focus:ring-card-hover rounded transition-colors"
+                      className="w-full border border-[var(--input-border)] bg-background px-4 py-3 text-sm sm:text-base text-foreground placeholder:text-text-subtle leading-relaxed focus-visible:border-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded transition-colors"
                     />
                   </div>
 
@@ -1574,7 +1935,7 @@ export default function HomePage() {
               href="https://www.upwork.com/freelancers/~01958faf0bb3c23d8a"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[44px] sm:min-h-0 items-center px-2 py-2 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
+              className="inline-flex min-h-[44px] lg:min-h-[28px] items-center px-2 py-2 lg:py-1 lg:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
               Upwork
             </a>
@@ -1583,14 +1944,14 @@ export default function HomePage() {
               href="https://github.com/m-faran"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[44px] sm:min-h-0 items-center px-2 py-2 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
+              className="inline-flex min-h-[44px] lg:min-h-[28px] items-center px-2 py-2 lg:py-1 lg:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
               GitHub
             </a>
 
             <a
               href="#contact"
-              className="inline-flex min-h-[44px] sm:min-h-0 items-center px-2 py-2 sm:py-0 sm:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
+              className="inline-flex min-h-[44px] lg:min-h-[28px] items-center px-2 py-2 lg:py-1 lg:px-0 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:underline"
             >
               Contact
             </a>
@@ -1635,7 +1996,7 @@ export default function HomePage() {
                 ref={closeLightboxBtnRef}
                 type="button"
                 onClick={closeLightbox}
-                className="min-h-[44px] sm:min-h-0 border border-card-border bg-lift hover:border-card-hover px-3 py-2 sm:py-1.5 rounded font-mono text-xs font-bold text-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
+                className="min-h-[44px] lg:min-h-0 border border-card-border bg-lift hover:border-card-hover px-3 py-2 lg:py-1.5 rounded font-mono text-xs font-bold text-foreground cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground"
               >
                 Close (Esc) ✕
               </button>
@@ -1710,8 +2071,11 @@ export default function HomePage() {
                 <button
                   key={g.url}
                   type="button"
-                  onClick={() => setLightbox({ ...lightbox, index: i })}
-                  className={`min-h-[44px] sm:min-h-0 px-3 py-2 sm:px-2.5 sm:py-1 rounded font-mono text-xs cursor-pointer transition-colors tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
+                  onClick={() => {
+                    setCardImageIndexes((ci) => ({ ...ci, [lightbox.project.id]: i }));
+                    setLightbox({ ...lightbox, index: i });
+                  }}
+                  className={`min-h-[44px] lg:min-h-0 px-3 py-2 lg:px-2.5 lg:py-1 rounded font-mono text-xs cursor-pointer transition-colors tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
                     i === lightbox.index
                       ? "bg-foreground text-background font-bold"
                       : "bg-lift border border-card-border text-text-muted hover:text-foreground"
@@ -1723,6 +2087,64 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+      )}
+
+      {process.env.NODE_ENV !== "production" && AuditOverlay && showAuditOverlay && (
+        <AuditOverlay
+          onPrepareTarget={(action) => {
+            if (action === "hero" || action === "header") {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            } else if (action === "carousel") {
+              document
+                .getElementById("projects-carousel")
+                ?.scrollIntoView({ behavior: "smooth", block: "center" });
+            } else if (action === "carousel-paused") {
+              setIsCarouselPaused(true);
+              document
+                .getElementById("projects-carousel")
+                ?.scrollIntoView({ behavior: "smooth", block: "center" });
+            } else if (action === "spec-09") {
+              setActiveCategory("all");
+              setSelectedWorkbenchId("genie-markets");
+              window.setTimeout(() => {
+                workbenchInspectionRef.current?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }, 80);
+            } else if (action === "spec-01" || action === "lightbox-spec-01") {
+              setActiveCategory("all");
+              setSelectedWorkbenchId("stormpkr");
+              window.setTimeout(() => {
+                workbenchInspectionRef.current?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }, 80);
+            } else if (action === "contact-validation") {
+              setFormSubmitted(false);
+              setFormState((prev) => ({
+                ...prev,
+                category: "Other",
+                budget: "Custom",
+              }));
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({ behavior: "smooth", block: "center" });
+            } else if (action === "contact") {
+              setFormSubmitted(false);
+              document
+                .getElementById("contact")
+                ?.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }}
+          onExitAudit={() => {
+            const url = new URL(window.location.href);
+            url.searchParams.delete("audit");
+            window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+            setShowAuditOverlay(false);
+          }}
+        />
       )}
     </div>
   );

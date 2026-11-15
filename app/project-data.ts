@@ -179,8 +179,6 @@ export const PROJECTS: Project[] = [
       "Next.js",
       "TypeScript",
       "Tailwind CSS",
-      "HTML",
-      "CSS",
     ],
   },
 {
@@ -223,8 +221,6 @@ export const PROJECTS: Project[] = [
       "Next.js",
       "TypeScript",
       "Tailwind CSS",
-      "HTML",
-      "CSS",
     ],
   },
 {
@@ -602,8 +598,6 @@ export const PROJECTS: Project[] = [
       "Next.js",
       "TypeScript",
       "Tailwind CSS",
-      "HTML",
-      "CSS",
     ],
   },
 ];
